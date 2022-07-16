@@ -10,13 +10,13 @@ html_meta:
 ---
 ![Picture of art installation of networked cables](_static/images/header.png)
 
-# Overview
+# 概要
 
-Deep learning is becoming a standard tool in chemistry and materials science. Deep learning is specifically about connecting some input data (features) and output data (labels) with a neural network function. Neural networks are differentiable and able to approximate any function. The classic example is connecting a molecule's structure and function. A recent [example](https://doi.org/10.1039/C6SC05720A) is dramatically accelerating quantum calculations to the point that you can achieve DFT level accuracy with a neural network. What makes deep learning especially relevant is that it's a powerful tool for approximating previously intractable functions **and** its ability to generate new data.
+化学や材料科学の分野において、ディープラーニングは標準的なツールになりつつあります。ディープラーニングとは、ある入力データ（特徴量）と出力データ（ラベル）をニューラルネットワークで記述される関数で結びつけることです。ニューラルネットワークは（数値的に）微分可能であり、あらゆる関数を近似することができる強力な道具です。例えば、分子の構造と機能を結びつけることはニューラルネットワークの古典的な活用の一つです。[最近の例](https://doi.org/10.1039/C6SC05720A)では、量子計算を劇的に高速化し、ニューラルネットワークでDFT計算レベルの高い精度を実現できるほどになっています。ディープラーニングが特に注目されるのは、これまで難解だった関数を近似するための強力なツールであること、 **それに加えて、** 新しいデータを生成する能力をもつためです。
 
-In this book, we will view deep learning as a set of tools that allows us to create models that were previously infeasible with classical machine learning. What sets deep learning apart from classic machine learning is feature engineering. Much of the data-driven work in the past required decisions about what features are important and how to compute them from molecules. These are called descriptors. Deep learning is typically trained end-to-end, meaning decisions about which features are important are no longer relevant and we can work directly with molecular structures.
+この本では、ディープラーニングを、これまで古典的な機械学習では実現不可能だったモデルを構成できるツールの集合体として捉えていきます。ディープラーニングと古典的な機械学習の大きな違いは、特徴量エンジニアリングの必要性です。古典的な機械学習アルゴリズムを用いて予測モデルを構築する際、多くの場合は、データのどのような特徴が重要で、その特徴を分子からどのように計算するかの設計（特徴量エンジニアリング）が必要でした。用いる特徴量は予測性能に大きな影響を与えることから、特徴量エンジニアリングは研究者の頭を悩ませるステップの一つでした。ディープラーニングモデルは、通常、end-to-endで学習されます。すなわち、データのどの特徴が重要であるかという判断はもはや必要無く、分子構造を直接扱うことができるのです。
 
-Another reason deep learning is a standard method is its mature tools. Previously, training and using models in machine learning was tedious because it required deriving and implementing new equations for each model. Deep learning has removed this need and model changes can be done nearly effortlessly. Deep learning is not a new paradigm of science or a replacement for a chemist. It's a tool that is mature and now ready for application in molecules and materials.
+ディープラーニングがこれほど普及することになったもう一つの理由は、その柔軟性とツールとしての成熟性にあります。以前は、モデルごとに新しい方程式を導出・実装する必要があったため、機械学習におけるモデルの訓練と使用は面倒なものでした。ディープラーニングでは、ニューラルネットワークの学習という一つのアイディアだけで様々な問題に対応できることから、問題ごとに新たな手法を考える必要がなくなり、またモデルの変更も遥かに簡単になりました。ディープラーニングは、科学の新しいパラダイムでもなければ、科学者の代わりでもありません。分子や材料に適用する準備ができた成熟したツールなのです。
 
 ## Target Audience
 
