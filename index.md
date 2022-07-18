@@ -28,45 +28,42 @@ html_meta:
 
 私が見る学生の最もよくある間違いの1つは、Webで質問を検索したり、ディープラーニングフレームワークのドキュメントを読んだりして、ディープラーニングを学ぼうとすることです。*これは、ディープラーニングを学ぶには最悪の方法です。* 世の中には多くの情報がありますが、こうしてしまうとディープラーニングについて歪んだ、フレームワーク特有の理解をしてしまうことになります。検索結果の上位にあるものは、関連性が高く人気があるかもしれませんが、それがあなたの学習の助けになるとは限らないことを覚えておいてください。さらに重要なのは、ブログやStack overflowでディープラーニングを学ぶと、数学と直感を把握するのがとても難しくなることです。Web検索やコードのハッキングは、（良くも悪くも）間違いなくディープラーニングの一部ですが、これは、実装したいモデルの背後にある数学と詳細をしっかり把握した後で行うべきものです。
 
-## Interactivity
+## インタラクティブな実行
+この本の各章には、上部に &nbsp;<i aria-label="Launch interactive content" class="fas fa-rocket"></i>&nbsp; ボタンが表示されていることに気づいた方がいるかもしれません。この本の各章は個別のJupyter Notebookとして書かれており、このボタンを押すと、その章がインタラクティブに実行可能なGoogle Colabとして開かれます。各章には、インストールが必要なパッケージに関する注意事項も記載されています。パッケージのインストールに問題がある場合は、本書で使用する全てのパッケージについて、動作確認がとれた最新バージョンの一覧を[ここ](https://github.com/whitead/dmol-book/blob/master/package/requirements.txt)から参照できます。
 
-On each chapter, you'll see the &nbsp;<i aria-label="Launch interactive content" class="fas fa-rocket"></i>&nbsp; button on the top. This launches the chapter as an interactive Google Colab. Each chapter also includes notes on the packages that may need to be installed. If you have problems with install, the complete current list of packages for the textbook is available [here](https://github.com/whitead/dmol-book/blob/master/package/requirements.txt).
+本書をインタラクティブに実行する場合、多くの章では計算のためGPU(Graphics Processing Unit)を利用することが有効です。ディープラーニングの計算はGPUを用いることで（CPUに比べ）非常に高速に実行することができ、GPUは最新の大規模なディープラーニングモデルの訓練には事実上必須と言って良いほどのデバイスです。GPUはGoogle Colab上で簡単に利用可能ですが、本書をローカルPCで実行する場合はGPUを計算に用いるために追加の手順が必要になるかもしれません。ローカルでGPUを使用する方法については、使用しているパッケージ（例：`Jax`、`PyTorch`、`Tensorflow`）のドキュメントを確認してください。しかし、本書で紹介される実行例はいずれもラップトップPCのCPU程度の計算リソースで十分に実行できるよう慎重に構築されているので、本書を学ぶにあたりGPUはオプションです。
 
-When using interactivity, many of the chapter will benefit from using a graphics processing unit (GPU). GPUs are what makes deep learning fast enough to be practical on large dataset. This is possible in Google Colab, but may require additional steps if running this locally. Check the documentation of the package you're using (e.g., `Jax`, `PyTorch`, `Tensorflow`) to find out how to use a GPU locally. I have carefully constructed the examples to be small enough though to run on a normal CPU in a laptop though, so the GPU is optional.
+## 本書で学ぶ主なモデル
 
+ここでは、本書で実装を学ぶ主なモデルを紹介します。*各exampleに直接リンクできないので、お手数ですがスクロールして参照してください。*
 
-## Example models
+1. {doc}`graph convolutional neural networks<dl/gnn>`, {doc}`recurrent neural networks<dl/NLP>`, {doc}`dense neural networks<dl/xai>`, {doc}`kernel learning<ml/kernel>`を用いた分子の溶解度予測
+2. SchNetモデルを用いた{doc}`構造の空間群予測<dl/gnn>`
+3. Recurrent Neural Networkを用いた {doc}`タンパク質やペプチドの溶解度予測<dl/layers>` や {doc}`ペプチドが赤血球を溶かすかの予測<dl/xai>`
+4. {doc}`with a graph convolutional neural network<applied/QM9>` を用いた分子のエネルギー予測（DFTの1点計算）
+5. {doc}`recurrent neural network<applied/MolGenerator>`を用いた新規分子の生成
+6. {doc}`variational autoencoders<dl/VAE>` と {doc}`equivariant data representations<dl/data>`を用いたポリマーのトラジェクトリの配置と埋め込み
+7. {doc}`logistic regression<ml/classification>`を用いた分子の毒性予測.
 
-Here are the major models we will construct learn to implement in this book: *Sorry, but I'm unable to link directly to the examples, so you'll need to scroll to them.*
+この他にも、小さなexampleを数多く含みます。
 
-1. We explore predicting solubility of molecules with {doc}`graph convolutional neural networks<dl/gnn>`, {doc}`recurrent neural networks<dl/NLP>`, {doc}`dense neural networks<dl/xai>`, and {doc}`kernel learning<ml/kernel>`.
-2. We implement a SchNet model to {doc}`predict what space group a structure belongs to<dl/gnn>`.
-3. We implement a Recurrent Neural Network to {doc}`predict the solubility of proteins/peptides<dl/layers>` and {doc}`predict the if a peptide will lyse red blood cells<dl/xai>`.
-4. We predict the DFT single-point energy of molecules {doc}`with a graph convolutional neural network<applied/QM9>`.
-5. We propose new molecules with a generative {doc}`recurrent neural network<applied/MolGenerator>`.
-6. We learn to align and embed polymer trajectories with {doc}`variational autoencoders<dl/VAE>` and {doc}`equivariant data representations<dl/data>`.
-7. We classify if molecules are likely to be toxic with {doc}`logistic regression<ml/classification>`.
-
-and there are many smaller examples throughout the book.
-
-## Table of Contents
+## 目次
 
 ```{tableofcontents}
 ```
 
-## Contributors
+## 原著のコントリビューターの紹介
+原著者は、ご提案や寄稿、誤りの指摘、そのほか本書の改善にご協力いただいたコントリビューターの皆様に感謝いたします。コントリビューターの皆様を以下に列挙します（Twitter IDも）。
 
-Thank you to contributors for offering suggestions, identifying errors, and helping improve this book! Twitter handles, if available
-
-### Contributed Chapter
+### 寄稿いただいた章
 
 1. Mehrad Ansari (@MehradAnsari)
 
-### Contributed Content to Chapter
+### 章の一部の寄稿
 
 1. Geemi Wellawatte (@GWellawatte)
 
-### Substantial Feedback on Content
+### 内容についてのフィードバック
 
 1. Lily Wang (@lilyminium)
 2. Marc Finzi (@m_finzi)
@@ -74,7 +71,7 @@ Thank you to contributors for offering suggestions, identifying errors, and help
 4. Elana Simon
 5. Cathrine Bergh (@cathrinebergh)
 
-### Code Fixes, Math Fixes, Language Fixes
+### コードや数式、文章の修正
 
 1. Oion Akif
 2. Heta Gandhi (@gandhi_heta)
@@ -92,9 +89,17 @@ Thank you to contributors for offering suggestions, identifying errors, and help
 14. Ankur Parmar
 15. Erik Thiede (@erik_der_elch)
 
-## Citation
+## 日本語版について
 
-Please cite the [livecommsj overview article](https://doi.org/10.33011/livecoms.3.1.1499):
+本書は、Andrew氏らによるオンラインブック"[Deep Learning for Molecules and Materials](https://dmol.pub)"を、CC BY-NC 3.0ライセンスのもと、有志らにより翻訳したものです。翻訳作業はGitHub上で2022年7月より始まり、まだ活発に続いています。日本語版についてのフィードバックがあれば、[日本語版のGitHubリポジトリ](https://github.com/resnant/dmol-book-japanese/)のissueからお寄せいただければ幸いです。また翻訳のコントリビューションも募集しています。翻訳作業を手伝ってもいいよ、という方がいらっしゃれば上記GitHubをご参照ください。
+
+### 翻訳者
+1. Yuta Suzuki (@resnant)
+2. Ikwus
+
+## 本書の引用について
+
+本書（原著）を引用する場合は [livecommsj overview article](https://doi.org/10.33011/livecoms.3.1.1499) を引用してください:
 
 ```bibtex
 @article{white2021deep,
@@ -110,14 +115,17 @@ Please cite the [livecommsj overview article](https://doi.org/10.33011/livecoms.
 }
 ```
 
-## Funding Support
+## 原著のファンディングサポート
 
 Research reported in this work was supported by the National Institute of General Medical Sciences of the National Institutes of Health under award number R35GM137966. This material is based upon work supported by the National Science Foundation under Grant No. 1764415.
 
-## License (CC BY-NC 3.0)
+## 本書のライセンス (CC BY-NC 3.0)
 
 Creative Commons Legal Code
 
 Attribution-NonCommercial 3.0 Unported
 
-See complete description of license at [https://creativecommons.org/licenses/by-nc/3.0/](https://creativecommons.org/licenses/by-nc/3.0/) or at repo [https://github.com/whitead/dmol-book](https://github.com/whitead/dmol-book)
+ライセンスについての完全な説明は次を参照してください [https://creativecommons.org/licenses/by-nc/3.0/](https://creativecommons.org/licenses/by-nc/3.0/) or at repo [https://github.com/whitead/dmol-book](https://github.com/whitead/dmol-book)
+
+### 日本語版のライセンスについて
+日本語版も、原著と同様にCC BY-NC 3.0ライセンスで公開されています。
