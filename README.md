@@ -40,8 +40,7 @@ C. Deep Learning
 
 D. Applications
 
-- [ ] 17. Predicting DFT Energies with GNNs
-  - in progress by @resnant
+- [x] 17. Predicting DFT Energies with GNNs
 - [ ] 18. Generative RNN in Browser
 
 E. Contributed Chapters
