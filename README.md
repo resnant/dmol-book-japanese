@@ -19,11 +19,14 @@ B. Machine Learning
 
 - [x] 2. Introduction to Machine Learning
 - [ ] 3. Regression & Model Assessment
+  - in progress by @Ikwus
 - [ ] 4. Classification
 - [ ] 5. Kernel Learning
-- [ ] C. Deep Learning
+
+C. Deep Learning
 
 - [ ] 6. Deep Learning Overview
+  - in progress by @resnant
 - [ ] 7. Standard Layers
 - [ ] 8. Graph Neural Networks
 - [ ] 9. Input Data & Equivariances
@@ -36,6 +39,7 @@ B. Machine Learning
 - [ ] 16. Normalizing Flows
 
 D. Applications
+
 - [ ] 17. Predicting DFT Energies with GNNs
   - in progress by @resnant
 - [ ] 18. Generative RNN in Browser
@@ -45,7 +49,9 @@ E. Contributed Chapters
 - [ ] 19. Hyperparameter Tuning
 
 ### contributionの手順
-1. どの章を担当したいかissueを立てる
+1. どの章を担当したいか[issueを立てる](https://github.com/resnant/dmol-book-japanese/issues/new/choose)
+  - 念のため、同じ章について既に誰かがissueを立てていないか確認してください
+    - [issue一覧はこちら](https://github.com/resnant/dmol-book-japanese/issues)
 2. このリポジトリをご自分のアカウントでフォーク
 3. ご興味のある章のnotebook(ipynbファイル）を選んで、VS CodeやJupyter上で翻訳し、commit
   - 具体的には、このリポジトリ以下の `math/`, `ml/`, `dl/`, `applied/` の各ディレクトリの中のファイルです
