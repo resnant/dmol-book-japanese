@@ -28,6 +28,7 @@ C. Deep Learning
 - [x] 6. Deep Learning Overview
 - [ ] 7. Standard Layers
 - [ ] 8. Graph Neural Networks
+  - in progress by @resnant
 - [ ] 9. Input Data & Equivariances
 - [ ] 10. Equivariant Neural Networks
 - [ ] 11. Modern Molecular NNs
