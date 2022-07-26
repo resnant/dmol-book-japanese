@@ -25,8 +25,7 @@ B. Machine Learning
 
 C. Deep Learning
 
-- [ ] 6. Deep Learning Overview
-  - in progress by @resnant
+- [x] 6. Deep Learning Overview
 - [ ] 7. Standard Layers
 - [ ] 8. Graph Neural Networks
 - [ ] 9. Input Data & Equivariances
