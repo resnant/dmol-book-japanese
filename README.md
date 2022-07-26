@@ -21,6 +21,7 @@ B. Machine Learning
 - [ ] 3. Regression & Model Assessment
   - in progress by @Ikwus
 - [ ] 4. Classification
+  - in progress by @suzuki-ma
 - [ ] 5. Kernel Learning
 
 C. Deep Learning
