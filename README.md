@@ -4,13 +4,13 @@
 
 日本語版はこちらから読めます [https://resnant.github.io/dmol-book-japanese/](https://resnant.github.io/dmol-book-japanese/)
 
-原著（英語版）はこちらから [dmol.pub](https://dmol.pub)  
+原著（英語版）はこちらから [dmol.pub](https://dmol.pub)
 &copy; Andrew White (original author)
 
 
 ## 翻訳への協力のお願い
 
-現在の翻訳の進捗は以下です。もし翻訳を手伝ってもいいよという方がいらっしゃれば、どの章を担当したいかissueでお知らせください。  
+現在の翻訳の進捗は以下です。もし翻訳を手伝ってもいいよという方がいらっしゃれば、どの章を担当したいかissueでお知らせください。
 
 A. Math Review
 
