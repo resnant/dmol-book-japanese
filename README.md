@@ -9,6 +9,7 @@
 
 
 ## 翻訳への協力のお願い
+
 現在の翻訳の進捗は以下です。もし翻訳を手伝ってもいいよという方がいらっしゃれば、どの章を担当したいかissueでお知らせください。  
 
 A. Math Review
@@ -23,6 +24,7 @@ B. Machine Learning
 - [ ] 4. Classification
   - in progress by @suzuki-ma
 - [ ] 5. Kernel Learning
+  - in progress by @Riku-KANO
 
 C. Deep Learning
 
@@ -49,12 +51,20 @@ E. Contributed Chapters
 - [ ] 19. Hyperparameter Tuning
 
 ### contributionの手順
+
 1. どの章を担当したいか[issueを立てる](https://github.com/resnant/dmol-book-japanese/issues/new/choose)
-  - 念のため、同じ章について既に誰かがissueを立てていないか確認してください
-    - [issue一覧はこちら](https://github.com/resnant/dmol-book-japanese/issues)
+
+- 念のため、同じ章について既に誰かがissueを立てていないか確認してください
+  - [issue一覧はこちら](https://github.com/resnant/dmol-book-japanese/issues)
+
 2. このリポジトリをご自分のアカウントでフォーク
+
 3. ご興味のある章のnotebook(ipynbファイル）を選んで、VS CodeやJupyter上で翻訳し、commit
-  - 具体的には、このリポジトリ以下の `math/`, `ml/`, `dl/`, `applied/` の各ディレクトリの中のファイルです
-  - ご不明な点などあればissueでお気軽にご相談ください
+
+- 具体的には、このリポジトリ以下の `math/`, `ml/`, `dl/`, `applied/` の各ディレクトリの中のファイルです
+- ご不明な点などあればissueでお気軽にご相談ください
+
 4. ご自分のアカウントのリポジトリにpush後、このリポジトリにpull requestを提出
-  - 内容を確認してmergeします
+
+- 内容を確認してmergeします
+
