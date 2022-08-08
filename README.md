@@ -36,6 +36,7 @@ C. Deep Learning
 - [ ] 10. Equivariant Neural Networks
 - [ ] 11. Modern Molecular NNs
 - [ ] 12. Explaining Predictions
+  - in progress by @milktea-muffin
 - [ ] 13. Attention Layers
 - [ ] 14. Deep Learning on Sequences
 - [ ] 15. Variational Autoencoder
@@ -67,4 +68,3 @@ E. Contributed Chapters
 4. ご自分のアカウントのリポジトリにpush後、このリポジトリにpull requestを提出
 
 - 内容を確認してmergeします
-
