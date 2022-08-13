@@ -38,6 +38,7 @@ C. Deep Learning
 - [ ] 12. Explaining Predictions
   - in progress by @milktea-muffin
 - [ ] 13. Attention Layers
+  - in progress by @sunbluesome
 - [ ] 14. Deep Learning on Sequences
 - [ ] 15. Variational Autoencoder
 - [ ] 16. Normalizing Flows
