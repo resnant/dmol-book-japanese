@@ -96,10 +96,11 @@ html_meta:
 
 本書は、Andrew氏らによるオンラインブック"[Deep Learning for Molecules and Materials](https://dmol.pub)"を、CC BY-NC 3.0ライセンスのもと、有志らにより翻訳したものです。翻訳作業はGitHub上で2022年7月より始まり、まだ活発に続いています。日本語版についてのフィードバックがあれば、[日本語版のGitHubリポジトリ](https://github.com/resnant/dmol-book-japanese/)のissueからお寄せいただければ幸いです。また翻訳のコントリビューションも募集しています。翻訳作業を手伝ってもいいよ、という方がいらっしゃれば上記GitHubをご参照ください。
 
-### 翻訳者
+### 翻訳者 （敬称略）
 
 1. Yuta Suzuki (@resnant)
-2. Ikwus
+2. Issei Tomotsuka (@mt03kkk18wu)
+3. @Riku-KANO
 
 ## 本書の引用について
 

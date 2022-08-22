@@ -23,8 +23,7 @@ B. Machine Learning
   - in progress by @Ikwus
 - [ ] 4. Classification
   - in progress by @suzuki-ma
-- [ ] 5. Kernel Learning
-  - in progress by @Riku-KANO
+- [x] 5. Kernel Learning
 
 C. Deep Learning
 
