@@ -1,0 +1,859 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" lang="en" name="description" xml:lang="en" />
+<meta content="en_US" property="og:locale" />
+<meta content="summary" name="twitter:card" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" name="twitter:description" />
+<meta content="dmol.pub 📖" name="twitter:title" />
+<meta content="https://dmol.pub/_static/logo.png" name="twitter:image" />
+<meta content="&#64;andrewwhite01" name="twitter:site" />
+
+    <title>6. ディープラーニングの概要 &#8212; deep learning for molecules &amp; materials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/a11y.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://resnant.github.io/dmol-book-japanese/dl/introduction.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. Standard Layers" href="layers.html" />
+    <link rel="prev" title="5. カーネル学習" href="../ml/kernel.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">deep learning for molecules & materials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   この本の概要
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  A. Math Review
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../math/tensors-and-shapes.html">
+   1. Tensors and Shapes
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  B. Machine Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/introduction.html">
+   2. 機械学習入門
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/regression.html">
+   3. Regression &amp; Model Assessment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/classification.html">
+   4. Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/kernel.html">
+   5. カーネル学習
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  C. Deep Learning
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   6. ディープラーニングの概要
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="layers.html">
+   7. Standard Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="gnn.html">
+   8. Graph Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data.html">
+   9. Input Data &amp; Equivariances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Equivariant.html">
+   10. Equivariant Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="molnets.html">
+   11. Modern Molecular NNs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="xai.html">
+   12. 予測を説明する
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="attention.html">
+   13. アテンションレイヤー
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLP.html">
+   15. Deep Learning on Sequences
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="VAE.html">
+   16. Variational Autoencoder
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="flows.html">
+   17. Normalizing Flows
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  D. Applications
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../applied/QM9.html">
+   18. GNNによるDFTエネルギーの予測
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../applied/MolGenerator.html">
+   19. Generative RNN in Browser
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  E. Contributed Chapters
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Hyperparameter_tuning.html">
+   20. Hyperparameter Tuning
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  F. Appendix
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../style.html">
+   21. Style Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../changelog.html">
+   22. Changelog
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <script async defer src="https://api.dmol.pub/latest.js"></script><noscript><img src="https://api.dmol.pub/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript> By <a href="https://twitter.com/andrewwhite01">Andrew White</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/dl/introduction.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/resnant/dmol-book-japanese/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/resnant/dmol-book-japanese//issues/new?title=Issue%20on%20page%20%2Fdl/introduction.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/resnant/dmol-book-japanese/blob/master/dl/introduction.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   6.1. ニューラルネットワークとは？
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     6.1.1. 万能近似定理
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#frameworks">
+     6.1.2. Frameworks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     6.1.3. ディスカッション
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   6.2. 溶解度予測モデルを振り返る
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   6.3. このノートブックの動かし方
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     6.3.1. データの読み込み
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#keras">
+   6.4. Keras用にデータを準備
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   6.5. ニューラルネットワーク
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   6.6. 練習問題
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   6.7. この章の目次
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cited-references">
+   6.8. Cited References
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>ディープラーニングの概要</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   6.1. ニューラルネットワークとは？
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     6.1.1. 万能近似定理
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#frameworks">
+     6.1.2. Frameworks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     6.1.3. ディスカッション
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   6.2. 溶解度予測モデルを振り返る
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   6.3. このノートブックの動かし方
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     6.3.1. データの読み込み
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#keras">
+   6.4. Keras用にデータを準備
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   6.5. ニューラルネットワーク
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   6.6. 練習問題
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   6.7. この章の目次
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cited-references">
+   6.8. Cited References
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><span class="section-number">6. </span>ディープラーニングの概要<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p><strong>ディープラーニング</strong> は、 <strong>機械学習</strong>のカテゴリの一つです。また機械学習は <strong>人工知能 （AI）</strong> のカテゴリの一つです。ディープラーニングは、ニューラルネットワークを用いて回帰や分類のような機械学習を実現します。まずこの章ではディープラーニングの概要を紹介し、この後の章でさらに詳細に踏み込んでいきます。</p>
+<div class="admonition- admonition">
+<p class="admonition-title">読者と &amp; 目的</p>
+<p>本章は <a class="reference internal" href="../ml/regression.html"><span class="doc">Regression &amp; Model Assessment</span></a> および <a class="reference internal" href="../ml/introduction.html"><span class="doc">機械学習入門</span></a>の内容を前提とします。本章を通じて、あなたは次のことを学ぶでしょう：</p>
+<ul class="simple">
+<li><p>ディープラーニングの定義</p></li>
+<li><p>ニューラルネットワークの定義</p></li>
+<li><p>これまでに学んだ回帰の原理のニューラルネットワークへの応用</p></li>
+</ul>
+</div>
+<p>この本の目的は、化学および材料科学を中心としたディープラーニングの入門書となることです。ディープラーニングに関しては、本書の他に数多くの優れた資料があり、ここでそれらの一部に触れておくことにします。これらのリソースでは、特定のトピックについてのより詳細な説明や、本書で扱わないトピック（例えば、画像認識）についての説明がなされています。まずディープラーニングの入門に関しては、<a class="reference external" href="https://www.deeplearningbook.org/contents/intro.html">Ian Goodfellowの本</a>が良い入門書だと思いました。ビジョンについて深く知りたいなら、Grant Sandersonがニューラルネットワークに特化した<a class="reference external" href="https://www.youtube.com/watch?v=aircAruvnKk">short video series</a>を公開しており、このトピックの応用的な紹介がされています。DeepMindは、<a class="reference external" href="https://www.youtube.com/watch?v=7R52wiUgxZI">ディープラーニングとAI</a>で何が実現できるかを示すハイレベルなビデオを公開しています。もし研究論文で「ディープラーニングは強力なツールである」と書く場合、一般的にはヤン・ルカン、ヨシュア・ベンジオ、ジェフリー・ヒントンにより執筆されNatureに掲載された [この論文] (<a class="reference external" href="https://www.nature.com/articles/nature14539">https://www.nature.com/articles/nature14539</a>)が引用されることが多いでしょう。Zhang、 Lipton、 Li、および Smolaは、Tensorflow、PyTorch、MXNetといった代表的なディープラーニングフレームワークで実装されたexampleを含む実用的な<a class="reference external" href="http://d2l.ai/index.html">オンラインブック</a>を公開しています。また、<a class="reference external" href="https://deepchem.io/">DeepChem</a>プロジェクトでは、化学におけるディープラーニングの応用について、化学にフォーカスした多くのexampleと情報が提供されています。最後に、いくつかのディープラーニングパッケージは、そのAPIのチュートリアルを介して深層学習の短い導入を提供します： <a class="reference external" href="https://keras.io/getting_started/">Keras</a>, <a class="reference external" href="https://pytorch.org/tutorials/beginner/basics/intro.html">PyTorch</a>.</p>
+<p>私がディープラーニングの初心者に伝える主なアドバイスは、神経学に着想を得た用語や概念（すなわち、ニューロン間の接続）にはあまり囚われすぎず、その代わりにディープラーニングを、調整可能なパラメータをたくさん含む行列を使った一連の線形代数演算として捉えることです。もちろん、ディープラーニングの線形代数演算を結合するために使われる非線形関数（活性化）など、神経学と類似した概念もところどころに登場しますが、ニューラルネットワークは神経学の延長にあるものではなく、それとは切り離された別なものとして学ぶことが適切と言えます。例え脳内で接続されたニューロンのように見えたとしても―――ディープラーニングは本質的に、「計算ネットワーク」（計算グラフとも呼ばれる）によって記述される線形代数演算です。</p>
+<div class="admonition- admonition">
+<p class="admonition-title">非線形性</p>
+<p>関数 <span class="math notranslate nohighlight">\(f(\vec{x})\)</span> が次の2つの条件を満たすなら、<span class="math notranslate nohighlight">\(f(\vec{x})\)</span>は線形である：</p>
+<p>任意の <span class="math notranslate nohighlight">\(\vec{x}\)</span> および <span class="math notranslate nohighlight">\(\vec{y}\)</span> について、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1ce74bd3-6867-435b-8b2c-a18f89c08778">
+<span class="eqno">(6.1)<a class="headerlink" href="#equation-1ce74bd3-6867-435b-8b2c-a18f89c08778" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+f(\vec{x} + \vec{y}) = f(\vec{x}) + f(\vec{y})
+\end{equation}\]</div>
+<p>また、</p>
+<div class="amsmath math notranslate nohighlight" id="equation-125e9e70-604f-4c8a-adca-21586d5bebfe">
+<span class="eqno">(6.2)<a class="headerlink" href="#equation-125e9e70-604f-4c8a-adca-21586d5bebfe" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+f(s\vec{x}) = sf(\vec{x})
+\end{equation}\]</div>
+<p>ここで <span class="math notranslate nohighlight">\(s\)</span> はスカラーである。
+もし<span class="math notranslate nohighlight">\(f(\vec{x})\)</span>がこれらの条件を満たさない場合、<span class="math notranslate nohighlight">\(f(\vec{x})\)</span>は <strong>非線形</strong> である。</p>
+</div>
+<section id="id2">
+<h2><span class="section-number">6.1. </span>ニューラルネットワークとは？<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>ディープラーニングにおける <em>ディープ</em> とは、ニューラルネットワークが何層ものレイヤーから構成されることを意味します。では、ニューラルネットワークとは何でしょうか？一般化した言い方をすれば、ニューラルネットワークは2つの要素で構成されると考えることができます：（1） 入力特徴 <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> に対して非線形変換 <span class="math notranslate nohighlight">\(g(\cdot)\)</span> を適用し、新しい特徴 <span class="math notranslate nohighlight">\(\mathbf{H} = g(\mathbf{X})\)</span> を出力する部分、（2） 既に <a class="reference internal" href="../ml/introduction.html"><span class="doc">機械学習入門</span></a> で見たような線形モデル。我々のディープラーニングによる回帰モデルの式は次のようになっています。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9902149c-d8e4-4e46-808a-b02276253127">
+<span class="eqno">(6.3)<a class="headerlink" href="#equation-9902149c-d8e4-4e46-808a-b02276253127" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+   \hat{y} = \vec{w}g(\vec{x}) + b
+\end{equation}\]</div>
+<p>MLの章では、特徴量の選択がいかに難解かつ困難かという点が主に議論されてきました。ここでは、これまで人手で設計されてきた特徴量を、学習可能な特徴の集合 <span class="math notranslate nohighlight">\(g(\vec{x})\)</span> に置き換え、これまでと同じ線形モデルを使います。それでは <span class="math notranslate nohighlight">\(g(\vec{x})\)</span> はどのように設計すればよいのかと気になるでしょうが、これがまさにディープラーニングの部分です。 <span class="math notranslate nohighlight">\(g(\vec{x})\)</span> は <strong>レイヤー （層）</strong> によって構成される微分可能な関数で、層それ自身も微分可能かつ、学習可能な重み（自由変数）を持ちます。ディープラーニングは成熟した分野であり、目的ごとに標準的な層が確立されています。例えば、畳み込み層は、入力テンソルの各要素の周辺について、固定された広さで近傍を見るために使われ、ドロップアウト層は、正則化の一種として入力ノードをランダムに不活性化するために使われます。最もよく使われる基本的な層は、<strong>全結合層 （fully-connected layer）</strong> あるいは <strong>密結合層（dense layer）</strong> と呼ばれるものです（訳注：以下の説明で、原文ではdense layerの呼称が使われていますが、日本語では全結合層としています）。</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>全結合層とは、各々の入力要素が出力要素全てに影響を与えることを意味する。一時期、スパースな層は、脳がどのように接続されているかという良いアナロジーと共に盛んに研究されていました。しかし、スパース層では入出力をどう結合するか決める必要がある一方、全結合層は、（スパース層と異なり全ての入出力ノードが結合したものであるため）その必要がなく、結果としてスパース層は現在ほぼ使われなくなりました。ただ例外として、畳み込みのように、他の目的のため結果的にスパースとなる層は今でも使われる場合があります。</p>
+</aside>
+<p>全結合層は、所望の出力特徴のshapeと<strong>活性化</strong>の2つで定義されます。全結合層の式は次のようになります：</p>
+<div class="amsmath math notranslate nohighlight" id="equation-deaae38d-626b-4352-9922-febd38e24c75">
+<span class="eqno">(6.4)<a class="headerlink" href="#equation-deaae38d-626b-4352-9922-febd38e24c75" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+     \vec{h} = \sigma(\mathbf{W}\vec{x} + \vec{b})
+\end{equation}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(\mathbf{W}\)</span> は学習可能な <span class="math notranslate nohighlight">\(D \times F\)</span> 行列、<span class="math notranslate nohighlight">\(D\)</span> は入力ベクトル (<span class="math notranslate nohighlight">\(vec{x}\)</span>) の次元、<span class="math notranslate nohighlight">\(F\)</span> は出力ベクトル (<span class="math notranslate nohighlight">\(vec{h}\)</span>) の次元、<span class="math notranslate nohighlight">\(vec{b}\)</span> は学習可能な <span class="math notranslate nohighlight">\(F\)</span> 次元ベクトル、<span class="math notranslate nohighlight">\(\sigma(\cdot)\)</span> は活性化関数です。出力特徴数の <span class="math notranslate nohighlight">\(F\)</span> や <span class="math notranslate nohighlight">\(\sigma(\cdot)\)</span> はこのモデルの<strong>ハイパーパラメータ</strong>の一つで、つまりモデルの学習時に自動的に獲得される値ではなく、問題ごとにチューニングすべき値です。 活性化関数には、微分可能かつ値域が <span class="math notranslate nohighlight">\((-\infty, \infty)\)</span> であれば、基本的にどのような関数も使用できます。ただし、活性化関数が線形関数の場合、複数の全結合層を重ねたとしても単に行列を定数倍したことと等価であり、結局のところ線形回帰になってしまいます。よって、ニューラルネットワークが非線形性をもつ関数を表現できるよう、活性化関数には非線形な関数を用いるのが普通です。また非線形性だけでなく、活性化関数はオン・オフが可能、つまり、入力値のある領域に対して出力値が0になる性質が必要です。一般に、負の入力に対して活性化関数はゼロもしくはそれに近い値になります。</p>
+<p>これら2つの性質を備えた最もシンプルな活性化関数は、正規化線形関数（rectified linear unit, ReLU)で、以下のように表されます：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\sigma(x) = \left\{\begin{array}{lr}
+x &amp; x &gt; 0\\
+0 &amp; \textrm{otherwise}\\
+\end{array}\right.
+\end{split}\]</div>
+<section id="id3">
+<h3><span class="section-number">6.1.1. </span>万能近似定理<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>ニューラルネットワークが未知関数 (<span class="math notranslate nohighlight">\(f(\vec{x})\)</span>) の近似に適している理由の一つは、ネットワークの深さ（層の数）や幅（隠れ層の大きさ）が十分に大きければ、どんな関数でも近似できることです（万能近似定理）。この定理には多くのバリエーションがあり、無限に広いニューラルネットや無限に深いニューラルネットについての証明が示されています。例えば、任意の1次元の関数は、無限に広い層（無限の隠れ層次元）を持ち活性化関数としてReLUが用いられた、深さ5のニューラルネットワークで近似できることが知られています<span id="id4">[<a class="reference internal" href="#id170" title="Zhou Lu, Hongming Pu, Feicheng Wang, Zhiqiang Hu, and Liwei Wang. The expressive power of neural networks: a view from the width. In Proceedings of the 31st International Conference on Neural Information Processing Systems, 6232–6240. 2017.">LPW+17</a>]</span>。</p>
+</section>
+<section id="frameworks">
+<h3><span class="section-number">6.1.2. </span>Frameworks<a class="headerlink" href="#frameworks" title="Permalink to this headline">¶</a></h3>
+<p>ディープラーニングの実装には、多くの「ハマりポイント」（※）、つまり容易にミスを犯してしまうポイントがたくさんあるため、ニューラルネットワークや学習に必要な様々な機能を自分でゼロから実装することは難しいです。特に数値的な不安定性は、モデルが学習に失敗した時にはじめて気づく場合が多く、厄介な問題になります。
+そこでこの本のいくつかの例では、JAXの代わりに少し抽象的なソフトウェアフレームワークを用いることにします。ここでは、人気のあるディープラーニングフレームワークの1つである<a class="reference external" href="https://keras.io/">Keras</a>を用います。Kerasは高度な処理を非常にシンプルなコードで記述できることから、ディープラーニングの実例を簡潔に示すために適していると言えます。</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>※ 訳注：原文では gotcha でした。gotchaは I got you. = I understand you. といった意味で使われることが多いスラングですが、<a class="reference external" href="https://www.urbandictionary.com/define.php?term=gotcha&amp;defid=8760478">「みんなが踏む落とし穴」といった意味もある</a>そうです。訳者（鈴木）の友人曰く、こういった落とし穴を踏んだ人に対して「お前踏んだの、わかる～」的ニュアンスで I got you. と言われることに由来するようです。</p>
+</aside>
+</section>
+<section id="id5">
+<h3><span class="section-number">6.1.3. </span>ディスカッション<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>この本では、ディープラーニングそのものの紹介はなるべくあっさりと済ませます。世の中にはディープラーニングに関する優れた学習教材があります。上記の読み物や、Keras（またはPyTorch）のチュートリアルを使って、ニューラルネットワークや学習の概念に慣れておくとよいでしょう。</p>
+</section>
+</section>
+<section id="id6">
+<h2><span class="section-number">6.2. </span>溶解度予測モデルを振り返る<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>ディープラーニングの最初の例として、2層の全結合ニューラルネットワークを使って溶解度データセットを再度学習してみましょう。</p>
+</section>
+<section id="id7">
+<h2><span class="section-number">6.3. </span>このノートブックの動かし方<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>このページ上部の  <i aria-label="Launch interactive content" class="fas fa-rocket"></i>  を押すと、このノートブックがGoogle Colab.で開かれます。必要なパッケージのインストール方法については以下を参照してください。</p>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<p>必要なパッケージをインストールするには、新規セルを作成して次のコードを実行してください。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!pip install dmol-book
+</pre></div>
+</div>
+<p>もしインストールがうまくいかない場合、パッケージのバージョン不一致が原因である可能性があります。動作確認がとれた最新バージョンの一覧は<a class="reference external" href="https://github.com/whitead/dmol-book/blob/master/package/requirements.txt">ここ</a>から参照できます</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">dmol</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id8">
+<h3><span class="section-number">6.3.1. </span>データの読み込み<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>データをダウンロードし、<a class="reference external" href="https://pandas.pydata.org/">Pandas</a>のdata frameとして読み込みます。さらに、以前と同じようにして特徴量を正規化します。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># soldata = pd.read_csv(&#39;https://dataverse.harvard.edu/api/access/datafile/3407241?format=original&amp;gbrecs=true&#39;)</span>
+<span class="c1"># had to rehost because dataverse isn&#39;t reliable</span>
+<span class="n">soldata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/whitead/dmol-book/raw/master/data/curated-solubility-dataset.csv&quot;</span>
+<span class="p">)</span>
+<span class="n">features_start_at</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">soldata</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;MolWt&quot;</span><span class="p">)</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="n">soldata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">features_start_at</span><span class="p">:]</span>
+<span class="c1"># standardize the features</span>
+<span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span> <span class="o">-=</span> <span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span> <span class="o">/=</span> <span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="keras">
+<h2><span class="section-number">6.4. </span>Keras用にデータを準備<a class="headerlink" href="#keras" title="Permalink to this headline">¶</a></h2>
+<p>ディープラーニングライブラリを使うことで、データの分割や各レイヤーの構築など、多くの一般的タスクが簡単に行えます。以下のコードでは、numpyのarrayからKerasのデータセットを構築します。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_data</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">soldata</span><span class="p">[</span><span class="s2">&quot;Solubility&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">soldata</span><span class="p">)</span>
+<span class="n">test_N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">full_data</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">test_N</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">full_data</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">test_N</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>このコード内における <code class="docutils literal notranslate"><span class="pre">skip</span></code> や <code class="docutils literal notranslate"><span class="pre">take</span></code> (次を参照 <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset" title="(in TensorFlow v2.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tf.data.Dataset</span></code></a>) は、データセットを2つに分割し、ミニバッチを作る操作です。</p>
+</section>
+<section id="id9">
+<h2><span class="section-number">6.5. </span>ニューラルネットワーク<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>では、ニューラルネットワークモデルを構築しましょう。この場合、 <span class="math notranslate nohighlight">\(g(\vec{x}) = \sigma\left(\mathbf{W^0}\vec{x} + \vec{b}\right)\)</span> となります。この関数 <span class="math notranslate nohighlight">\(g(\vec{x})\)</span> を <em>隠れ層（hidden layer）</em> と呼ぶことにします。これは、我々は <span class="math notranslate nohighlight">\(g(\vec{x})\)</span> の出力をそのまま最終的な結果として扱うわけではないからです。予測したい溶解度は <span class="math notranslate nohighlight">\(y = \vec{w}g(\vec{x}) + b\)</span> となることに注意してください。活性化関数 <span class="math notranslate nohighlight">\(sigma( \cdot)\)</span> はtanh、隠れ層の出力次元は32とします。非線形な活性化関数はたくさんありますが、ここでtanhを選んだのは経験的な理由です。このように、活性化関数は一般的に効率と経験的な性能に基づいて選択されます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># our hidden layer</span>
+<span class="c1"># We only need to define the output dimension - 32.</span>
+<span class="n">hidden_layer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;tanh&quot;</span><span class="p">)</span>
+<span class="c1"># Last layer - which we want to output one number</span>
+<span class="c1"># the predicted solubility.</span>
+<span class="n">output_layer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Now we put the layers into a sequential model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">hidden_layer</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">output_layer</span><span class="p">)</span>
+
+<span class="c1"># our model is complete</span>
+
+<span class="c1"># Try out our model on first few datapoints</span>
+<span class="n">model</span><span class="p">(</span><span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;tf.Tensor: shape=(3, 1), dtype=float32, numpy=
+array([[-0.19586785],
+       [-0.41813114],
+       [-0.11751032]], dtype=float32)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<aside class="margin sidebar">
+<p class="sidebar-title">Jax vs Keras</p>
+<p>この例をJaxで実装することも可能ですが、その場合はコードが数行増えることになります。
+この章では、ローレベルな実装よりもディープラーニングの実装の高水準な点に着目するためにKerasを用いました。</p>
+</aside>
+<p>上の3つの分子に対する溶解度を予測するモデルができました。Pandasのデータはデータ精度にfloat64（倍精度浮動小数点）を使っているのに、我々のモデルはfloat32（単精度）を使っているという警告が出るかもしれませんが、これはそれほど重要ではありません。この警告は技術的理由から数値の精度を少し落としているためですが、分子の溶解度は32ビットと64ビット精度の浮動小数点による誤差よりもはるかに多くの分散を持っていることから、この誤差の影響は無視できます。最後の行を次のように修正すれば、この警告を消すことができます。</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">(</span><span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>ここまでで、我々はディープニューラルネットワークのモデル構造を目的に従って定義し、データに対して呼び出すことができるようになりました。あとはこのモデルを学習させるだけです。<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model" title="(in TensorFlow v2.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.compile</span></code></a> を呼び出し、最適化器（通常は確率的勾配降下法の一種）と損失関数を定義することで、学習用モデルの準備は完了です。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;SGD&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;mean_squared_error&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Kerasを使うと簡単にディープラーニングモデルが定義できることに気づきましたか？ 以前に損失と最適化器を準備するためにかかった労力を振り返ってみてください。これがディープラーニングフレームワークを使う利点です。では、これでモデルを学習するための準備が整いました。</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>学習も簡単ですね！</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>エポックとは、バッチサイズに関係なく、データセット全体に対して行う繰り返し操作の単位である。</p>
+</aside>
+<p>参考までに、前回のベースラインモデルではlossの出力は3くらいでした。また、Kerasによる最適化により、処理はより高速になりました。では、このモデルのテストデータにおける性能を見てみましょう。</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get model predictions on test data and get labels</span>
+<span class="c1"># squeeze to remove extra dimensions</span>
+<span class="n">yhat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">))</span>
+<span class="n">test_y</span> <span class="o">=</span> <span class="n">soldata</span><span class="p">[</span><span class="s2">&quot;Solubility&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="n">test_N</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Measured Solubility $y$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Predicted Solubility $\hat</span><span class="si">{y}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="nb">min</span><span class="p">(</span><span class="n">test_y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nb">max</span><span class="p">(</span><span class="n">test_y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;correlation = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">yhat</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="nb">min</span><span class="p">(</span><span class="n">test_y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nb">max</span><span class="p">(</span><span class="n">test_y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;loss = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">test_y</span> <span class="o">-</span> <span class="n">yhat</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_16_0.png" src="../_images/introduction_16_0.png" />
+</div>
+</div>
+<p>性能も、ベースラインモデルよりかなり良いことがわかりｍす。
+This performance is better than our simple linear model.</p>
+</section>
+<section id="id10">
+<h2><span class="section-number">6.6. </span>練習問題<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>ReLU関数をグラフにプロットし、ReLUが非線形関数であることを確認せよ</p></li>
+<li><p>バイアス・バリアンストレードオフのことは一旦忘れて、ニューラルネットワークの層の数を増やすことにチャレンジしてみてください</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma(\cdot)\)</span> が恒等関数であれば、ニューラルネットワークは線形回帰であることを示せ。</p></li>
+<li><p>データのフィッティングに、非線形回帰ではなく、ディープラーニングを使うメリットとデメリットは何ですか？また、どのような場合にディープラーニングではなく非線形回帰を選択しますか？</p></li>
+</ol>
+</section>
+<section id="id11">
+<h2><span class="section-number">6.7. </span>この章の目次<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>ディープラーニングとは、機械学習の一種で、ニューラルネットワークを利用してデータの分類や回帰を行うものです。</p></li>
+<li><p>ニューラルネットワークは、調整可能なパラメータを持つ行列を用いた一連の演算です。</p></li>
+<li><p>ニューラルネットワークは、入力された特徴を、その後回帰や分類に使用できる新しい特徴の集合に変換します。</p></li>
+<li><p>最も一般的な層は全結合層で、全結合層において各入力要素は各出力要素に影響を与えます。全結合層のパラメータは望ましい出力特徴の形と活性化関数によって定義されます。</p></li>
+<li><p>十分な数の層、または十分な幅の隠れ層があれば、ニューラルネットワークは未知の関数を近似することができます。</p></li>
+<li><p>隠れ層は、その出力を我々は普段観測しないため、このように呼ばれています。</p></li>
+<li><p>TensorFlowなどのライブラリを使うと、データをトレーニングとテストに分けるだけでなく、ニューラルネットワークの層を構築することも容易になります。</p></li>
+<li><p>ニューラルネットワークを構築することで、分子の溶解度など様々な物性を予測することができます。</p></li>
+</ul>
+</section>
+<section id="cited-references">
+<h2><span class="section-number">6.8. </span>Cited References<a class="headerlink" href="#cited-references" title="Permalink to this headline">¶</a></h2>
+<div class="docutils container" id="id12">
+<dl class="citation">
+<dt class="label" id="id170"><span class="brackets"><a class="fn-backref" href="#id4">LPW+17</a></span></dt>
+<dd><p>Zhou Lu, Hongming Pu, Feicheng Wang, Zhiqiang Hu, and Liwei Wang. The expressive power of neural networks: a view from the width. In <em>Proceedings of the 31st International Conference on Neural Information Processing Systems</em>, 6232–6240. 2017.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./dl"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../ml/kernel.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">5. </span>カーネル学習</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="layers.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Standard Layers</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Andrew D. White<br/>
+    
+        &copy; Copyright 2022.<br/>
+      <div class="extra_footer">
+        <a href="http://thewhitelab.org">thewhitelab.org</a> <div id="wh-modal"> <button class="wh-venti-button" aria-label="close modal" id="wh-modal-close">✕</button> <img id="wh-modal-img"> </div>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
