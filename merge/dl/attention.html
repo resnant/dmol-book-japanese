@@ -1,0 +1,1138 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" lang="en" name="description" xml:lang="en" />
+<meta content="en_US" property="og:locale" />
+<meta content="summary" name="twitter:card" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" name="twitter:description" />
+<meta content="dmol.pub 📖" name="twitter:title" />
+<meta content="https://dmol.pub/_static/logo.png" name="twitter:image" />
+<meta content="&#64;andrewwhite01" name="twitter:site" />
+
+    <title>13. アテンションレイヤー &#8212; deep learning for molecules &amp; materials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/a11y.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://resnant.github.io/dmol-book-japanese/dl/attention.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="15. Deep Learning on Sequences" href="NLP.html" />
+    <link rel="prev" title="12. 予測を説明する" href="xai.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">deep learning for molecules & materials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   この本の概要
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  A. Math Review
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../math/tensors-and-shapes.html">
+   1. Tensors and Shapes
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  B. Machine Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/introduction.html">
+   2. 機械学習入門
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/regression.html">
+   3. Regression &amp; Model Assessment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/classification.html">
+   4. Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/kernel.html">
+   5. カーネル学習
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  C. Deep Learning
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="introduction.html">
+   6. ディープラーニングの概要
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="layers.html">
+   7. Standard Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="gnn.html">
+   8. Graph Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data.html">
+   9. Input Data &amp; Equivariances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Equivariant.html">
+   10. Equivariant Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="molnets.html">
+   11. Modern Molecular NNs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="xai.html">
+   12. 予測を説明する
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   13. アテンションレイヤー
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="NLP.html">
+   15. Deep Learning on Sequences
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="VAE.html">
+   16. Variational Autoencoder
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="flows.html">
+   17. Normalizing Flows
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  D. Applications
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../applied/QM9.html">
+   18. GNNによるDFTエネルギーの予測
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../applied/MolGenerator.html">
+   19. Generative RNN in Browser
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  E. Contributed Chapters
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Hyperparameter_tuning.html">
+   20. Hyperparameter Tuning
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  F. Appendix
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../style.html">
+   21. Style Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../changelog.html">
+   22. Changelog
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <script async defer src="https://api.dmol.pub/latest.js"></script><noscript><img src="https://api.dmol.pub/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript> By <a href="https://twitter.com/andrewwhite01">Andrew White</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/dl/attention.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/resnant/dmol-book-japanese/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/resnant/dmol-book-japanese//issues/new?title=Issue%20on%20page%20%2Fdl/attention.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/resnant/dmol-book-japanese/blob/master/dl/attention.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   13. アテンションレイヤー
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     13.1. 例
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     13.2. アテンション機構方程式
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     13.3. アテンション集約
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     13.4. テンソルドット
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     13.5. ソフト、ハード、温度アテンション
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     13.6. セルフアテンション
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     13.7. 学習可能アテンション
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     13.8. マルチヘッドアテンションブロック
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     13.9. ノートブックを実行する
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id17">
+     13.10. コードの例
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id18">
+       13.10.1. テンソルドット機構
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#attention">
+       13.10.2. 一般的なAttention
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id19">
+       13.10.3. セルフアテンション
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id20">
+       13.10.4. 学習可能パラメータを追加する
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id21">
+       13.10.5. マルチヘッド
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id22">
+   14. グラフニューラルネットワークにおけるアテンション
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id27">
+     14.1. 章のまとめ
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id28">
+     14.2. 引用文献
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>アテンションレイヤー</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   13. アテンションレイヤー
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     13.1. 例
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     13.2. アテンション機構方程式
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     13.3. アテンション集約
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     13.4. テンソルドット
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     13.5. ソフト、ハード、温度アテンション
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     13.6. セルフアテンション
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     13.7. 学習可能アテンション
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     13.8. マルチヘッドアテンションブロック
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     13.9. ノートブックを実行する
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id17">
+     13.10. コードの例
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id18">
+       13.10.1. テンソルドット機構
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#attention">
+       13.10.2. 一般的なAttention
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id19">
+       13.10.3. セルフアテンション
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id20">
+       13.10.4. 学習可能パラメータを追加する
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id21">
+       13.10.5. マルチヘッド
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id22">
+   14. グラフニューラルネットワークにおけるアテンション
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id27">
+     14.1. 章のまとめ
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id28">
+     14.2. 引用文献
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><span class="section-number">13. </span>アテンションレイヤー<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>アテンションは機械学習やAIにおいて、特にコンピュータビジョンで何年も前から存在する概念です<span id="id2">[<a class="reference internal" href="#id76" title="Shumeet Baluja and Dean A. Pomerleau. Expectation-based selective attention for visual monitoring and control of a robot vehicle. Robotics and Autonomous Systems, 22(3):329–344, 1997. Robot Learning: The New Wave. URL: http://www.sciencedirect.com/science/article/pii/S0921889097000468, doi:https://doi.org/10.1016/S0921-8890(97)00046-8.">BP97</a>]</span>。「ニューラルネットワーク」という言葉と同様に、アテンションは人間の脳が大量の視覚・聴覚入力を処理する際の注意機構に着想を得ています<span id="id3">[<a class="reference internal" href="#id76" title="Shumeet Baluja and Dean A. Pomerleau. Expectation-based selective attention for visual monitoring and control of a robot vehicle. Robotics and Autonomous Systems, 22(3):329–344, 1997. Robot Learning: The New Wave. URL: http://www.sciencedirect.com/science/article/pii/S0921889097000468, doi:https://doi.org/10.1016/S0921-8890(97)00046-8.">BP97</a>]</span>。<strong>アテンションレイヤー</strong>は、その注意機構を再現する深層学習レイヤーです。深層学習におけるアテンションについてはLuongら<span id="id4">[<a class="reference internal" href="#id73" title="Minh-Thang Luong, Hieu Pham, and Christopher D Manning. Effective approaches to attention-based neural machine translation. arXiv preprint arXiv:1508.04025, 2015.">LPM15</a>]</span>が詳細を解説しています。また、<a class="reference external" href="http://d2l.ai/chapter_attention-mechanisms/index.html">こちら</a>で実践的な概要が紹介されています。アテンションレイヤーは言語のような系列のモデリングに非常に有用であることが経験的に示されており、現在では必要不可欠な存在となっています<span id="id5">[<a class="reference internal" href="#id72" title="Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Advances in neural information processing systems, 5998–6008. 2017.">VSP+17</a>]</span>。アテンションレイヤーが最も良く使わているのは系列モデリングに用いる<a class="reference external" href="http://d2l.ai/chapter_attention-mechanisms/transformer.html"><strong>トランスフォーマー</strong></a>ニューラルネットワークです。また。グラフニューラルネットワークでもアテンションが使われることがあります。</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>アテンションには３つの入力があるため混乱しがちですが、これらの入力は実際は同一であることが多いことを後で説明します。
+クエリーはキーのひとつであり、キーとバリューは同一です。そして、クエリをまとめて入力すると、クエリー、キー、バリューが同一であることに気が付くでしょう。これがSelf-Attentionです。</p>
+</aside>
+<div class="admonition-audience-objectives admonition">
+<p class="admonition-title">Audience &amp; Objectives</p>
+<p>この章は、<a class="reference internal" href="layers.html"><span class="doc">Standard Layers</span></a> と <a class="reference internal" href="../math/tensors-and-shapes.html"><span class="doc">Tensors and Shapes</span></a>を理解していることを前提に書かれているので、ブロードキャスト、行列やテンソルの形状には慣れていた方が良いでしょう。この章を終えるころには、以下の事ができるようになっているはずです。</p>
+<ul class="simple">
+<li><p>アテンションレイヤーの形状や入出力の正しい指定</p></li>
+<li><p>アテンションレイヤーの実装</p></li>
+<li><p>他のレイヤーにアテンションを適用する方法</p></li>
+</ul>
+</div>
+<p>アテンションレイヤーは、基本的には加重平均による集約です。これは単に各要素に何らかの方法で重み付けをし、その平均を計算しているだけです。これにより、アテンションは入力テンソルのランクを小さくします。ほとんどのレイヤーが1つもしくは2つの入力を取るのに対し、アテンションは3つの入力を取るという点で珍しいレイヤーです。これら3つの入力はそれぞれ、<strong>クエリー</strong>、<strong>バリュー</strong>、<strong>キー</strong>と呼ばれます。集約はバリューに対して行われ、バリューのランクが3であれば出力のランクは2になります。クエリーはキーより1小さいランク、キーとバリューは同じランクです。キーとクエリーは<strong>アテンション機構</strong> –方程式を意味する–に従ってバリューの重みを決定します。</p>
+<p>下の表はこれら3つの入力をまとめたものです。多くの場合、クエリーはバッチ処理されるため、ランクが2になることに注意してください。入力クエリがバッチ処理されている場合、出力ランクも1ではなく同様に2になります。</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="head"><p>ランク</p></th>
+<th class="head"><p>形状</p></th>
+<th class="head"><p>目的</p></th>
+<th class="text-align:right head"><p>例</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>クエリー</p></td>
+<td><p>1</p></td>
+<td><p>(アテンション特徴量の数)</p></td>
+<td><p>キーに対してチェックを行う入力</p></td>
+<td class="text-align:right"><p>特徴量ベクトルとして表現された1単語</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>キー</p></td>
+<td><p>2</p></td>
+<td><p>(系列の長さ, アテンション特徴量の数)</p></td>
+<td><p>クエリーに対してアテンションを計算するために使用する</p></td>
+<td class="text-align:right"><p>特徴量ベクトルとして表現された文中の全単語</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>バリュー</p></td>
+<td><p>2</p></td>
+<td><p>(系列の長さ, アテンション特徴量の数)</p></td>
+<td><p>出力値を計算するために使用される</p></td>
+<td class="text-align:right"><p>文中の各単語に対応する数値ベクトル</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>出力</p></td>
+<td><p>1</p></td>
+<td><p>(バリュー特徴量の数)</p></td>
+<td><p>バリューのアテンションウェイトによる加重平均</p></td>
+<td class="text-align:right"><p>１つのベクトル</p></td>
+</tr>
+</tbody>
+</table>
+<section id="id6">
+<h2><span class="section-number">13.1. </span>例<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>アテンションは系列データで考えると分かりやすい概念です。「The sleepy child reads a book」という文章で考えてみましょう。文中の各単語はキーに相当し、単語を埋め込みで表現するとキーはランク2となります。例えば、「sleepy」という単語は、長さ3の埋め込みベクトル： <span class="math notranslate nohighlight">\([2, 0, 1]\)</span> で表現されるかもしれません。これらの埋め込みは標準的な言語の埋め込みから学習または取得されたものです。慣習的に、キーの軸0は系列における位置を表し、軸1がベクトルを表します。クエリーは多くの場合、「book」という単語のようにキーに含まれている一要素になります。クエリーが文中のどの部分から影響を受けているかを見ているのが、アテンションの重要なポイントです。「Book」は「child」と「reads」に強いアテンションを持つはずですが、「sleepy」ではそうはならないはずです。これを実際にベクトルとして計算したものをアテンションベクトル <span class="math notranslate nohighlight">\(\vec{b}\)</span> と呼ぶことはすぐにわかるでしょう。アテンションレイヤーの出力は、クエリーとキーのアテンションから算出される重みでバリューを集約したものです。したがって、文中の各要素に対してひとつのキー、バリューが対応しているはずです。一般的に、バリューはキーと同一になることもあります。</p>
+<p>数学的にどういうことか見てみましょう。アテンションレイヤーは（１）<strong>アテンション機構</strong>によるアテンションベクトル <span class="math notranslate nohighlight">\(\vec{b}\)</span> の計算と、（２）アテンションベクトル <span class="math notranslate nohighlight">\(\vec{b}\)</span> を用いたバリューの集約の2つのステップからなります。アテンション機構はアテンション方程式の別名です。上の例について考えてみてください。ここでは3次元の埋め込みを使って単語を表現してみます。</p>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>キーとクエリーがone-hotエンコーディングで与えられると、キーとクエリーが一致していない限り内積がゼロになるのでアテンションレイヤーの入力としては機能しない。</p>
+</aside>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>インデックス</p></th>
+<th class="text-align:center head"><p>埋め込み</p></th>
+<th class="text-align:right head"><p>単語</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>0</p></td>
+<td class="text-align:center"><p>0,0,0</p></td>
+<td class="text-align:right"><p>The</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>1</p></td>
+<td class="text-align:center"><p>2,0,1</p></td>
+<td class="text-align:right"><p>Sleepy</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>2</p></td>
+<td class="text-align:center"><p>1,-1,-2</p></td>
+<td class="text-align:right"><p>Child</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>3</p></td>
+<td class="text-align:center"><p>2,3,1</p></td>
+<td class="text-align:right"><p>Reads</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>4</p></td>
+<td class="text-align:center"><p>-2,0,0</p></td>
+<td class="text-align:right"><p>A</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>5</p></td>
+<td class="text-align:center"><p>0,2,1</p></td>
+<td class="text-align:right"><p>Book</p></td>
+</tr>
+</tbody>
+</table>
+<p>キーはこれら全てをまとめたランク2のテンソル（行列）になります。ここでは、分かりやすさのために整数のみで説明していることに注意してください。通常は単語の埋め込み表現には浮動小数点が用いられます。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-49e33d62-346d-46ce-8a06-a2fb01640486">
+<span class="eqno">(13.1)<a class="headerlink" href="#equation-49e33d62-346d-46ce-8a06-a2fb01640486" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mathbf{K} = \left[
+\begin{array}{lccccr}
+0 &amp; 2 &amp; 1 &amp; 2 &amp; -2 &amp; 0\\
+0 &amp; 0 &amp; -1 &amp; 3 &amp; 0 &amp; 2\\
+0 &amp; 1 &amp; -2 &amp; 1 &amp; 0 &amp; 1\\
+\end{array}\right]
+\end{equation}\]</div>
+<p>この文には6つの単語があり、それぞれ3次元ベクトルで表現されるので、キーは <span class="math notranslate nohighlight">\((6, 3)\)</span> の形状をしています。バリューは単純に、各単語に1つの値を持つとしす。これらのバリューによって出力を決定します。もしかしたら、単語の感情を表現しているかもしれません：「happy」のようなポジティブな単語なのか、「angry」のようなネガティブな単語なのかなど。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c7877f2c-3958-4fff-9868-ed8bc0375cf5">
+<span class="eqno">(13.2)<a class="headerlink" href="#equation-c7877f2c-3958-4fff-9868-ed8bc0375cf5" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mathbf{V} = \left[ 0, -0.2, 0.3, 0.4, 0, 0.1\right]
+\end{equation}\]</div>
+<p>バリュー <span class="math notranslate nohighlight">\(\mathbf{V}\)</span> はキーと同じランクであるべきで、その形状は <span class="math notranslate nohighlight">\((6, 1)\)</span>になります。また、クエリーはキーよりランクが1小さくなります。この例でのクエリーは「book」という単語です。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-6c1228c7-29f8-4b93-8076-fc3f81b9f999">
+<span class="eqno">(13.3)<a class="headerlink" href="#equation-6c1228c7-29f8-4b93-8076-fc3f81b9f999" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{q} = \left[0, 2, 1\right]
+\end{equation}\]</div>
+</section>
+<section id="id7">
+<h2><span class="section-number">13.2. </span>アテンション機構方程式<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>アテンション機構方程式はクエリーとキーの引数のみを使用します。
+この式はキーより1ランク低いテンソルを出力し、各キーに大してクエリーが持つべきアテンションに対応するスカラーを与えます。
+このアテンションベクトルは正規化されている必要があります。最も一般的なアテンション機構は内積とソフトマックスです。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f693b2ac-098c-4b14-a4c8-915cee574f35">
+<span class="eqno">(13.4)<a class="headerlink" href="#equation-f693b2ac-098c-4b14-a4c8-915cee574f35" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{b} = \mathrm{softmax}\left(\vec{q}\cdot \mathbf{K}\right) = \mathrm{softmax}\left(\sum_j q_j k_{ij}\right)
+\end{equation}\]</div>
+<p>ここで、インデックス <span class="math notranslate nohighlight">\(i\)</span> は系列における位置、<span class="math notranslate nohighlight">\(j\)</span> は特徴量のインデックスです。ソフトマックスは以下で定義され、</p>
+<div class="math notranslate nohighlight" id="equation-softmax">
+<span class="eqno">(13.5)<a class="headerlink" href="#equation-softmax" title="Permalink to this equation">¶</a></span>\[\mathrm{softmax}\left(\vec{x}\right) = \frac{e^\vec{x}}{\sum_i e^ x_i}\]</div>
+<p><span class="math notranslate nohighlight">\(\vec{b}\)</span> が正規化されることを保証しています。上の例から得た値を代入すると、次のようになります。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8d5ef854-59be-44fc-bf19-27c5dd3c86ec">
+<span class="eqno">(13.6)<a class="headerlink" href="#equation-8d5ef854-59be-44fc-bf19-27c5dd3c86ec" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{b} = \mathrm{softmax}\left(\left[0, 2, 1\right] \times
+\left[
+\begin{array}{lccccr}
+0 &amp; 2 &amp; 1 &amp; 2 &amp; -2 &amp; 0\\
+0 &amp; 0 &amp; -1 &amp; 3 &amp; 0 &amp; 2\\
+0 &amp; 1 &amp; -2 &amp; 1 &amp; 0 &amp; 1\\
+\end{array}\right]\right) = \mathrm{softmax}\left( \left[0, 1, -4, 7, 0, 5\right]\right)
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-2a6be45a-99a7-4649-9299-1d93cf7642eb">
+<span class="eqno">(13.7)<a class="headerlink" href="#equation-2a6be45a-99a7-4649-9299-1d93cf7642eb" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{b}  = \left[0, 0, 0, 0.88, 0, 0.12\right]
+\end{equation}\]</div>
+<p>ここでは数字を丸めましたが、アテンションベクトルは単語自身（book）と動詞（read）にのみ重みを持っています。これは私が作った例ですが、アテンションが単語同士をどのように関連付けるか示唆を与えてくれています。グラフニューラルネットワークにおける近傍の概念を思い起こすかもしれません。</p>
+</section>
+<section id="id8">
+<h2><span class="section-number">13.3. </span>アテンション集約<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>アテンションベクトル <span class="math notranslate nohighlight">\(\vec{b}\)</span> は、バリューの加重平均の計算に使用されます。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-72cd37cd-b972-49ec-b096-cb774a5547a3">
+<span class="eqno">(13.8)<a class="headerlink" href="#equation-72cd37cd-b972-49ec-b096-cb774a5547a3" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+ \mathbf{V}\vec{b} = \left[0, 0, 0, 0.88, 0, 0.12\right]^ T \left[ 0, -0.2, 0.3, 0.4, 0, 0.1\right] = 0.36
+\end{equation}\]</div>
+<p>概念的には、今回の例では文中クエリー「book」のアテンションで重みづけされた感情を計算したことになります。アテンションレイヤーは2つのことを行っていることが分かります：アテンション機構でアテンションベクトルを計算し、それを使ってバリューの加重平均を求めています。</p>
+</section>
+<section id="id9">
+<h2><span class="section-number">13.4. </span>テンソルドット<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>この内積、ソフトマックス、集約はテンソルドットと呼ばれ、最も一般的なアテンションレイヤーです<span id="id10">[<a class="reference internal" href="#id73" title="Minh-Thang Luong, Hieu Pham, and Christopher D Manning. Effective approaches to attention-based neural machine translation. arXiv preprint arXiv:1508.04025, 2015.">LPM15</a>]</span>。一般的な派生としては、キーの次元（最後の軸の次元）で割ったものがあります。ここで、キーが正規化されていないことを思い出してください。乱数であれば、中心極限定理より内積からの出力の大きさははキーの次元の平方根でスケールします。つまり、<span class="math notranslate nohighlight">\(e^{\vec{q} \cdot \mathbf{K}}\)</span> を取ることで、ソフトマックス値に悪影響を与える可能性があります。以上をまとめると、以下の式のようになります。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7e6c5157-5ef0-4688-a93d-8a691b882c96">
+<span class="eqno">(13.9)<a class="headerlink" href="#equation-7e6c5157-5ef0-4688-a93d-8a691b882c96" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    \vec{b} = \mathrm{softmax}\left(\frac{1}{\sqrt{d}}\vec{q}\cdot \mathbf{K}\right)
+\end{equation}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(d\)</span> はクエリーベクトルの次元です。</p>
+</section>
+<section id="id11">
+<h2><span class="section-number">13.5. </span>ソフト、ハード、温度アテンション<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>アテンションの派生形として考えられるのは、<span class="math notranslate nohighlight">\(\mathrm{softmax}\)</span> の出力において最もアテンションの高いものを1に、それ以外を0に置き換えることです。これを<strong>ハードアテンション</strong>と呼びます。ハードアテンションの式は、以下のようにソフトマックスをハードマックスで置き換えることで定義されます。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0f8bf81e-161a-41c9-9bd9-91318a8d11aa">
+<span class="eqno">(13.10)<a class="headerlink" href="#equation-0f8bf81e-161a-41c9-9bd9-91318a8d11aa" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mathrm{hardmax}\left(\vec{x}\right) = \lim_{T\rightarrow0}\frac{e^\vec{x} / T}{\sum_i e^ {x_i / T}}
+\end{equation}\]</div>
+<p>これは、 <span class="math notranslate nohighlight">\(\vec{x}\)</span> の最大要素の位置を1とし、それ以外の位置に0を置くことを数学的に定式化したものです。この式が統計力学のボルツマン分布に似ていることから、温度 <span class="math notranslate nohighlight">\(T\)</span>という用語を用いています。<span class="math notranslate nohighlight">\(T = 0\)</span> のときはハードアテンション、<span class="math notranslate nohighlight">\(T = 1\)</span> のときはソフトアテンション、<span class="math notranslate nohighlight">\(T = \infty\)</span> のときは均一なアテンションを意味することがわかると思います。<span class="math notranslate nohighlight">\(T\)</span> を中間的な値にすることも可能です。</p>
+</section>
+<section id="id12">
+<h2><span class="section-number">13.6. </span>セルフアテンション<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p>ディープラーニングでは、すべてがバッチ処理されることを覚えていますか？通常、アテンションレイヤーへのバッチ入力はクエリーです。これまでの議論では、クエリーはキーよりも1ランク低いテンソル（クエリー<strong>ベクトル</strong>）でしたが、バッチ化されるとキーと同じランクになります。ほとんどの場合、クエリーとキーは同一です。我々の例では、クエリーは「book」の埋め込みベクトルで、これはキーのひとつでした。もし全ての単語を考慮するようにクエリーをバッチ処理すると、クエリーはキーと同じものになります。さらに特殊なケースとして、クエリー、バリュー、キー全てが同じ場合があり、これを<strong>セルフアテンション</strong>と呼びます。これはアテンションメカニズムがバリューを直接使用することを意味しており、レイヤーに入力される別の「キー」は存在しません。</p>
+</section>
+<section id="id13">
+<h2><span class="section-number">13.7. </span>学習可能アテンション<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<p>ここまで説明してきたアテンションには、学習可能なパラメータは在りませんでした。アテンションによる学習はどのようにして行うのでしょうか？一般的に、学習可能なパラメータを直接式に持たせることはしません。代わりに、全結合層を通してキー、バリュー、クエリー（<a class="reference internal" href="layers.html"><span class="doc">Standard Layers</span></a>を参照）をアテンションへ入力します。その為、ひとつのレイヤーとしてアテンションを見ると学習可能なパラメータはありません。全結合層とアテンションレイヤーのブロックとして見れば学習可能です。以下で明示的に確認しましょう。</p>
+</section>
+<section id="id14">
+<h2><span class="section-number">13.8. </span>マルチヘッドアテンションブロック<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<p>複数のフィルターによる畳み込みに着想を得た、複数の並列アテンションからなるブロック（レイヤーのグループ）があります。これらは「マルチヘッドアテンション」と呼ばれます。もしバリューの形状が <span class="math notranslate nohighlight">\((L, V)\)</span> であれば、<span class="math notranslate nohighlight">\((H, V)\)</span> の形状のテンソルが返ってきます。ここで、<span class="math notranslate nohighlight">\(H\)</span> は並列アテンションレイヤー（ヘッド）の数です。アテンションレイヤーに学習可能パラメータがないのなら、どんな意味があるのでしょうか。ここで、重みを導入しましょう。全てのアテンションヘッドの形状が一定である必要があるので、重みは<strong>正方</strong>行列になっています。</p>
+<p>アテンションレイヤーが <span class="math notranslate nohighlight">\(A(\vec{q}, \mathbf{K}, \mathbf{V})\)</span> で定義されているとします。この時マルチヘッドアテンションは以下のように書けます。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c4fa2e59-0447-443a-8d77-0afe9b486924">
+<span class="eqno">(13.11)<a class="headerlink" href="#equation-c4fa2e59-0447-443a-8d77-0afe9b486924" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\left[A(\mathbf{W}_q^0\vec{q}, \mathbf{W}_k^0\mathbf{K}, \mathbf{W}_v^0\mathbf{V}), A(\mathbf{W}_q^1\vec{q}, \mathbf{W}_k^1\mathbf{K}, \mathbf{W}_v^1\mathbf{V}), \ldots, A(\mathbf{W}_q^H\vec{q}, \mathbf{W}_k^H\mathbf{K}, \mathbf{W}_v^H\mathbf{V})\right]
+\end{equation}\]</div>
+<p>ここで、出力ベクトル <span class="math notranslate nohighlight">\(\ldots\)</span> の各要素はアテンションレイヤーからの出力で、 <span class="math notranslate nohighlight">\(H\)</span> 個の <span class="math notranslate nohighlight">\((L, V)\)</span> の形状をしたテンソルです。つまり、全体の出力としては <span class="math notranslate nohighlight">\((H, L, V)\)</span> の形状をしたテンソルになります。マルチヘッドアテンションブロックの最も有名な例は、トランスフォーマー<span id="id15">[]</span>で使用されているセルフアテンションマルチヘッドアテンションブロックです。通常、複数の連続したアテンションブロックを適用するので、次のブロックへ入力されるバリューは、ランク3 <span class="math notranslate nohighlight">\((H, L, V)\)</span> ではなくランク2のテンソルである必要があります。したがって、マルチヘッドアテンションの出力はしばしば <span class="math notranslate nohighlight">\((H, V, V)\)</span> または <span class="math notranslate nohighlight">\((H)\)</span> の重みテンソルとの行列積によってランク2になります。これが分かりにくいようであれば、以下の例を参照してください。</p>
+</section>
+<section id="id16">
+<h2><span class="section-number">13.9. </span>ノートブックを実行する<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<p>上の  <i aria-label="Launch interactive content" class="fas fa-rocket"></i>  をクリックして、Google Colab を立ち上げてください。</p>
+</section>
+<section id="id17">
+<h2><span class="section-number">13.10. </span>コードの例<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
+<p>アテンションがどのように実装されているか見てみましょう。ここでは様々な量にランダムな変数を使用するので、学習される変数を <code class="docutils literal notranslate"><span class="pre">w_</span></code> で、入力変数を <code class="docutils literal notranslate"><span class="pre">i_</span></code> で表すことにします。</p>
+<section id="id18">
+<h3><span class="section-number">13.10.1. </span>テンソルドット機構<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>まず、テンソルドット機構の実装から始めます。例として、系列の長さを11、キー特徴量の長さを4、バリュー特徴量の次元を2とします。キーとクエリーは、特徴量の次元が同じであることに注意してください。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">tensor_dot</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">((</span><span class="n">k</span> <span class="o">@</span> <span class="n">q</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">b</span>
+
+
+<span class="n">i_query</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,))</span>
+<span class="n">i_keys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">tensor_dot</span><span class="p">(</span><span class="n">i_query</span><span class="p">,</span> <span class="n">i_keys</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b = &quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>b =  [0.09174118 0.05650509 0.00936613 0.04066519 0.01278675 0.28406205
+ 0.02327961 0.04073839 0.06552707 0.0058136  0.36951494]
+</pre></div>
+</div>
+</div>
+</div>
+<p>期待通り、合計が1のベクトル <span class="math notranslate nohighlight">\(\vec{b}\)</span> が得られました。</p>
+</section>
+<section id="attention">
+<h3><span class="section-number">13.10.2. </span>一般的なAttention<a class="headerlink" href="#attention" title="Permalink to this headline">¶</a></h3>
+<p>では、このアテンション機構をアテンションレイヤーに組み込みましょう。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">attention_layer</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">tensor_dot</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b</span> <span class="o">@</span> <span class="n">v</span>
+
+
+<span class="n">i_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">attention_layer</span><span class="p">(</span><span class="n">i_query</span><span class="p">,</span> <span class="n">i_keys</span><span class="p">,</span> <span class="n">i_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.92364379,  0.03003698])
+</pre></div>
+</div>
+</div>
+</div>
+<p>各特徴次元に1つずつ、2つの値が得られます。</p>
+</section>
+<section id="id19">
+<h3><span class="section-number">13.10.3. </span>セルフアテンション<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>セルフアテンションの変更点は、クエリー、キー、バリューを等しくすることです。この設定ではクエリーのバッチ処理が必要になり、ランク2の出力を得ます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">batched_tensor_dot</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="c1"># a は batch x seq x feature 次元（ここでは N x N x 4）になる</span>
+    <span class="c1"># アインシュタイン記法によるバッチ化されたドット積</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij,kj-&gt;ik&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 系列に対してソフトマックスを適用</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b</span>
+
+
+<span class="k">def</span> <span class="nf">self_attention</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">batched_tensor_dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b</span> <span class="o">@</span> <span class="n">x</span>
+
+
+<span class="n">i_batched_query</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">self_attention</span><span class="p">(</span><span class="n">i_batched_query</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-0.00996345, -0.38813056, -0.30894345,  0.18664637],
+       [-0.45765476,  0.92184258, -0.72787612, -0.49905407],
+       [ 0.35567921, -0.73674509, -0.00220817, -0.30268984],
+       [ 0.02934809, -0.30256288, -0.32320726,  0.06699482],
+       [-0.74606661,  1.36075423, -1.18720815, -0.37666908],
+       [ 0.52297125, -1.02231599, -0.17517125, -0.12727736],
+       [ 0.01553327, -0.26733581, -0.01861591, -0.10031097],
+       [ 0.23416074, -0.59084501, -0.16873929, -0.0030916 ],
+       [ 0.18957948, -0.42318877,  0.11512943, -0.40975851],
+       [ 0.58935955, -1.12568388, -0.20328515, -0.04780711],
+       [-0.25871887, -0.20722361,  0.03452749,  0.39054537]])
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(11\times4\)</span> の行列が得られれば上手く計算ができています。</p>
+</section>
+<section id="id20">
+<h3><span class="section-number">13.10.4. </span>学習可能パラメータを追加する<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>これらのステップに重み行列を追加することで、学習可能パラメータを追加することができます。セルフアテンションで実践してみましょう。セルフアテンションではキー、バリュー、クエリーは同じものでしたが、それぞれに異なる重みを掛けることができます。デモとして、バリューの特徴量次元を2に変更してみます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 重みを入力次元 -&gt; 所望の特徴量次元に変更する。</span>
+<span class="n">w_q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">w_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">w_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">trainable_self_attention</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w_q</span><span class="p">,</span> <span class="n">w_k</span><span class="p">,</span> <span class="n">w_v</span><span class="p">):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">w_q</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">w_k</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">w_v</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">batched_tensor_dot</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b</span> <span class="o">@</span> <span class="n">v</span>
+
+
+<span class="n">trainable_self_attention</span><span class="p">(</span><span class="n">i_batched_query</span><span class="p">,</span> <span class="n">w_q</span><span class="p">,</span> <span class="n">w_k</span><span class="p">,</span> <span class="n">w_v</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.02804042,  0.03676662],
+       [-0.20488129,  1.61415362],
+       [ 0.29115593, -0.17071063],
+       [-0.00959071,  0.10859463],
+       [-0.63803073,  3.70610671],
+       [-0.32742712, -0.49009977],
+       [ 0.26574454, -0.04692339],
+       [ 0.01151851,  0.0384615 ],
+       [ 0.39671425, -0.09665473],
+       [-0.6680624 , -0.74800718],
+       [ 0.10521715,  0.00847117]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>重みでバリューの特徴量次元を2にしたので、 <span class="math notranslate nohighlight">\(11\times 2\)</span>の出力が得られます。</p>
+</section>
+<section id="id21">
+<h3><span class="section-number">13.10.5. </span>マルチヘッド<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>マルチヘッドアテンションの唯一の変更点は各ヘッドに対して1つの重みを持ち、ヘッド適用後の出力を結合することです。学習可能な長さ <span class="math notranslate nohighlight">\(H\)</span> の重みベクトルを使って出力を連結したり、平均や最大値などの集約を行います。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w_q_h1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">w_k_h1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">w_v_h1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">w_q_h2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">w_k_h2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">w_v_h2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">w_h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">multihead_attention</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w_q_h1</span><span class="p">,</span> <span class="n">w_k_h1</span><span class="p">,</span> <span class="n">w_v_h1</span><span class="p">,</span> <span class="n">w_q_h2</span><span class="p">,</span> <span class="n">w_k_h2</span><span class="p">,</span> <span class="n">w_v_h2</span><span class="p">):</span>
+    <span class="n">h1_out</span> <span class="o">=</span> <span class="n">trainable_self_attention</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w_q_h1</span><span class="p">,</span> <span class="n">w_k_h1</span><span class="p">,</span> <span class="n">w_v_h1</span><span class="p">)</span>
+    <span class="n">h2_out</span> <span class="o">=</span> <span class="n">trainable_self_attention</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w_q_h2</span><span class="p">,</span> <span class="n">w_k_h2</span><span class="p">,</span> <span class="n">w_v_h2</span><span class="p">)</span>
+    <span class="c1"># join along last axis so we can use dot.</span>
+    <span class="n">all_h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">h1_out</span><span class="p">,</span> <span class="n">h2_out</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">all_h</span> <span class="o">@</span> <span class="n">w_h</span>
+
+
+<span class="n">multihead_attention</span><span class="p">(</span><span class="n">i_batched_query</span><span class="p">,</span> <span class="n">w_q_h1</span><span class="p">,</span> <span class="n">w_k_h1</span><span class="p">,</span> <span class="n">w_v_h1</span><span class="p">,</span> <span class="n">w_q_h2</span><span class="p">,</span> <span class="n">w_k_h2</span><span class="p">,</span> <span class="n">w_v_h2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 9.81528617, -5.98624485],
+       [ 0.40243997, -0.16363673],
+       [-2.62430805, -2.03426088],
+       [ 6.1758559 , -3.08479641],
+       [ 4.19679804,  3.10560578],
+       [-0.44782809, -4.13747693],
+       [-0.82280743, -0.2573575 ],
+       [ 2.33998496, -1.39506047],
+       [-1.30871377, -0.88976096],
+       [ 7.28064   , -7.52450603],
+       [-0.75220812, -0.11820786]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>期待通り、ランク2である <span class="math notranslate nohighlight">\(11\times 2\)</span> の出力が得られました。</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id22">
+<h1><span class="section-number">14. </span>グラフニューラルネットワークにおけるアテンション<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h1>
+<p>グラフニューラルネットワークの重要な性質に permutation equivariant があることを思い出してください。
+我々はグラフニューラルネットワークを permutation equivariant にするために、合計や平均などの集約を使用してきました。</p>
+<p>また、アテンションレイヤーは permutation invariant（バッチ化しない時）もしくは permutation equivariant（バッチ化する時）です。このため、アテンションは近傍情報を集約する方法としてよく利用されています。アテンションレイヤーは重要な近傍を見つけるのが得意なので、高次元グラフ（大量な近傍を持つ）において重要です。これは分子では稀なことですが、全ての原子を結合してその距離をエッジとして置くだけで良いということです。グラフ畳み込みレイヤー（GCNレイヤー）やほとんどのGNNレイヤーが、レイヤーごとにひとつの結合しか情報を伝播させることができないことを思い出してください。したがって、全ての原子を結合してアテンションを適用することは、多数のレイヤーを経由しなくても長距離の情報伝達が可能になります。ただし、ネットワークが正しい結合/原子に注意を向けているか気を付ける必要があります。</p>
+<p>アテンションが Battaglia equations<span id="id23">[<a class="reference internal" href="gnn.html#id78" title="Peter W Battaglia, Jessica B Hamrick, Victor Bapst, Alvaro Sanchez-Gonzalez, Vinicius Zambaldi, Mateusz Malinowski, Andrea Tacchetti, David Raposo, Adam Santoro, Ryan Faulkner, and others. Relational inductive biases, deep learning, and graph networks. arXiv preprint arXiv:1806.01261, 2018.">BHB+18</a>]</span> にどう当てはまるか見てみましょう。Battaglia 方程式はGNNを定義するための一般的な標準方程式であることを思い出してください。アテンションは複数の場所に現れることがありますが、先述した通り近傍を考慮する時に現れます。具体的には、クエリーは <span class="math notranslate nohighlight">\(i\)</span> 番目のノードとなり、キー／バリューは近傍ノードとエッジの特徴の組み合わせになります。Battaglia 方程式がきれいに当てはまるステップはないが、以下のようにアテンションレイヤーを分割することができます。アテンションレイヤーの大部分はエッジ更新式に当てはまるでしょう。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-028bceb5-9d1d-4c70-b81e-c2f554189bcd">
+<span class="eqno">(14.1)<a class="headerlink" href="#equation-028bceb5-9d1d-4c70-b81e-c2f554189bcd" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{e}^{'}_k = \phi^e\left( \vec{e}_k, \vec{v}_{rk}, \vec{v}_{sk}, \vec{u}\right)
+\end{equation}\]</div>
+<p>これは一般化された式であり、 <span class="math notranslate nohighlight">\(\phi^e()\)</span> の選択がGNNを定義していることを思い出してください。<span class="math notranslate nohighlight">\(\vec{e}_k\)</span> はエッジ <span class="math notranslate nohighlight">\(k\)</span> の特徴量ベクトル、<span class="math notranslate nohighlight">\(\vec{v}_{rk}\)</span> はエッジ <span class="math notranslate nohighlight">\(k\)</span> の受信ノード特徴量ベクトル、<span class="math notranslate nohighlight">\(\vec{v}_{sk}\)</span> はエッジ <span class="math notranslate nohighlight">\(k\)</span> の送信ノード特徴量ベクトル、<span class="math notranslate nohighlight">\(\vec{u}\)</span> は全体グラフ特徴量です。このステップを、アテンション機構に利用します。ここで、クエリはー受信ノード <span class="math notranslate nohighlight">\(\vec{c}_{rk}\)</span> で、キー／バリューは送信とエッジベクトルです。具体的には、Zhangらのアプローチ（<span id="id24">[<a class="reference internal" href="gnn.html#id84" title="Jiani Zhang, Xingjian Shi, Junyuan Xie, Hao Ma, Irwin King, and Dit-Yan Yeung. Gaan: gated attention networks for learning on large and spatiotemporal graphs. arXiv preprint arXiv:1803.07294, 2018.">ZSX+18</a>]</span>）をテンソルドット機構で利用します。彼らはノード特徴量のみを考慮し、キーとバリューはノード特徴量と同一に設定しました。一方で、彼らはノード特徴量をキー／クエリーに変換する学習可能なパラメータを使用しました。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a8c14880-7d15-4f5e-b6a4-21e13ae1fa6d">
+<span class="eqno">(14.2)<a class="headerlink" href="#equation-a8c14880-7d15-4f5e-b6a4-21e13ae1fa6d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{q} = \mathbf{W}_q\vec{v}_{rk}
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-1572deb9-3233-46cb-b155-073e8617d233">
+<span class="eqno">(14.3)<a class="headerlink" href="#equation-1572deb9-3233-46cb-b155-073e8617d233" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mathbf{K} = \mathbf{W}_k\vec{v}_{sk}
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-abf2bd6a-8b43-4855-b14b-5e5ce7354400">
+<span class="eqno">(14.4)<a class="headerlink" href="#equation-abf2bd6a-8b43-4855-b14b-5e5ce7354400" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mathbf{V} = \mathbf{W}_v\vec{v}_{sk}
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-736d0b64-79b8-48f2-9ea0-4616e304ae6d">
+<span class="eqno">(14.5)<a class="headerlink" href="#equation-736d0b64-79b8-48f2-9ea0-4616e304ae6d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    \vec{b}_k = \mathrm{softmax}\left(\frac{1}{\sqrt{d}} \vec{q}\cdot \mathbf{K}\right)
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-68574084-5cb7-4cf8-acb2-de05c40c65f9">
+<span class="eqno">(14.6)<a class="headerlink" href="#equation-68574084-5cb7-4cf8-acb2-de05c40c65f9" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{e}^{'}_k = \vec{b} V
+\end{equation}\]</div>
+<p>ひとつの式にまとめると：</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ed295f5c-e7cc-47bc-85e6-351078ca3b18">
+<span class="eqno">(14.7)<a class="headerlink" href="#equation-ed295f5c-e7cc-47bc-85e6-351078ca3b18" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\vec{e}^{'}_k = \mathrm{softmax}\left(\frac{1}{\sqrt{d}} \mathbf{W}_q\vec{v}_{rk}\cdot \mathbf{W}_k\vec{v}_{sk}\right)\mathbf{W}_v\vec{v}_{sk}
+\end{equation}\]</div>
+<p>これで、アテンションから重みづけされたエッジ特徴量ベクトルを得ることができます。
+最後に、エッジ集約ステップでこれらのエッジ特徴量を合計します。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f268bbd4-f74a-4593-a22d-f03675524f4b">
+<span class="eqno">(14.8)<a class="headerlink" href="#equation-f268bbd4-f74a-4593-a22d-f03675524f4b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\bar{e}^{'}_i = \rho^{e\rightarrow v}\left( E_i^{'}\right) = \sum E_i^{'}
+\end{equation}\]</div>
+<p>Zhangら<span id="id25">[<a class="reference internal" href="gnn.html#id84" title="Jiani Zhang, Xingjian Shi, Junyuan Xie, Hao Ma, Irwin King, and Dit-Yan Yeung. Gaan: gated attention networks for learning on large and spatiotemporal graphs. arXiv preprint arXiv:1803.07294, 2018.">ZSX+18</a>]</span>では、マルチヘッドアテンションも使用していました。
+マルチヘッドアテンションはどのように機能するのでしょうか？</p>
+<p>エッジ特徴量行列 <span class="math notranslate nohighlight">\(E_i^{'}\)</span> は軸0がエッジ（<span class="math notranslate nohighlight">\(k\)</span>）、軸1が特徴量、軸2がヘッドのエッジ特徴量テンソルになります。「ヘッド」は単に <span class="math notranslate nohighlight">\(\mathbf{W}^h_q, \mathbf{W}^h_k, \mathbf{W}^h_v\)</span> のどの集合を使ったかを意味していることを思い出してください。
+テンソルを期待される行列に戻すためには、単純に最後の2軸（特徴量、ヘッド）を特徴量にマップする重み行列を用いれば良いです。</p>
+<p>わかりやすさのため、インデックスを明示的に書き出しましょう：</p>
+<div class="amsmath math notranslate nohighlight" id="equation-21b15298-7b6e-4a28-8059-17c57a043dee">
+<span class="eqno">(14.9)<a class="headerlink" href="#equation-21b15298-7b6e-4a28-8059-17c57a043dee" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\bar{e}^{'}_{il} = \rho^{e\rightarrow v}\left( E_i^{'}\right) = \sum_k e_{ikjh}^{'}w_{jhl}
+\end{equation}\]</div>
+<p>ここで、 <span class="math notranslate nohighlight">\(j\)</span> はエッジ特徴量の入力インデックス、<span class="math notranslate nohighlight">\(l\)</span> は出力エッジ特徴量行列で、<span class="math notranslate nohighlight">\(k,h,i\)</span> は以前と同様の定義とします。<strong>トランスフォーマー</strong>はマルチヘッドアテンションで構築されたネットワークの別名なので、トランスフォーマーグラフニューラルネットワークも見かけることがあるでしょう（<span id="id26">[<a class="reference internal" href="#id104" title="Łukasz Maziarka, Tomasz Danel, Sławomir Mucha, Krzysztof Rataj, Jacek Tabor, and Stanisław Jastrzębski. Molecule attention transformer. arXiv preprint arXiv:2002.08264, 2020.">MDM+20</a>]</span>）。</p>
+<section id="id27">
+<h2><span class="section-number">14.1. </span>章のまとめ<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>アテンションレイヤーは人間の注意機構にヒントを得ているが、基本的には加重平均による集約である。</p></li>
+<li><p>アテンションレイヤーはクエリー、バリュー、キーの3つの入力をとる。これらの入力はしばしば同一で、クエリはキーの１つであり、キーとバリューは等しい。</p></li>
+<li><p>言語のような系列モデリングに向いている。</p></li>
+<li><p>アテンションベクトルは正規化されている必要がある。ソフトマックス関数で正規化を実現できるが、アテンション機構式はハイパーパラメータである。</p></li>
+<li><p>アテンションレイヤーはアテンション機構でアテンションベクトルを計算する、そしてアテンション加重平均を計算することでアテンションベクトルの集約を行う。</p></li>
+<li><p>ハードアテンション（ハードマックス関数）を用いると、アテンション機構の最大出力を返す。</p></li>
+<li><p>ソフトマックス後のテンソルドットはアテンション機構でもっとも一般的である。</p></li>
+<li><p>セルフアテンションはクエリー、バリュー、キーが全て等しいときに達成される。</p></li>
+<li><p>アテンションレイヤーそのものは学習できない。</p></li>
+<li><p>マルチヘッドアテンションブロックは複数並列アテンションに分割可能なレイヤーのグループである。</p></li>
+</ul>
+</section>
+<section id="id28">
+<h2><span class="section-number">14.2. </span>引用文献<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h2>
+<div class="docutils container" id="id29">
+<dl class="citation">
+<dt class="label" id="id68"><span class="brackets"><a class="fn-backref" href="#id23">BHB+18</a></span></dt>
+<dd><p>Peter W Battaglia, Jessica B Hamrick, Victor Bapst, Alvaro Sanchez-Gonzalez, Vinicius Zambaldi, Mateusz Malinowski, Andrea Tacchetti, David Raposo, Adam Santoro, Ryan Faulkner, and others. Relational inductive biases, deep learning, and graph networks. <em>arXiv preprint arXiv:1806.01261</em>, 2018.</p>
+</dd>
+<dt class="label" id="id74"><span class="brackets">ZSX+18</span><span class="fn-backref">(<a href="#id24">1</a>,<a href="#id25">2</a>)</span></dt>
+<dd><p>Jiani Zhang, Xingjian Shi, Junyuan Xie, Hao Ma, Irwin King, and Dit-Yan Yeung. Gaan: gated attention networks for learning on large and spatiotemporal graphs. <em>arXiv preprint arXiv:1803.07294</em>, 2018.</p>
+</dd>
+<dt class="label" id="id76"><span class="brackets">BP97</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Shumeet Baluja and Dean A. Pomerleau. Expectation-based selective attention for visual monitoring and control of a robot vehicle. <em>Robotics and Autonomous Systems</em>, 22(3):329–344, 1997. Robot Learning: The New Wave. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0921889097000468">http://www.sciencedirect.com/science/article/pii/S0921889097000468</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/S0921-8890(97)00046-8">doi:https://doi.org/10.1016/S0921-8890(97)00046-8</a>.</p>
+</dd>
+<dt class="label" id="id73"><span class="brackets">LPM15</span><span class="fn-backref">(<a href="#id4">1</a>,<a href="#id10">2</a>)</span></dt>
+<dd><p>Minh-Thang Luong, Hieu Pham, and Christopher D Manning. Effective approaches to attention-based neural machine translation. <em>arXiv preprint arXiv:1508.04025</em>, 2015.</p>
+</dd>
+<dt class="label" id="id72"><span class="brackets"><a class="fn-backref" href="#id5">VSP+17</a></span></dt>
+<dd><p>Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. In <em>Advances in neural information processing systems</em>, 5998–6008. 2017.</p>
+</dd>
+<dt class="label" id="id104"><span class="brackets"><a class="fn-backref" href="#id26">MDM+20</a></span></dt>
+<dd><p>Łukasz Maziarka, Tomasz Danel, Sławomir Mucha, Krzysztof Rataj, Jacek Tabor, and Stanisław Jastrzębski. Molecule attention transformer. <em>arXiv preprint arXiv:2002.08264</em>, 2020.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./dl"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="xai.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">12. </span>予測を説明する</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="NLP.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">15. </span>Deep Learning on Sequences</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Andrew D. White<br/>
+    
+        &copy; Copyright 2022.<br/>
+      <div class="extra_footer">
+        <a href="http://thewhitelab.org">thewhitelab.org</a> <div id="wh-modal"> <button class="wh-venti-button" aria-label="close modal" id="wh-modal-close">✕</button> <img id="wh-modal-img"> </div>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

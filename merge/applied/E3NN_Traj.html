@@ -1,0 +1,1057 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" lang="en" name="description" xml:lang="en" />
+<meta content="en_US" property="og:locale" />
+<meta content="summary" name="twitter:card" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" name="twitter:description" />
+<meta content="dmol.pub 📖" name="twitter:title" />
+<meta content="https://dmol.pub/_static/logo.png" name="twitter:image" />
+<meta content="&#64;andrewwhite01" name="twitter:site" />
+
+    <title>Equivariant Neural Network for Predicting Trajectories &#8212; deep learning for molecules &amp; materials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/a11y.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://resnant.github.io/dmol-book-japanese/applied/E3NN_Traj.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">deep learning for molecules & materials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   この本の概要
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  A. Math Review
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../math/tensors-and-shapes.html">
+   1. Tensors and Shapes
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  B. Machine Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/introduction.html">
+   2. 機械学習入門
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/regression.html">
+   3. Regression &amp; Model Assessment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/classification.html">
+   4. Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ml/kernel.html">
+   5. カーネル学習
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  C. Deep Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/introduction.html">
+   6. ディープラーニングの概要
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/layers.html">
+   7. Standard Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/gnn.html">
+   8. Graph Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/data.html">
+   9. Input Data &amp; Equivariances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/Equivariant.html">
+   10. Equivariant Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/molnets.html">
+   11. Modern Molecular NNs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/xai.html">
+   12. 予測を説明する
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/attention.html">
+   13. アテンションレイヤー
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/NLP.html">
+   15. Deep Learning on Sequences
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/VAE.html">
+   16. Variational Autoencoder
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/flows.html">
+   17. Normalizing Flows
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  D. Applications
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="QM9.html">
+   18. GNNによるDFTエネルギーの予測
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="MolGenerator.html">
+   19. Generative RNN in Browser
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  E. Contributed Chapters
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/Hyperparameter_tuning.html">
+   20. Hyperparameter Tuning
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  F. Appendix
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../style.html">
+   21. Style Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../changelog.html">
+   22. Changelog
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <script async defer src="https://api.dmol.pub/latest.js"></script><noscript><img src="https://api.dmol.pub/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript> By <a href="https://twitter.com/andrewwhite01">Andrew White</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/applied/E3NN_Traj.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/resnant/dmol-book-japanese/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/resnant/dmol-book-japanese//issues/new?title=Issue%20on%20page%20%2Fapplied/E3NN_Traj.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/resnant/dmol-book-japanese/blob/master/applied/E3NN_Traj.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrieving-data-from-trajectory-alignment-example">
+   Retrieving Data from Trajectory Alignment Example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#additional-installations-and-imports">
+   Additional Installations and Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-this-notebook">
+   Running This Notebook
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#baseline-model">
+   Baseline Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#e3nn-basics">
+   E3NN Basics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#e3nn-model">
+   E3NN Model
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Equivariant Neural Network for Predicting Trajectories</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#retrieving-data-from-trajectory-alignment-example">
+   Retrieving Data from Trajectory Alignment Example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#additional-installations-and-imports">
+   Additional Installations and Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-this-notebook">
+   Running This Notebook
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#baseline-model">
+   Baseline Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#e3nn-basics">
+   E3NN Basics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#e3nn-model">
+   E3NN Model
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="equivariant-neural-network-for-predicting-trajectories">
+<h1>Equivariant Neural Network for Predicting Trajectories<a class="headerlink" href="#equivariant-neural-network-for-predicting-trajectories" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-authors admonition">
+<p class="admonition-title">Authors:</p>
+<p><a class="reference external" href="https://github.com/SamCox822">Sam Cox</a></p>
+</div>
+<p>In this example, we will train an equivariant neural network to predict the next frame in the trajectory alignment example (10.6). As stated in 10.3.8, for time-dependent trajectories, we do not need to concern ourselves with permutation equivariance because it is implied that the order of the points does not change. Thus, we can treat this example as a simple set of coordinates in 3D space, meaning that any deep learning model that we train on this data should have rotation, mirror/parity, and translation equivariance. In other words, our model should be O(3) equivariant. E3NN <span id="id1">[]</span> is a library built to create equivariant neural networks for the this group, so it’s a great choice for this problem.</p>
+<p>We will use the trajectory data from that example to train our network.</p>
+<section id="retrieving-data-from-trajectory-alignment-example">
+<h2>Retrieving Data from Trajectory Alignment Example<a class="headerlink" href="#retrieving-data-from-trajectory-alignment-example" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p>First, let’s use the same imports and visualization used in Chapter 10 to download our data and view the first frame.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/whitead/dmol-book/raw/master/data/paths.npz&quot;</span><span class="p">,</span> <span class="s2">&quot;paths.npz&quot;</span>
+<span class="p">)</span>
+<span class="n">paths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;paths.npz&quot;</span><span class="p">)[</span><span class="s2">&quot;arr&quot;</span><span class="p">]</span>
+<span class="c1"># plot the first point</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;First Frame&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">paths</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;o-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/E3NN_Traj_5_0.png" src="../_images/E3NN_Traj_5_0.png" />
+</div>
+</div>
+</section>
+<section id="additional-installations-and-imports">
+<h2>Additional Installations and Imports<a class="headerlink" href="#additional-installations-and-imports" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="running-this-notebook">
+<h2>Running This Notebook<a class="headerlink" href="#running-this-notebook" title="Permalink to this headline">¶</a></h2>
+<p>Click the  <i aria-label="Launch interactive content" class="fas fa-rocket"></i>  above to launch this page as an interactive Google Colab. See details below on installing packages.</p>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<p>To install packages, execute this code in a new cell.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!pip install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.11.0+cpu.html
+
+!pip install e3nn
+
+!pip install dmol-book
+
+</pre></div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># additional imports</span>
+<span class="kn">import</span> <span class="nn">torch_geometric</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">e3nn</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">e3nn.nn.models.gate_points_2101</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">e3nn</span> <span class="kn">import</span> <span class="n">o3</span>
+<span class="kn">import</span> <span class="nn">dmol</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># additional imports</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">torch_geometric</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;torch_geometric&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="baseline-model">
+<h2>Baseline Model<a class="headerlink" href="#baseline-model" title="Permalink to this headline">¶</a></h2>
+<p>Before we build our E3NN network, it’s always a good idea to build a baseline model for comparision.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mse</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yhat</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">yhat</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, let’s discuss what the input and output should be for this model. The input should be the coordinates of the 12 points: one frame. What should the output be? We want to train a neural network to predict the next trajectory for each point, the next frame, so our output should actually be the same type as our input.</p>
+<p>Thus,</p>
+<p><strong>Inputs:</strong></p>
+<ul class="simple">
+<li><p>12 sets of coordinates</p></li>
+</ul>
+<p><strong>Outputs:</strong></p>
+<ul class="simple">
+<li><p>12 sets of coordinates</p></li>
+</ul>
+<p>Note: since we are trying to build an O(3)-equivariant neural network, which should be equivariant to transformations in 3D space, we need to make these coordinates 3D. This is easy, we will just put zero for the z-coordiantes. We’ll do this now.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">traj_3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2048</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
+        <span class="n">TBA</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">TBA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">TBA</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="mf">0.00</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">traj_3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traj_3d</span><span class="p">,</span> <span class="n">TBA</span><span class="p">)</span>
+
+<span class="n">traj_3d</span> <span class="o">=</span> <span class="n">traj_3d</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2048</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Interestingly, for this example, we want our prediction from one frame to match the following frame. So our features and labels will be nearly identical, offset by one.</p>
+<p>For the features, we want to include everything except for the final frame, which has no “next frame” in our data. We can extrapolate with our model to predict this “next frame” as a final step if we want.</p>
+<p>For our lables, we want to include everything except for the first step, which is not the “next frame” of anything in our data.</p>
+<p>We can also go ahead and split our data into training and testing sets.</p>
+<p>Let’s do approximately an 80:20 split here.
+We want to make sure not to shuffle our data, as we are predicting time-series data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="n">traj_3d</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">traj_3d</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+<span class="c1"># split data 80:20</span>
+<span class="n">training_set</span> <span class="o">=</span> <span class="n">features</span><span class="p">[:</span><span class="mi">1637</span><span class="p">]</span>
+<span class="n">training_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[:</span><span class="mi">1637</span><span class="p">]</span>
+<span class="n">valid_set</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="mi">1637</span><span class="p">:]</span>
+<span class="n">valid_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="mi">1637</span><span class="p">:]</span>
+
+<span class="c1"># convert to jnp arrays</span>
+<span class="n">training_setbl</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">training_set</span><span class="p">)</span>
+<span class="n">training_labelsbl</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">training_labels</span><span class="p">)</span>
+
+<span class="n">valid_setbl</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">valid_set</span><span class="p">)</span>
+<span class="n">valid_labelsbl</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">valid_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s check to make sure our data matches up. Frame 2 in the features set should be the same as Frame 1 in the labels set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;features, frame 2: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">features</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;labels, frame 1: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">if</span> <span class="n">mse</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;success! they match!&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">mse</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Great, they match! Now we are ready to build our baseline model!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">baseline_model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">@</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">yhat</span>
+
+
+<span class="k">def</span> <span class="nf">baseline_loss</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">mse</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">baseline_model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+
+
+<span class="n">bl_loss_grad</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">baseline_loss</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="mf">1e-6</span>
+
+<span class="n">baseline_val_loss</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">)]</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1637</span><span class="p">):</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">training_setbl</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">training_labelsbl</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+        <span class="n">grad_bl</span> <span class="o">=</span> <span class="n">bl_loss_grad</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="c1"># update w &amp; b</span>
+        <span class="n">w</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad_bl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">b</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad_bl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">410</span><span class="p">):</span>
+        <span class="n">inputs_v</span> <span class="o">=</span> <span class="n">valid_setbl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">y_v</span> <span class="o">=</span> <span class="n">valid_labelsbl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">baseline_val_loss</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">+=</span> <span class="n">baseline_loss</span><span class="p">(</span><span class="n">inputs_v</span><span class="p">,</span> <span class="n">y_v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">baseline_val_loss</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">baseline_val_loss</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">/</span> <span class="mi">410</span><span class="p">)</span>
+    <span class="n">eta</span> <span class="o">*=</span> <span class="mf">0.9</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">baseline_val_loss</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Val Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final loss value: &quot;</span><span class="p">,</span> <span class="n">baseline_val_loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s view a parity plot to see if we’re learning the right trend here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ys</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="n">yhats</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">205</span><span class="p">):</span>
+    <span class="n">inputs_v</span> <span class="o">=</span> <span class="n">valid_setbl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">valid_labelsbl</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">baseline_model</span><span class="p">(</span><span class="n">inputs_v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">yhats</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yhats</span><span class="p">,</span> <span class="n">yhat</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">yhats</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Trajectory&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Predicted Trajectory&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is difficult to read, since our xyz coordinates are very different in magnitude. Instead, let’s look at three plots, one for each coordinate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ys_x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="n">ys_y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="n">ys_z</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="n">yh_x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="n">yh_y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="n">yh_z</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">205</span><span class="p">):</span>
+    <span class="n">inputs_v</span> <span class="o">=</span> <span class="n">valid_setbl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">valid_labelsbl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">baseline_model</span><span class="p">(</span><span class="n">inputs_v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="n">ys_x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ys_x</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ys_y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ys_y</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ys_z</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ys_z</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="n">yh_x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yh_x</span><span class="p">,</span> <span class="n">yhat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">yh_y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yh_y</span><span class="p">,</span> <span class="n">yhat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">yh_z</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yh_z</span><span class="p">,</span> <span class="n">yhat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ys_x</span><span class="p">,</span> <span class="n">ys_x</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ys_x</span><span class="p">,</span> <span class="n">yh_x</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X-Coordinate of Trajectory&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;X-Coordinate of Predicted Trajectory&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ys_y</span><span class="p">,</span> <span class="n">ys_y</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ys_y</span><span class="p">,</span> <span class="n">yh_y</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Y-Coordinate of Trajectory&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y-Coordinate of Predicted Trajectory&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ys_z</span><span class="p">,</span> <span class="n">ys_z</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ys_z</span><span class="p">,</span> <span class="n">yh_z</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Z-Coordinate of Trajectory&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Z-Coordinate of Predicted Trajectory&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It looks like we are starting to get the right trend for some of the coordinates, but more training is definitely needed. However, as stated, we want any model that uses this data to be equivariant in 3D space. Let’s check the equivariances now.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># checking for rotation equivariance</span>
+<span class="kn">import</span> <span class="nn">scipy.spatial.transform</span> <span class="k">as</span> <span class="nn">trans</span>
+
+<span class="c1"># rotate around x coordinate by 80 degrees</span>
+<span class="n">rot</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">input_point</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="n">w_test1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+
+<span class="n">input_rot</span> <span class="o">=</span> <span class="n">rot</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">input_point</span><span class="p">)</span>
+<span class="n">output_1</span> <span class="o">=</span> <span class="n">baseline_model</span><span class="p">(</span><span class="n">input_rot</span><span class="p">,</span> <span class="n">w_test1</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">output_prerot</span> <span class="o">=</span> <span class="n">baseline_model</span><span class="p">(</span><span class="n">input_point</span><span class="p">,</span> <span class="n">w_test1</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">output_rot</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">xyz</span> <span class="ow">in</span> <span class="n">output_prerot</span><span class="p">:</span>
+    <span class="n">coord</span> <span class="o">=</span> <span class="n">rot</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span>
+    <span class="n">output_rot</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+<span class="n">output_rot</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">output_rot</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rotated first: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">output_1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rotated last: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">output_rot</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1m&quot;</span> <span class="o">+</span> <span class="s2">&quot;difference: &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">,</span> <span class="n">mse</span><span class="p">(</span><span class="n">output_1</span><span class="p">,</span> <span class="n">output_rot</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>So it doesn’t look like our baseline model is rotation-equivariant. This is important, because we if we give our model coordinates that are rotated, we expect the output should be rotated by the same degree. Likewise, we need translation equivariance. Let’s check that now.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># checking for translation equivariance</span>
+<span class="n">random_trans</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+
+<span class="n">input_trans</span> <span class="o">=</span> <span class="n">input_point</span> <span class="o">+</span> <span class="n">random_trans</span>
+<span class="n">output_2</span> <span class="o">=</span> <span class="n">baseline_model</span><span class="p">(</span><span class="n">input_trans</span><span class="p">,</span> <span class="n">w_test1</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">output_trans</span> <span class="o">=</span> <span class="n">random_trans</span> <span class="o">+</span> <span class="n">baseline_model</span><span class="p">(</span><span class="n">input_point</span><span class="p">,</span> <span class="n">w_test1</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;translated first: &quot;</span><span class="p">,</span> <span class="n">output_2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;translated last: &quot;</span><span class="p">,</span> <span class="n">output_trans</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[1m&quot;</span> <span class="o">+</span> <span class="s2">&quot;difference: &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">,</span> <span class="n">mse</span><span class="p">(</span><span class="n">output_2</span><span class="p">,</span> <span class="n">output_trans</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As expected, our model isn’t translation equviariant either. I won’t prove that we don’t have parity/inversion equivariance, but you should expect that this baseline model will not have any spatial equivariance.</p>
+<p>We can solve this problem many ways. One way is to augment our data in order to teach our model equivariance. This requires more training and data storage, so let’s look at a more compact approach.</p>
+</section>
+<section id="e3nn-basics">
+<h2>E3NN Basics<a class="headerlink" href="#e3nn-basics" title="Permalink to this headline">¶</a></h2>
+<p>E3NN is a library for creating equivariant neural networks, specifically in E(3). E3NN is built for spatial equvariance in 3-D space. Specifically, this library gives us equivariance with respect to the E(3) group of rotations, inversions, and translations. As discussed before, the time-dependent trajectory’s points do not change order, so we do not need to worry about permutation equivariance/invariance in this case; we only need E(3)-equivariance. E3NN is a great tool for this problem because we have 3-dimensional points in space, and if we transform them in space, we want the output to transform the same way.</p>
+<p>E3NN works through the use of irreducible representations (irreps). In general, representations tell you how to interact with the data with repect to the group. When creating a model, we give the model the irreps so that it knows how to handle the data we will give it during trianing. It’s not necessary to understand what the irreps are; instead, just know that they are the smallest representations, which are similar to, and transform the same way as, the spherical harmonics. Any (reducible) representation can be decomposed into irreducible representations. If you want to know more, you can check out more on the E3NN documentation website [&#64;e3nn]. Let’s take a look at how the irreps are used in this context.</p>
+<p>For this group, we need to find the L and d for each piece of data, where <span class="math notranslate nohighlight">\(d = 2L + 1\)</span> (d = dimension). Look at the table below.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>parity</strong></p></th>
+<th class="head"><p><strong>L</strong></p></th>
+<th class="head"><p><strong>d</strong></p></th>
+<th class="head"><p><strong>name</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>even</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>scalar</p></td>
+</tr>
+<tr class="row-odd"><td><p>odd</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>pseudo scalar</p></td>
+</tr>
+<tr class="row-even"><td><p>even</p></td>
+<td><p>1</p></td>
+<td><p>3</p></td>
+<td><p>pseudo vector</p></td>
+</tr>
+<tr class="row-odd"><td><p>odd</p></td>
+<td><p>1</p></td>
+<td><p>3</p></td>
+<td><p>vector</p></td>
+</tr>
+<tr class="row-even"><td><p>even</p></td>
+<td><p>2</p></td>
+<td><p>5</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>odd</p></td>
+<td><p>2</p></td>
+<td><p>5</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p>The general notation is <strong>MxLp</strong>, where M is the number, L is the L from the table above, and p corresponds to the parity (e: even, o: odd).</p>
+<p>For example, if you wanted to portray “12 scalars, 4 vectors” in this format, you would write <strong>“12x0e + 4x1o”</strong>. Take a minute to make sure you understand how to use this notation, as it’s essential for E3NN. E3NN deals with equivariance by receiving the irreps as a model parameter. This allows the E3NN framework to know how each input feature/output transforms under symmetry, so that it can treat each piece appropriately. As a side note, the output of an E3NN model must always be of equal or higher symmetry than your input.</p>
+<p>Because E3NN is built to handle 3D spatial data, we do not need to tell the model that we are going to give it 3D coordinates; it’s implicit and <strong>required</strong>. The irreps_in, instead, correspond to the input node features. In this example, we don’t have input features, but as an example, you can imagine we could want our model to predict the next set of coordinates, given the intitial coordinates and the velocity. In that case, our irreps_in would be the velocity. If we gave our velocity as vectors, we would have <strong>“12x1o””</strong> as our input features. If we just gave our model the magnitude of the velocity, we would represent our input features as <strong>“12x0e”</strong>.</p>
+<p>Since we don’t have input features, we’ll put “None” for that parameter, and we want our output to be the same shape as the input: 12 vectors. However, since we are trying to predict 12 vectors out for 12 vectors in, we only need to tell the model to predict 1 vector per input <strong>“1x1o”</strong>. Take a minute to make sure you understand why this is the case. In this case, you can think of the model recognizing 12 input vectors and predicting a vector for each. Again, E3NN expects coordinate inputs, so we don’t specify this for the input.</p>
+</section>
+<section id="e3nn-model">
+<h2>E3NN Model<a class="headerlink" href="#e3nn-model" title="Permalink to this headline">¶</a></h2>
+<p>E3NN has several models within their library, which can be found <a class="reference external" href="https://github.com/e3nn/e3nn/tree/main/e3nn/nn/models">on the E3NN github page here</a>. For this example, we will use one of these models.</p>
+<p>To use the E3NN model, we need to turn our data into a torch_geometric dataset. We’ll do that now. Then we can split our data into training and testing sets.</p>
+<p>Also, instead of directly computing the next frame, we’ll change it here to predict the distance to the next frame. This is a small change, but having data centered nearer zero is better for training.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feat</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>  <span class="c1"># convert to pytorch tensors</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>  <span class="c1"># convert to pytorch tensors</span>
+<span class="n">traj_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">distances</span> <span class="o">=</span> <span class="n">ys</span> <span class="o">-</span> <span class="n">feat</span>  <span class="c1"># compute distances to next frame</span>
+
+
+<span class="c1"># make torch_geometric dataset</span>
+<span class="c1"># we want this to be an interable list</span>
+<span class="c1"># x = None because we have no input features</span>
+<span class="k">for</span> <span class="n">frame</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">feat</span><span class="p">,</span> <span class="n">distances</span><span class="p">):</span>
+    <span class="n">traj_data</span> <span class="o">+=</span> <span class="p">[</span>
+        <span class="n">torch_geometric</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">label</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+
+<span class="n">train_split</span> <span class="o">=</span> <span class="mi">1637</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">traj_data</span><span class="p">[:</span><span class="n">train_split</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="n">test_split</span> <span class="o">=</span> <span class="mi">1842</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">traj_data</span><span class="p">[</span><span class="n">train_split</span><span class="p">:</span><span class="n">test_split</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Great! Now we’re ready to define our model. Since this is a pre-built model in E3NN, so we just need to import it and define the model parameters. Note that the state of this model will save automatically, so you will need to reinitialize the model every time you want to start training.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">e3nn.nn.models.gate_points_2101</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">e3nn</span> <span class="kn">import</span> <span class="n">o3</span>
+
+<span class="n">model_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;irreps_in&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># no input features</span>
+    <span class="s2">&quot;irreps_hidden&quot;</span><span class="p">:</span> <span class="n">o3</span><span class="o">.</span><span class="n">Irreps</span><span class="p">(</span><span class="s2">&quot;5x0e + 5x0o + 5x1e + 5x1o&quot;</span><span class="p">),</span>  <span class="c1"># hyperparameter</span>
+    <span class="s2">&quot;irreps_out&quot;</span><span class="p">:</span> <span class="s2">&quot;1x1o&quot;</span><span class="p">,</span>  <span class="c1"># 12 vectors out, but only 1 vector out per input</span>
+    <span class="s2">&quot;irreps_node_attr&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;irreps_edge_attr&quot;</span><span class="p">:</span> <span class="n">o3</span><span class="o">.</span><span class="n">Irreps</span><span class="o">.</span><span class="n">spherical_harmonics</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;layers&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># hyperparameter</span>
+    <span class="s2">&quot;max_radius&quot;</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span>
+    <span class="s2">&quot;number_of_basis&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;radial_layers&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;radial_neurons&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+    <span class="s2">&quot;num_neighbors&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>  <span class="c1"># average number of neighbors w/in max_radius</span>
+    <span class="s2">&quot;num_nodes&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>  <span class="c1"># not important unless reduce_output is True</span>
+    <span class="s2">&quot;reduce_output&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># setting this to true would give us one scalar as an output.</span>
+<span class="p">}</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Network</span><span class="p">(</span><span class="o">**</span><span class="n">model_kwargs</span><span class="p">)</span>  <span class="c1"># initializing model with parameters above</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+
+<span class="c1"># this will print an outline of the model architecture!</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">eta</span><span class="p">)</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">16</span>
+
+<span class="n">val_loss</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">)]</span>
+<span class="n">tr_loss</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">)]</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+        <span class="n">yhat</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">loss_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">yhat</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">tr_loss</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">loss_1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+        <span class="n">loss_1</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">tr_loss</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr_loss</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1637</span>
+
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_loader</span><span class="p">):</span>
+            <span class="n">yhat</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">loss2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">yhat</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">val_loss</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">loss2</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+    <span class="n">val_loss</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_loss</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">/</span> <span class="mi">205</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">val_loss</span><span class="p">)</span>
+<span class="n">t_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">tr_loss</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_loss</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Testing Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">v_loss</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;final loss value: &quot;</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s look at the last (extrapolated) frame from the E3NN model, compared to the baseline model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">last_frame_bl</span> <span class="o">=</span> <span class="n">y_v</span>
+<span class="n">last_frame_e3nn</span> <span class="o">=</span> <span class="n">yhat</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Last Frame Baseline&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">last_frame_bl</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">last_frame_bl</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;o-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Last Frame e3nn&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">last_frame_e3nn</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">last_frame_e3nn</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;o-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Interestingly, it looks like the baseline model predicted a frame that looks more like what we’d expect, even though the loss is much lower in the E3NN model!</p>
+<p>Remember that we trained our model to predict the displacement. We can convert back by just adding our dispacement vectors back to their previous frame. We won’t do it here, but we could do it to extrapolate our E3NN model to predict the next frame <em>not</em> included in the dataset. For now, we have a reasonably well trained model, and we could finish by testing our model for equivariance using the method described <a class="reference external" href="https://docs.e3nn.org/en/stable/guide/equivar_testing.html">here</a>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./applied"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Andrew D. White<br/>
+    
+        &copy; Copyright 2022.<br/>
+      <div class="extra_footer">
+        <a href="http://thewhitelab.org">thewhitelab.org</a> <div id="wh-modal"> <button class="wh-venti-button" aria-label="close modal" id="wh-modal-close">✕</button> <img id="wh-modal-img"> </div>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,540 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" lang="en" name="description" xml:lang="en" />
+<meta content="en_US" property="og:locale" />
+<meta content="summary" name="twitter:card" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" name="twitter:description" />
+<meta content="dmol.pub 📖" name="twitter:title" />
+<meta content="https://dmol.pub/_static/logo.png" name="twitter:image" />
+<meta content="&#64;andrewwhite01" name="twitter:site" />
+
+    <title>Deep Learning for Molecules and Materials Book &#8212; deep learning for molecules &amp; materials</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/a11y.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://resnant.github.io/dmol-book-japanese/README.html" />
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">deep learning for molecules & materials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="index.html">
+   この本の概要
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  A. Math Review
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="math/tensors-and-shapes.html">
+   1. Tensors and Shapes
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  B. Machine Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml/introduction.html">
+   2. 機械学習入門
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml/regression.html">
+   3. Regression &amp; Model Assessment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml/classification.html">
+   4. Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ml/kernel.html">
+   5. カーネル学習
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  C. Deep Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/introduction.html">
+   6. ディープラーニングの概要
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/layers.html">
+   7. Standard Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/gnn.html">
+   8. Graph Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/data.html">
+   9. Input Data &amp; Equivariances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/Equivariant.html">
+   10. Equivariant Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/molnets.html">
+   11. Modern Molecular NNs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/xai.html">
+   12. 予測を説明する
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/attention.html">
+   13. アテンションレイヤー
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/NLP.html">
+   15. Deep Learning on Sequences
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/VAE.html">
+   16. Variational Autoencoder
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/flows.html">
+   17. Normalizing Flows
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  D. Applications
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="applied/QM9.html">
+   18. GNNによるDFTエネルギーの予測
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="applied/MolGenerator.html">
+   19. Generative RNN in Browser
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  E. Contributed Chapters
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="dl/Hyperparameter_tuning.html">
+   20. Hyperparameter Tuning
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  F. Appendix
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="style.html">
+   21. Style Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="changelog.html">
+   22. Changelog
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <script async defer src="https://api.dmol.pub/latest.js"></script><noscript><img src="https://api.dmol.pub/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript> By <a href="https://twitter.com/andrewwhite01">Andrew White</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/README.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/resnant/dmol-book-japanese/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/resnant/dmol-book-japanese//issues/new?title=Issue%20on%20page%20%2FREADME.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   翻訳への協力のお願い
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contribution">
+     contributionの手順
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Deep Learning for Molecules and Materials Book</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   翻訳への協力のお願い
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contribution">
+     contributionの手順
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="deep-learning-for-molecules-and-materials-book">
+<h1>Deep Learning for Molecules and Materials Book<a class="headerlink" href="#deep-learning-for-molecules-and-materials-book" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://github.com/whitead/dmol-book/actions"><img alt="Build Stats" src="https://github.com/whitead/dmol-book/workflows/deploy-book/badge.svg" /></a></p>
+<p>日本語版はこちらから読めます <a class="reference external" href="https://resnant.github.io/dmol-book-japanese/">https://resnant.github.io/dmol-book-japanese/</a></p>
+<p>原著（英語版）はこちらから <a class="reference external" href="https://dmol.pub">dmol.pub</a>
+© Andrew White (original author)</p>
+<section id="id1">
+<h2>翻訳への協力のお願い<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>現在の翻訳の進捗は以下です。もし翻訳を手伝ってもいいよという方がいらっしゃれば、どの章を担当したいかissueでお知らせください。</p>
+<p>A. Math Review</p>
+<ul class="simple">
+<li><p>[ ] 1. Tensors and Shapes</p></li>
+</ul>
+<p>B. Machine Learning</p>
+<ul class="simple">
+<li><p>[x] 2. Introduction to Machine Learning</p></li>
+<li><p>[ ] 3. Regression &amp; Model Assessment</p>
+<ul>
+<li><p>in progress by &#64;Ikwus</p></li>
+</ul>
+</li>
+<li><p>[ ] 4. Classification</p>
+<ul>
+<li><p>in progress by &#64;suzuki-ma</p></li>
+</ul>
+</li>
+<li><p>[x] 5. Kernel Learning</p></li>
+</ul>
+<p>C. Deep Learning</p>
+<ul class="simple">
+<li><p>[x] 6. Deep Learning Overview</p></li>
+<li><p>[ ] 7. Standard Layers</p></li>
+<li><p>[ ] 8. Graph Neural Networks</p>
+<ul>
+<li><p>in progress by &#64;resnant</p></li>
+</ul>
+</li>
+<li><p>[ ] 9. Input Data &amp; Equivariances</p></li>
+<li><p>[ ] 10. Equivariant Neural Networks</p></li>
+<li><p>[ ] 11. Modern Molecular NNs</p></li>
+<li><p>[ ] 12. Explaining Predictions</p>
+<ul>
+<li><p>in progress by &#64;milktea-muffin</p></li>
+</ul>
+</li>
+<li><p>[ ] 13. Attention Layers</p>
+<ul>
+<li><p>in progress by &#64;sunbluesome</p></li>
+</ul>
+</li>
+<li><p>[ ] 14. Deep Learning on Sequences</p></li>
+<li><p>[ ] 15. Variational Autoencoder</p></li>
+<li><p>[ ] 16. Normalizing Flows</p></li>
+</ul>
+<p>D. Applications</p>
+<ul class="simple">
+<li><p>[x] 17. Predicting DFT Energies with GNNs</p></li>
+<li><p>[ ] 18. Generative RNN in Browser</p></li>
+</ul>
+<p>E. Contributed Chapters</p>
+<ul class="simple">
+<li><p>[ ] 19. Hyperparameter Tuning</p></li>
+</ul>
+<section id="contribution">
+<h3>contributionの手順<a class="headerlink" href="#contribution" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>どの章を担当したいか<a class="reference external" href="https://github.com/resnant/dmol-book-japanese/issues/new/choose">issueを立てる</a></p></li>
+</ol>
+<ul class="simple">
+<li><p>念のため、同じ章について既に誰かがissueを立てていないか確認してください</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/resnant/dmol-book-japanese/issues">issue一覧はこちら</a></p></li>
+</ul>
+</li>
+</ul>
+<ol class="simple">
+<li><p>このリポジトリをご自分のアカウントでフォーク</p></li>
+<li><p>ご興味のある章のnotebook(ipynbファイル）を選んで、VS CodeやJupyter上で翻訳し、commit</p></li>
+</ol>
+<ul class="simple">
+<li><p>具体的には、このリポジトリ以下の <code class="docutils literal notranslate"><span class="pre">math/</span></code>, <code class="docutils literal notranslate"><span class="pre">ml/</span></code>, <code class="docutils literal notranslate"><span class="pre">dl/</span></code>, <code class="docutils literal notranslate"><span class="pre">applied/</span></code> の各ディレクトリの中のファイルです</p></li>
+<li><p>ご不明な点などあればissueでお気軽にご相談ください</p></li>
+</ul>
+<ol class="simple">
+<li><p>ご自分のアカウントのリポジトリにpush後、このリポジトリにpull requestを提出</p></li>
+</ol>
+<ul class="simple">
+<li><p>内容を確認してmergeします</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Andrew D. White<br/>
+    
+        &copy; Copyright 2022.<br/>
+      <div class="extra_footer">
+        <a href="http://thewhitelab.org">thewhitelab.org</a> <div id="wh-modal"> <button class="wh-venti-button" aria-label="close modal" id="wh-modal-close">✕</button> <img id="wh-modal-img"> </div>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

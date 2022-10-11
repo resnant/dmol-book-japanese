@@ -1,0 +1,936 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" lang="en" name="description" xml:lang="en" />
+<meta content="en_US" property="og:locale" />
+<meta content="summary" name="twitter:card" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" name="twitter:description" />
+<meta content="dmol.pub 📖" name="twitter:title" />
+<meta content="https://dmol.pub/_static/logo.png" name="twitter:image" />
+<meta content="&#64;andrewwhite01" name="twitter:site" />
+
+    <title>5. カーネル学習 &#8212; deep learning for molecules &amp; materials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/a11y.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://resnant.github.io/dmol-book-japanese/ml/kernel.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6. ディープラーニングの概要" href="../dl/introduction.html" />
+    <link rel="prev" title="4. Classification" href="classification.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">deep learning for molecules & materials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   この本の概要
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  A. Math Review
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../math/tensors-and-shapes.html">
+   1. Tensors and Shapes
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  B. Machine Learning
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="introduction.html">
+   2. 機械学習入門
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="regression.html">
+   3. Regression &amp; Model Assessment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="classification.html">
+   4. Classification
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   5. カーネル学習
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  C. Deep Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/introduction.html">
+   6. ディープラーニングの概要
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/layers.html">
+   7. Standard Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/gnn.html">
+   8. Graph Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/data.html">
+   9. Input Data &amp; Equivariances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/Equivariant.html">
+   10. Equivariant Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/molnets.html">
+   11. Modern Molecular NNs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/xai.html">
+   12. 予測を説明する
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/attention.html">
+   13. アテンションレイヤー
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/NLP.html">
+   15. Deep Learning on Sequences
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/VAE.html">
+   16. Variational Autoencoder
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/flows.html">
+   17. Normalizing Flows
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  D. Applications
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../applied/QM9.html">
+   18. GNNによるDFTエネルギーの予測
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../applied/MolGenerator.html">
+   19. Generative RNN in Browser
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  E. Contributed Chapters
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/Hyperparameter_tuning.html">
+   20. Hyperparameter Tuning
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  F. Appendix
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../style.html">
+   21. Style Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../changelog.html">
+   22. Changelog
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <script async defer src="https://api.dmol.pub/latest.js"></script><noscript><img src="https://api.dmol.pub/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript> By <a href="https://twitter.com/andrewwhite01">Andrew White</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/ml/kernel.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/resnant/dmol-book-japanese/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/resnant/dmol-book-japanese//issues/new?title=Issue%20on%20page%20%2Fml/kernel.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/resnant/dmol-book-japanese/blob/master/ml/kernel.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   5.1. 溶解度の例
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notebook">
+   5.2. Notebookの実行
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   5.3. カーネルの定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   5.4. モデル定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   5.5. トレーニング
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   5.6. 正則化
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   5.7. 学習曲線
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   5.8. 練習問題
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   5.9. 章のまとめ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cited-references">
+   5.10. Cited References
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>カーネル学習</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   5.1. 溶解度の例
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notebook">
+   5.2. Notebookの実行
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   5.3. カーネルの定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   5.4. モデル定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   5.5. トレーニング
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   5.6. 正則化
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   5.7. 学習曲線
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   5.8. 練習問題
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   5.9. 章のまとめ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cited-references">
+   5.10. Cited References
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><span class="section-number">5. </span>カーネル学習<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>カーネル学習は分類、または回帰問題で特徴量を変換する１つの方法です。回帰問題では、以下のような回帰式を用います。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2db579f7-0b57-4c05-ac92-0887309f75f6">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-2db579f7-0b57-4c05-ac92-0887309f75f6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    \hat{y} = \vec{w}\vec{x} + b
+\end{equation}\]</div>
+<p>ここで、 <span class="math notranslate nohighlight">\(\vec{x}\)</span>は次元<span class="math notranslate nohighlight">\(D\)</span>の特徴ベクトルです。カーネル学習では次元<span class="math notranslate nohighlight">\(D\)</span>の特徴ベクトルから次元<span class="math notranslate nohighlight">\(N\)</span>の<em>訓練データ点への距離</em>に変換します。このときの<span class="math notranslate nohighlight">\(N\)</span>は訓練データ点の個数です。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ac521999-ef9d-43c9-8fb8-3557b051e955">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-ac521999-ef9d-43c9-8fb8-3557b051e955" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    \hat{y} = \sum_i^N w_i \left&lt;\vec{x}, \vec{x}_i\right&gt;+ b
+\end{equation}\]</div>
+<p>上式の<span class="math notranslate nohighlight">\(\left&lt;\cdot\right&gt;\)</span>は２つの特徴ベクトル間の距離であり<span class="math notranslate nohighlight">\(\vec{x}_i\)</span>は<span class="math notranslate nohighlight">\(i\)</span>番目の訓練データ点です。<span class="math notranslate nohighlight">\(\vec{x}_i\)</span>は既知の値ですが、<span class="math notranslate nohighlight">\(\vec{x}\)</span>は関数の引数です。</p>
+<div class="admonition- admonition">
+<p class="admonition-title">この章の対象読者と目的</p>
+<p>この章は<a class="reference internal" href="regression.html"><span class="doc">Regression &amp; Model Assessment</span></a>と<a class="reference internal" href="classification.html"><span class="doc">Classification</span></a>に基づいて進められます。この章を修了すると</p>
+<ul class="simple">
+<li><p>主形式と双対形式の違いを見抜けられます。</p></li>
+<li><p>カーネル学習が上手くいきそうだと思ったときにカーネル学習をチョイスすることができます。</p></li>
+<li><p>学習曲線の原理や訓練データサイズと特徴量の個数の間の関係を理解することができます。</p></li>
+</ul>
+</div>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>距離というワードを使っていきますが実際には<span class="math notranslate nohighlight">\(\left&lt;\cdot\right&gt;\)</span>は内積であって距離よりもフレキシブルなものになります。</p>
+</aside>
+<p>この変換による帰結として、訓練データの重みベクトルが特徴量の個数に全く依存しなくなります。**その代わりに重みの個数は訓練データ点の個数に依存します。**これがカーネル学習を用いる理由になります。訓練データがほんの少ししかないのに特徴量ベクトルの次元が大きい(<span class="math notranslate nohighlight">\(N &lt; D\)</span>)といったことはよくあるかもしれません。カーネル定式化を使うことで重みの個数を減らすことができます。特徴空間が線形方程式でモデリングすることが困難な時でも、その特徴空間を訓練データとの距離とみなすことで線形として扱えます(多くの場合、<span class="math notranslate nohighlight">\(N &gt; D\)</span>)。最後に、特徴ベクトルが無限次元(i.e. ベクトルではなく関数のとき)となったり、何らかの理由で特徴ベクトルを計算できないときもあったりします。カーネル学習では、<em>カーネル関数</em><span class="math notranslate nohighlight">\(\left&lt;\cdot\right&gt;\)</span>を定義する必要があるだけで特徴ベクトルを明示的に扱う必要はありません。</p>
+<p>距離関数は<em>カーネル関数</em><span class="math notranslate nohighlight">\(\left&lt;\cdot\right&gt;\)</span>と呼ばれています。カーネル関数は二変数関数（２つの引数を受け取る）であってスカラー値を出力し、以下のような性質を持ちます。</p>
+<ol class="simple">
+<li><p>正定性(Positive): <span class="math notranslate nohighlight">\(\left&lt;x, x'\right&gt; \geq 0\)</span></p></li>
+<li><p>対称性(Symmetric): <span class="math notranslate nohighlight">\(\left&lt;x, x'\right&gt; = \left&lt;x', x \right&gt;\)</span></p></li>
+<li><p>Point-seperating: <span class="math notranslate nohighlight">\(\left&lt;x, x'\right&gt; = 0\)</span> if and only if <span class="math notranslate nohighlight">\(x = x'\)</span></p></li>
+</ol>
+<p>訳者注：Point-separatingにふさわしい訳語が無かったため原著の英語のみを記載した。3番目の性質に類似したものとして距離関数の定義の1つの非退化性がある。</p>
+<p>古典的なカーネル関数の例として<span class="math notranslate nohighlight">\(l_2\)</span>ノルム（ユークリッド距離）があります。<span class="math notranslate nohighlight">\(\left&lt;\vec{x}, \vec{x}'\right&gt;=\sqrt{\sum^D_i (x_i - x_i^{'})^2}\)</span>. 最も興味深いカーネル学習の応用の中には<span class="math notranslate nohighlight">\(x\)</span>がベクトルではなく関数や他の構造化されたオブジェクトであることがあります。</p>
+<div class="tip admonition">
+<p class="admonition-title">主形式と双対形式</p>
+<p><strong>双対形式</strong>とはカーネルを使うときに呼ばれるモデル式のことです。<span class="math notranslate nohighlight">\(\hat{y} = \sum_i^N w_i \left&lt;\vec{x}, \vec{x}_i\right&gt;+ b\)</span>. 双対形式と区別するために通常のモデル式を<strong>主形式</strong>と言うこともできます。<span class="math notranslate nohighlight">\(\hat{y} = \vec{w}\vec{x} + b\)</span>. 主形式もクールに聞こえますね。</p>
+</div>
+<p>カーネル学習は分子モデリングの際にポテンシャルエネルギー関数や力場を学習するための方法として広く使われています。<span id="id2">[<a class="reference internal" href="#id26" title="Matthias Rupp, Alexandre Tkatchenko, Klaus-Robert Müller, and O Anatole Von Lilienfeld. Fast and accurate modeling of molecular atomization energies with machine learning. Physical review letters, 108(5):058301, 2012.">RTMullerVL12</a>, <a class="reference internal" href="#id27" title="Christoph Scherer, René Scheid, Denis Andrienko, and Tristan Bereau. Kernel-based machine learning for efficient simulations of molecular liquids. Journal of Chemical Theory and Computation, 16(5):3194–3204, 2020.">SSAB20</a>]</span></p>
+<section id="id3">
+<h2><span class="section-number">5.1. </span>溶解度の例<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>それでは<a class="reference internal" href="regression.html"><span class="doc">Regression &amp; Model Assessment</span></a>の溶解度データセットAqqSolDB<span id="id4">[<a class="reference internal" href="regression.html#id25" title="Murat Cihan Sorkun, Abhishek Khetan, and Süleyman Er. AqSolDB, a curated reference set of aqueous solubility and 2D descriptors for a diverse set of compounds. Sci. Data, 6(1):143, 2019. doi:10.1038/s41597-019-0151-1.">SKE19</a>]</span>を再び見てみましょう。そのデータセットには水の溶解度の測定値(ラベル)と17個の分子の記述子（特徴量）をもった約10,000件のユニークな化合物があるということを思い出してください。</p>
+</section>
+<section id="notebook">
+<h2><span class="section-number">5.2. </span>Notebookの実行<a class="headerlink" href="#notebook" title="Permalink to this headline">¶</a></h2>
+<p>上の <i aria-label="Launch interactive content" class="fas fa-rocket"></i> をクリックしてインタラクティブなGoogle Colabでこのページを開始しましょう。詳細は下記のインスト―リングパッケージを参照してください。</p>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<p>パッケージをインストールするには新しいセルでこのコードを実行してください。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!pip install dmol-book
+</pre></div>
+</div>
+<p>もしインストールで問題があれば、<a class="reference external" href="https://github.com/whitead/dmol-book/blob/master/package/requirements.txt">このノートブック</a>で使われている最新バージョンのパッケージを取得することができます。</p>
+</div>
+<p>いつもと同じように、下記のコードは読み込みを行っています。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">dmol</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># soldata = pd.read_csv(&#39;https://dataverse.harvard.edu/api/access/datafile/3407241?format=original&amp;gbrecs=true&#39;)</span>
+<span class="n">soldata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/whitead/dmol-book/raw/master/data/curated-solubility-dataset.csv&quot;</span>
+<span class="p">)</span>
+<span class="n">features_start_at</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">soldata</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;MolWt&quot;</span><span class="p">)</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="n">soldata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">features_start_at</span><span class="p">:]</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># standardize the features</span>
+<span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span> <span class="o">-=</span> <span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span> <span class="o">/=</span> <span class="n">soldata</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h2><span class="section-number">5.3. </span>カーネルの定義<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>カーネル関数を作るところから始めましょう。*カーネル関数は微分可能である必要はありません。*深層学習でよく見る関数とは対照的に、カーネル法では洗練された微分不可能な関数を使うことができます。例えば、2分子間のカーネルを計算するために２成分系の分子動力学シミュレーションを用いることができます。効率性とこれまでの内容との一貫性のため、この例でもJAXを用いてカーネル関数を実装していきます。カーネルは２つの特徴ベクトルを受け取ってスカラーを返すということを思い出してください。この例では、シンプルに<span class="math notranslate nohighlight">\(l_2\)</span>ノルムを使います。ただ、次元数で除算することでカーネルに少しひねりを与えてやります。こうすることでカーネル関数の出力のスケールは<span class="math notranslate nohighlight">\(x\)</span>の次元数に依存しなくなります。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">kernel</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h2><span class="section-number">5.4. </span>モデル定義<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>線形回帰を行っているので線形代数の操作をするだけで回帰係数を計算することができます。他にもモデル特有の効率的な最適化手法が多くありますが、ここでは勾配降下法を用いてこの問題にアプローチしていくことにします。</p>
+</aside>
+<p>ここでは、回帰モデル式を<em>双対形式</em>で定義します。任意の点との距離を計算するためにカーネル関数は常に訓練データを引数に持たなければならないということを思い出しましょう。新しい入力データに対して同時に全てのカーネルを計算するためにJAXのバッチ特徴量を使います。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="c1"># make vectorized version of kernel</span>
+    <span class="n">vkernel</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">out_axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># compute kernel with all training data</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">vkernel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">train_x</span><span class="p">)</span>
+    <span class="c1"># dual form</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">yhat</span>
+
+
+<span class="c1"># make batched version that can handle multiple xs</span>
+<span class="n">batch_model</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">out_axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h2><span class="section-number">5.5. </span>トレーニング<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>この時点で訓練可能な重みとモデル式があります。トレーニングを始めるために、損失関数とその勾配を定義する必要があります。ここではいつもと同じように平均二乗誤差を損失関数として用います。前回見たように、正則化を利用することもできますが今のところはスキップしておきましょう。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">batch_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="n">loss_grad</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+
+<span class="c1"># Get 80/20 split</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">soldata</span><span class="p">)</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">soldata</span><span class="p">[:</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">)]</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">soldata</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">)</span> <span class="p">:]</span>
+
+<span class="c1"># convert from pandas dataframe to numpy arrays</span>
+<span class="n">train_x</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="s2">&quot;Solubility&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">test_y</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="s2">&quot;Solubility&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>損失関数を定義し、データを訓練データとテストデータに分けました。トレーニングデータをバッチに分けることも含めて、訓練パラメーターをここで設定していきます。<strong>エポック</strong>とはデータセット全体を通しての1回のイテレーションです。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eta</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+
+
+<span class="c1"># reshape into batches</span>
+<span class="n">batch_num</span> <span class="o">=</span> <span class="n">train_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="n">batch_size</span>
+<span class="c1"># first truncate data so it&#39;s whole nubmer of batches</span>
+<span class="n">trunc</span> <span class="o">=</span> <span class="n">batch_num</span> <span class="o">*</span> <span class="n">batch_size</span>
+<span class="n">train_x</span> <span class="o">=</span> <span class="n">train_x</span><span class="p">[:</span><span class="n">trunc</span><span class="p">]</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">train_y</span><span class="p">[:</span><span class="n">trunc</span><span class="p">]</span>
+<span class="c1"># split into batches</span>
+<span class="n">x_batches</span> <span class="o">=</span> <span class="n">train_x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">train_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">y_batches</span> <span class="o">=</span> <span class="n">train_y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+
+<span class="c1"># make trainable parameters</span>
+<span class="c1"># w = np.random.normal(scale = 1e-30, size=train_x.shape[0])</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">train_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">train_y</span><span class="p">)</span>  <span class="c1"># just set to mean, since it&#39;s a good first guess</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>学習率<span class="math notranslate nohighlight">\(\eta\)</span>が<span class="math notranslate nohighlight">\(10^{-5}\)</span>と普通より小さいことに気が付いた人がいるかもしれません。この理由はというと、約8,000個あるトレーニングデータ点のそれぞれが最後の<span class="math notranslate nohighlight">\(\hat{y}\)</span>に寄与しているからです。それゆえ、もし学習ステップを大きくしてしまうと<span class="math notranslate nohighlight">\(\hat{y}\)</span>に大きな変化を及ぼしてしまう可能性があるのです。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss_progress</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_loss_progress</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="c1"># go in random order</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">batch_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">batch_num</span><span class="p">):</span>
+        <span class="c1"># update step</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x_batches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y_batches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">loss_progress</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">test_loss_progress</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">))</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">loss_grad</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">b</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_progress</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Training Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_loss_progress</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Testing Loss&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Step&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:absl:No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
+</pre></div>
+</div>
+<img alt="../_images/kernel_15_1.png" src="../_images/kernel_15_1.png" />
+</div>
+</div>
+<p>先ほどのトレーニングループとの違いは<code class="docutils literal notranslate"><span class="pre">for</span></code>ループでバッチをランダム化したことです。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yhat</span> <span class="o">=</span> <span class="n">batch_model</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;correlation = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">yhat</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;loss = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">test_y</span> <span class="o">-</span> <span class="n">yhat</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Testing Data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/kernel_17_0.png" src="../_images/kernel_17_0.png" />
+</div>
+</div>
+<p>この結果は過小適合していると見受けられます。いつもと同じように、このコードを高速に実行させたいので、大きいエポック数でコードを実行しませんでした。。エポック数を増やして損失と相関が時間経過とともに改善されていくところを見ることができます。</p>
+</section>
+<section id="id8">
+<h2><span class="section-number">5.6. </span>正則化<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>読者の中には、訓練可能なパラメーター数が意図的に訓練データ点の個数と等しくしてあることに気づいた人がいるかもしれません。もし仮に擬似逆行列を用いて回帰係数を直接計算した場合、これのせいで問題に直面することがあります。それゆえ、行列計算の解が数学的に扱いやすくできるように、そして訓練可能パラメーターが多いほうが賢明だと思われるので正則化項を追加します。線形回帰モデルで見てきたように、L1回帰は<strong>ラッソ・リッジ回帰</strong>として知られ、L2回帰は<strong>カーネルリッジ回帰</strong>として知られます。L1回帰は特徴量の重要度を解釈するのに使える特定のパラメーターを洗い出すことができることを思い出してください。しかしながら、カーネル法では特定の訓練データ点との関係を示すだけで何も現実的な洞察を与えてはくれません(<a class="reference internal" href="../dl/xai.html"><span class="doc">予測を説明する</span></a>)参照)。そういうわけでカーネルリッジ回帰はカーネル法の範疇では有名です。</p>
+</section>
+<section id="id9">
+<h2><span class="section-number">5.7. </span>学習曲線<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>（<a class="reference internal" href="regression.html"><span class="doc">Regression &amp; Model Assessment</span></a>のバイアス-バリアンストレードオフは、モデルの複雑さを増加させると、モデルのバリアンス（トレーニングデータの選択の仕方と量により強く影響を受ける）の増加を犠牲にしてどれほどモデルのバイアス（より表現力が高く、より良くデータに適合できる）を軽減できるかについて示しました。モデルの複雑さは特徴量の個数を調整することによって制御することができました。カーネル法では特徴量の個数をコントロールしません。というのもそれが訓練データ点の個数と常に一致するからです。それゆえ、カーネルの選択や正則化、学習率などのようなハイパーパラメーターをコントロールするだけになります。このハイパーパラメーターの効果を評価するためにテストの損失を計算するだけでは終わることはできません。なぜならその損失がトレーニングデータの量に強く関係しているからです。多くの訓練データがあるということはモデルがより洗練されるということを意味し、損失の値が減少します。なので、とりわけカーネル学習ではトレーニングデータの量に対してテスト損失の値がどれほど変わるのかを示すということは常識的なことです。値が大きなスケールで変化するのでこれらは対数-対数プロットで示されます。これらは<strong>学習曲線</strong>(もしくは<strong>Learning curves</strong>)と呼ばれています。学習曲線は機械学習や深層学習で広く使われていますが、カーネル学習でも頻繁に見ることになります。</p>
+<p>溶解度のモデルに再び戻って学習曲線を用いてL1とL2の正則化を比較してみましょう。注意しておきますが、<span class="math notranslate nohighlight">\(M\)</span>個のモデル（<span class="math notranslate nohighlight">\(M\)</span>は学習曲線で取得したい点の個数）を計算しなければならないので、このコードは非常に遅くなります。このテキストでは効率性を保つために学習曲線上の点として数個を用いることにします。</p>
+<p>最初にトレーニングの過程を関数にまとめます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fit_model</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">npoints</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+
+    <span class="n">sample_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">train_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">npoints</span>
+    <span class="p">)</span>
+    <span class="n">sample_x</span> <span class="o">=</span> <span class="n">train_x</span><span class="p">[</span><span class="n">sample_idx</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">sample_y</span> <span class="o">=</span> <span class="n">train_y</span><span class="p">[</span><span class="n">sample_idx</span><span class="p">]</span>
+
+    <span class="c1"># reshape into batches</span>
+    <span class="n">batch_num</span> <span class="o">=</span> <span class="n">npoints</span> <span class="o">//</span> <span class="n">batch_size</span>
+    <span class="c1"># first truncate data so it&#39;s whole nubmer of batches</span>
+    <span class="n">trunc</span> <span class="o">=</span> <span class="n">batch_num</span> <span class="o">*</span> <span class="n">batch_size</span>
+    <span class="n">sample_x</span> <span class="o">=</span> <span class="n">sample_x</span><span class="p">[:</span><span class="n">trunc</span><span class="p">]</span>
+    <span class="n">sample_y</span> <span class="o">=</span> <span class="n">sample_y</span><span class="p">[:</span><span class="n">trunc</span><span class="p">]</span>
+    <span class="c1"># split into batches</span>
+    <span class="n">x_batches</span> <span class="o">=</span> <span class="n">sample_x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">sample_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">y_batches</span> <span class="o">=</span> <span class="n">sample_y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+    <span class="c1"># get loss grad</span>
+    <span class="n">loss_grad</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># make trainable parameters</span>
+    <span class="c1"># w = np.random.normal(scale = 1e-30, size=train_x.shape[0])</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sample_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sample_y</span><span class="p">)</span>  <span class="c1"># just set to mean, since it&#39;s a good first guess</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="c1"># go in random order</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">batch_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">batch_num</span><span class="p">):</span>
+            <span class="c1"># update step</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x_batches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y_batches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">loss_grad</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">sample_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">w</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">b</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">sample_x</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">)</span>
+
+
+<span class="c1"># test it out</span>
+<span class="n">fit_model</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray(3.8454313, dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>ここでは私たち専用のL1とL2バージョンの損失関数を作っていきます。正則化の*強度(strength)*を選択しなければなりません。重みは1より小さいのでL2に対してはよりもっと強い正則化の強度を選択することにします。これらはハイパーパラメーターですがフィッティングを向上させるために調整しても問題ないです。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">loss_l1</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">batch_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-2</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+        <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">loss_l2</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">batch_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e2</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>そして、学習曲線に必要な点を生成します！</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nvalues</span> <span class="o">=</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">,</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="n">nor_losses</span> <span class="o">=</span> <span class="p">[</span><span class="n">fit_model</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nvalues</span><span class="p">]</span>
+<span class="n">l1_losses</span> <span class="o">=</span> <span class="p">[</span><span class="n">fit_model</span><span class="p">(</span><span class="n">loss_l1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nvalues</span><span class="p">]</span>
+<span class="n">l2_losses</span> <span class="o">=</span> <span class="p">[</span><span class="n">fit_model</span><span class="p">(</span><span class="n">loss_l2</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nvalues</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nvalues</span><span class="p">,</span> <span class="n">nor_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;No Regularization&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nvalues</span><span class="p">,</span> <span class="n">l1_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;L1 Regularization&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nvalues</span><span class="p">,</span> <span class="n">l2_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;L2 Regularization&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Training Data Amount&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Test Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/kernel_26_0.png" src="../_images/kernel_26_0.png" />
+</div>
+</div>
+<p>最後に別々のアプローチをとった学習曲線を見てみましょう。正則化はテストデータの最終的な損失になにかしらの影響を及ぼしています。L1とL2正則化は単純に悪くなっているかの是非や正則化の強度をもっと調整したほうが良いかどうかについて言及することは困難です。とは言え、このプロットを見る限りでは我々がカーネル学習法を典型的な方法で評価したということはわかります。</p>
+</section>
+<section id="id10">
+<h2><span class="section-number">5.8. </span>練習問題<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>双対形式の回帰式から勾配を計算し、その計算結果を用いてカーネル関数がなぜ微分可能である必要がないのかについて説明しなさい。</p></li>
+<li><p>カーネル学習でトレーニングを行うと速いか遅いか？説明しなさい。</p></li>
+<li><p>カーネル学習で予測するのは速いか遅いか？説明しなさい。</p></li>
+<li><p>分類タスクを行うために式4.2をどのように修正すればよいか？</p></li>
+<li><p>カーネルの種類に関わらず、重みの値がトレーニングデータの相対的な重要度を示しているだろうか？</p></li>
+<li><p>上記の例からL1正則化の強度が異なる5つの学習曲線を作成しなさい。この例で正則化が意味をなさないのないのはなぜか？</p></li>
+</ol>
+</section>
+<section id="id11">
+<h2><span class="section-number">5.9. </span>章のまとめ<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>この章ではカーネル学習を紹介した。カーネル学習は特徴量をサンプル間の距離に変換する方法である。</p></li>
+<li><p>カーネル関数は2つの引数を受け取ってスカラーを出力する。カーネル関数は3つの性質を持たなければならない（正定性(positive)・対称性(symmetry)・Point-separating）。）</p></li>
+<li><p>距離関数（内積）はカーネル関数である。</p></li>
+<li><p>カーネル関数は微分可能である必要はない。</p></li>
+<li><p>カーネル学習は二変数カーネル関数だけで定められる特徴量を使いたいときに相応しい手法である。</p></li>
+<li><p>カーネルモデルの訓練可能パラメーターの個数は特徴量の次元数ではなく訓練データ点の個数に比例する。</p></li>
+</ul>
+</section>
+<section id="cited-references">
+<h2><span class="section-number">5.10. </span>Cited References<a class="headerlink" href="#cited-references" title="Permalink to this headline">¶</a></h2>
+<div class="docutils container" id="id12">
+<dl class="citation">
+<dt class="label" id="id28"><span class="brackets"><a class="fn-backref" href="#id4">SKE19</a></span></dt>
+<dd><p>Murat Cihan Sorkun, Abhishek Khetan, and Süleyman Er. AqSolDB, a curated reference set of aqueous solubility and 2D descriptors for a diverse set of compounds. <em>Sci. Data</em>, 6(1):143, 2019. <a class="reference external" href="https://doi.org/10.1038/s41597-019-0151-1">doi:10.1038/s41597-019-0151-1</a>.</p>
+</dd>
+<dt class="label" id="id27"><span class="brackets"><a class="fn-backref" href="#id2">SSAB20</a></span></dt>
+<dd><p>Christoph Scherer, René Scheid, Denis Andrienko, and Tristan Bereau. Kernel-based machine learning for efficient simulations of molecular liquids. <em>Journal of Chemical Theory and Computation</em>, 16(5):3194–3204, 2020.</p>
+</dd>
+<dt class="label" id="id26"><span class="brackets"><a class="fn-backref" href="#id2">RTMullerVL12</a></span></dt>
+<dd><p>Matthias Rupp, Alexandre Tkatchenko, Klaus-Robert Müller, and O Anatole Von Lilienfeld. Fast and accurate modeling of molecular atomization energies with machine learning. <em>Physical review letters</em>, 108(5):058301, 2012.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./ml"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="classification.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">4. </span>Classification</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../dl/introduction.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>ディープラーニングの概要</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Andrew D. White<br/>
+    
+        &copy; Copyright 2022.<br/>
+      <div class="extra_footer">
+        <a href="http://thewhitelab.org">thewhitelab.org</a> <div id="wh-modal"> <button class="wh-venti-button" aria-label="close modal" id="wh-modal-close">✕</button> <img id="wh-modal-img"> </div>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

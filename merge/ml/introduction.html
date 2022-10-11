@@ -1,0 +1,1716 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" lang="en" name="description" xml:lang="en" />
+<meta content="en_US" property="og:locale" />
+<meta content="summary" name="twitter:card" />
+<meta content="Deep Learning for Molecules &amp; Materials Book" name="twitter:description" />
+<meta content="dmol.pub 📖" name="twitter:title" />
+<meta content="https://dmol.pub/_static/logo.png" name="twitter:image" />
+<meta content="&#64;andrewwhite01" name="twitter:site" />
+
+    <title>2. 機械学習入門 &#8212; deep learning for molecules &amp; materials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/a11y.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://resnant.github.io/dmol-book-japanese/ml/introduction.html" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Regression &amp; Model Assessment" href="regression.html" />
+    <link rel="prev" title="1. Tensors and Shapes" href="../math/tensors-and-shapes.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">deep learning for molecules & materials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   この本の概要
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  A. Math Review
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../math/tensors-and-shapes.html">
+   1. Tensors and Shapes
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  B. Machine Learning
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2. 機械学習入門
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="regression.html">
+   3. Regression &amp; Model Assessment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="classification.html">
+   4. Classification
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="kernel.html">
+   5. カーネル学習
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  C. Deep Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/introduction.html">
+   6. ディープラーニングの概要
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/layers.html">
+   7. Standard Layers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/gnn.html">
+   8. Graph Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/data.html">
+   9. Input Data &amp; Equivariances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/Equivariant.html">
+   10. Equivariant Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/molnets.html">
+   11. Modern Molecular NNs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/xai.html">
+   12. 予測を説明する
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/attention.html">
+   13. アテンションレイヤー
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/NLP.html">
+   15. Deep Learning on Sequences
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/VAE.html">
+   16. Variational Autoencoder
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/flows.html">
+   17. Normalizing Flows
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  D. Applications
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../applied/QM9.html">
+   18. GNNによるDFTエネルギーの予測
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../applied/MolGenerator.html">
+   19. Generative RNN in Browser
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  E. Contributed Chapters
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../dl/Hyperparameter_tuning.html">
+   20. Hyperparameter Tuning
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  F. Appendix
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../style.html">
+   21. Style Guide
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../changelog.html">
+   22. Changelog
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  <script async defer src="https://api.dmol.pub/latest.js"></script><noscript><img src="https://api.dmol.pub/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript> By <a href="https://twitter.com/andrewwhite01">Andrew White</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/ml/introduction.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/resnant/dmol-book-japanese/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/resnant/dmol-book-japanese//issues/new?title=Issue%20on%20page%20%2Fml/introduction.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/resnant/dmol-book-japanese/blob/master/ml/introduction.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   2.1. 用語の説明
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   2.2. 教師あり学習
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notebook">
+   2.3. Notebookの実行
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     2.3.1. データのロード
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     2.3.2. データ探索
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     2.3.3. 特徴量の相関
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     2.3.4. 線形モデル
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     2.3.5. 勾配降下法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id15">
+     2.3.6. 学習曲線
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     2.3.7. バッチ処理
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id17">
+     2.3.8. 特徴量の標準化
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id18">
+     2.3.9. モデル性能の分析
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id19">
+   2.4. 教師なし学習
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id20">
+     2.4.1. クラスタリング
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id21">
+     2.4.2. クラスター数の選択
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id23">
+   2.5. まとめ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id24">
+   2.6. 練習問題
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id25">
+     2.6.1. データ処理
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id26">
+     2.6.2. 線形モデル
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id27">
+     2.6.3. 損失関数の最小化
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id28">
+     2.6.4. クラスタリング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cited-references">
+   2.7. Cited References
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>機械学習入門</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   2.1. 用語の説明
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   2.2. 教師あり学習
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#notebook">
+   2.3. Notebookの実行
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     2.3.1. データのロード
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     2.3.2. データ探索
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     2.3.3. 特徴量の相関
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     2.3.4. 線形モデル
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     2.3.5. 勾配降下法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id15">
+     2.3.6. 学習曲線
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     2.3.7. バッチ処理
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id17">
+     2.3.8. 特徴量の標準化
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id18">
+     2.3.9. モデル性能の分析
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id19">
+   2.4. 教師なし学習
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id20">
+     2.4.1. クラスタリング
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id21">
+     2.4.2. クラスター数の選択
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id23">
+   2.5. まとめ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id24">
+   2.6. 練習問題
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id25">
+     2.6.1. データ処理
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id26">
+     2.6.2. 線形モデル
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id27">
+     2.6.3. 損失関数の最小化
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id28">
+     2.6.4. クラスタリング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cited-references">
+   2.7. Cited References
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1><span class="section-number">2. </span>機械学習入門<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p><em>機械学習入門</em>と呼ばれる記事は、おそらくwebサイト上に数千件あります。本稿では、これらの記事を書き直すのではなく、化学での応用に焦点を当てた主要な概念を紹介することにします。 以下に入門的な資料を挙げます。新しいより良いものがほかにあれば教えてください。</p>
+<ol class="simple">
+<li><p>原著者が大学院で初めて読んだ、機械学習についてのEthem Alpaydinによって書かれた本<span id="id2">[<a class="reference internal" href="#id33" title="Ethem Alpaydin. Introduction to machine learning. MIT press, 2020.">Alp20</a>]</span></p></li>
+<li><p>Nils Nillsonのオンラインブック <a class="reference external" href="https://ai.stanford.edu/~nilsson/mlbook.html"><ins>Introductory Machine Learning</ins></a></p></li>
+<li><p>物質科学における機械学習についての2つのreview<span id="id3">[<a class="reference internal" href="#id39" title="Victor Fung, Jiaxin Zhang, Eric Juarez, and Bobby G. Sumpter. Benchmarking graph neural networks for materials chemistry. npj Computational Materials, June 2021. URL: https://doi.org/10.1038/s41524-021-00554-0, doi:10.1038/s41524-021-00554-0.">FZJS21</a>, <a class="reference internal" href="#id34" title="Prasanna V Balachandran. Machine learning guided design of functional materials with targeted properties. Computational Materials Science, 164:82–90, 2019.">Bal19</a>]</span></p></li>
+<li><p>計算科学における機械学習についての2つのreview<span id="id4">[<a class="reference internal" href="#id40" title="Rafael Gómez-Bombarelli and Alán Aspuru-Guzik. Machine learning and big-data in computational chemistry. Handbook of Materials Modeling: Methods: Theory and Modeling, pages 1939–1962, 2020.">GomezBAG20</a>]</span></p></li>
+<li><p>金属科学における機械学習についての2つのreview<span id="id5">[<a class="reference internal" href="#id42" title="Aditya Nandy, Chenru Duan, Jon Paul Janet, Stefan Gugler, and Heather J Kulik. Strategies and software for machine learning accelerated discovery in transition metal chemistry. Industrial &amp; Engineering Chemistry Research, 57(42):13973–13986, 2018.">NDJ+18</a>]</span></p></li>
+</ol>
+<p>これらの資料から、機械学習がデータをモデリングする手法であり、一般的にはには予測機能を持つことを学んでいただけると思います。機械学習には多くの手法が含まれますが、ここでは深層学習を学ぶために必要なものだけを取り上げます。例えば、ランダムフォレスト、サポートベクターマシン、最近傍探索などは広く使われている機械学習手法で、今でも有効な手法ですが、ここでは取り上げません。</p>
+<div class="admonition- admonition">
+<p class="admonition-title">読者層と目的</p>
+<p>本章は、化学とpythonについてある程度知識のある機械学習の初心者を対象としており、そうでない場合には上記の入門記事のいずれかに目を通しておくことをお勧めします。この記事では、<code class="docutils literal notranslate"><span class="pre">pandas</span></code>の知識（カラムの読み込みと選択）、<code class="docutils literal notranslate"><span class="pre">rdkit</span></code>の知識（分子の描き方）、分子を<a class="reference external" href="https://en.wikipedia.org/wiki/Simplified_molecular-input_line-entry_system">SMILES</a> <span id="id6">[<a class="reference internal" href="#id137" title="David Weininger. Smiles, a chemical language and information system. 1. introduction to methodology and encoding rules. Journal of chemical information and computer sciences, 28(1):31–36, 1988.">Wei88</a>]</span>として保存する方法についてある程度の知識を想定しています。この章を読むと、以下のことができるようになると想定されます。</p>
+<ul class="simple">
+<li><p>特徴量、ラベルの定義</p></li>
+<li><p>教師あり学習と教師なし学習を区別できる。</p></li>
+<li><p>損失関数とは何か、勾配降下法を用いてどのように最小化できるかを理解する。</p></li>
+<li><p>モデルとは何か、特徴とラベルとの関係を理解する。</p></li>
+<li><p>データのクラスタリングができ、それがデータについて何を示すかを説明できる。</p></li>
+</ul>
+</div>
+<section id="id7">
+<h2><span class="section-number">2.1. </span>用語の説明<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>機械学習とは、データに当てはめてモデルを構築することを目指す分野です。
+まず、言葉を定義します。</p>
+<p><strong>特徴量</strong></p>
+<p>    次元<span class="math notranslate nohighlight">\(D\)</span>の<span class="math notranslate nohighlight">\(N\)</span>個のベクトル <span class="math notranslate nohighlight">\(\{\vec{x}_i\}\)</span> の集合です。実数、整数等が用いられます。</p>
+<p><strong>ラベル</strong></p>
+<p>    <span class="math notranslate nohighlight">\(N\)</span> 個の整数または実数の集合 <span class="math notranslate nohighlight">\(\{y_i\}\)</span>。<span class="math notranslate nohighlight">\(y_i\)</span> は通常スカラーです。</p>
+<p><strong>ラベル付きデータ</strong></p>
+<p>    <span class="math notranslate nohighlight">\(N\)</span> 個のtupleからなる集合 <span class="math notranslate nohighlight">\(\{\left(\vec{x}_i, y_i\right)\}\)</span> を指します。</p>
+<p><strong>ラベルなしデータ</strong></p>
+<p>    ラベル <span class="math notranslate nohighlight">\(y\)</span> が未知の <span class="math notranslate nohighlight">\(N\)</span> 個の特徴量 <span class="math notranslate nohighlight">\(\{\vec{x}_i\}\)</span> の集合を指します。</p>
+<p><strong>モデル</strong></p>
+<p>    特徴ベクトルを受け取り、予測結果 <span class="math notranslate nohighlight">\(\hat{y}\)</span> を出力する関数 <span class="math notranslate nohighlight">\(f(\vec{x})\)</span> を指します。</p>
+<p><strong>予測結果</strong></p>
+<p>     与えられた入力 <span class="math notranslate nohighlight">\(\vec{x}\)</span> に対し、モデルを通して得られた予測結果 <span class="math notranslate nohighlight">\(\hat{y}\)</span> のことを指します。</p>
+</section>
+<section id="id8">
+<h2><span class="section-number">2.2. </span>教師あり学習<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>最初のタスクは<strong>教師あり学習</strong>です。教師あり学習とは、データで学習したモデルで <span class="math notranslate nohighlight">\(\vec{x}\)</span> から <span class="math notranslate nohighlight">\(y\)</span> を予測する方法です。このタスクは、データセットに含まれるラベルをアルゴリズムに教えることで学習を進めるため、<em>教師あり</em>学習と呼ばれています。もう一つの方法は<strong>教師なし学習</strong>で、アルゴリズムにラベルを教えない方法です。この教師あり／教師なしの区別は後でもっと厳密になりますが、今のところはこの定義で十分です。</p>
+<p>例として、AqSolDB<span id="id9">[<a class="reference internal" href="regression.html#id25" title="Murat Cihan Sorkun, Abhishek Khetan, and Süleyman Er. AqSolDB, a curated reference set of aqueous solubility and 2D descriptors for a diverse set of compounds. Sci. Data, 6(1):143, 2019. doi:10.1038/s41597-019-0151-1.">SKE19</a>]</span>という、約1万種類の化合物と、その水への溶解度の測定結果(ラベル)についてのデータセットを使ってみます。このデータセットには、機械学習に利用できる分子特性（特徴量）も含まれています。溶解度の測定結果は、化合物の水への溶解度をlog molarityの単位で表したものになります。</p>
+</section>
+<section id="notebook">
+<h2><span class="section-number">2.3. </span>Notebookの実行<a class="headerlink" href="#notebook" title="Permalink to this headline">¶</a></h2>
+<p>上にある  <i aria-label="Launch interactive content" class="fas fa-rocket"></i>  をクリックすると、このページがインタラクティブなGoogle Colab Notebookとして起動されるようになります。 パッケージのインストールについては、以下を参照してください。</p>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<p>パッケージをインストールするには、新しいセルで次のコードを実行します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!pip install dmol-book
+</pre></div>
+</div>
+<p>インストールに問題が生じた場合は、<a class="reference external" href="https://github.com/whitead/dmol-book/blob/master/package/requirements.txt">このリンク</a>から使用されているパッケージリストの最新版を入手することができます。</p>
+</div>
+<section id="id10">
+<h3><span class="section-number">2.3.1. </span>データのロード<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>データをダウンロードし、<a class="reference external" href="https://pandas.pydata.org/">Pandas</a>のデータフレームにロードします。以下のセルでは、インポートや必要なパッケージのインストールを設定します。</p>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">from</span> <span class="nn">jax.example_libraries</span> <span class="kn">import</span> <span class="n">optimizers</span>
+<span class="kn">import</span> <span class="nn">sklearn.manifold</span><span class="o">,</span> <span class="nn">sklearn.cluster</span>
+<span class="kn">import</span> <span class="nn">rdkit</span><span class="o">,</span> <span class="nn">rdkit.Chem</span><span class="o">,</span> <span class="nn">rdkit.Chem.Draw</span>
+<span class="kn">import</span> <span class="nn">dmol</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># soldata = pd.read_csv(&#39;https://dataverse.harvard.edu/api/access/datafile/3407241?format=original&amp;gbrecs=true&#39;)</span>
+<span class="c1"># had to rehost because dataverse isn&#39;t reliable</span>
+<span class="n">soldata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://github.com/whitead/dmol-book/raw/master/data/curated-solubility-dataset.csv&quot;</span>
+<span class="p">)</span>
+<span class="n">soldata</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>InChI</th>
+      <th>InChIKey</th>
+      <th>SMILES</th>
+      <th>Solubility</th>
+      <th>SD</th>
+      <th>Ocurrences</th>
+      <th>Group</th>
+      <th>MolWt</th>
+      <th>...</th>
+      <th>NumRotatableBonds</th>
+      <th>NumValenceElectrons</th>
+      <th>NumAromaticRings</th>
+      <th>NumSaturatedRings</th>
+      <th>NumAliphaticRings</th>
+      <th>RingCount</th>
+      <th>TPSA</th>
+      <th>LabuteASA</th>
+      <th>BalabanJ</th>
+      <th>BertzCT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>A-3</td>
+      <td>N,N,N-trimethyloctadecan-1-aminium bromide</td>
+      <td>InChI=1S/C21H46N.BrH/c1-5-6-7-8-9-10-11-12-13-...</td>
+      <td>SZEMGTQCPRNXEG-UHFFFAOYSA-M</td>
+      <td>[Br-].CCCCCCCCCCCCCCCCCC[N+](C)(C)C</td>
+      <td>-3.616127</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>G1</td>
+      <td>392.510</td>
+      <td>...</td>
+      <td>17.0</td>
+      <td>142.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>158.520601</td>
+      <td>0.000000e+00</td>
+      <td>210.377334</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>A-4</td>
+      <td>Benzo[cd]indol-2(1H)-one</td>
+      <td>InChI=1S/C11H7NO/c13-11-8-5-1-3-7-4-2-6-9(12-1...</td>
+      <td>GPYLCFQEKPUWLD-UHFFFAOYSA-N</td>
+      <td>O=C1Nc2cccc3cccc1c23</td>
+      <td>-3.254767</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>G1</td>
+      <td>169.183</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>62.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>29.10</td>
+      <td>75.183563</td>
+      <td>2.582996e+00</td>
+      <td>511.229248</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>A-5</td>
+      <td>4-chlorobenzaldehyde</td>
+      <td>InChI=1S/C7H5ClO/c8-7-3-1-6(5-9)2-4-7/h1-5H</td>
+      <td>AVPYQKSLYISFPO-UHFFFAOYSA-N</td>
+      <td>Clc1ccc(C=O)cc1</td>
+      <td>-2.177078</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>G1</td>
+      <td>140.569</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>46.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>17.07</td>
+      <td>58.261134</td>
+      <td>3.009782e+00</td>
+      <td>202.661065</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>A-8</td>
+      <td>zinc bis[2-hydroxy-3,5-bis(1-phenylethyl)benzo...</td>
+      <td>InChI=1S/2C23H22O3.Zn/c2*1-15(17-9-5-3-6-10-17...</td>
+      <td>XTUPUYCJWKHGSW-UHFFFAOYSA-L</td>
+      <td>[Zn++].CC(c1ccccc1)c2cc(C(C)c3ccccc3)c(O)c(c2)...</td>
+      <td>-3.924409</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>G1</td>
+      <td>756.226</td>
+      <td>...</td>
+      <td>10.0</td>
+      <td>264.0</td>
+      <td>6.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>6.0</td>
+      <td>120.72</td>
+      <td>323.755434</td>
+      <td>2.322963e-07</td>
+      <td>1964.648666</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>A-9</td>
+      <td>4-({4-[bis(oxiran-2-ylmethyl)amino]phenyl}meth...</td>
+      <td>InChI=1S/C25H30N2O4/c1-5-20(26(10-22-14-28-22)...</td>
+      <td>FAUAZXVRLVIARB-UHFFFAOYSA-N</td>
+      <td>C1OC1CN(CC2CO2)c3ccc(Cc4ccc(cc4)N(CC5CO5)CC6CO...</td>
+      <td>-4.662065</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>G1</td>
+      <td>422.525</td>
+      <td>...</td>
+      <td>12.0</td>
+      <td>164.0</td>
+      <td>2.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>6.0</td>
+      <td>56.60</td>
+      <td>183.183268</td>
+      <td>1.084427e+00</td>
+      <td>769.899934</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 26 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="id11">
+<h3><span class="section-number">2.3.2. </span>データ探索<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<aside class="margin sidebar">
+<p class="sidebar-title">EDA</p>
+<p>EDAを特徴量の選択として行う場合、テストデータでモデルの選択に影響を与えないように、EDAを行う前にtrain/test/(valid)の分割を行う必要があります。</p>
+</aside>
+<p>分子には、分子量、回転可能な結合、価電子など、様々な特徴量となりうるものがあります。そしてもちろん、今回のデータセットにおいてラベルとなる<strong>溶解度</strong>という指標もあります。このデータセットに対して私たちが常に最初に行うべきことの一つは、<strong>探索的データ解析</strong>（EDA）と呼ばれるプロセスでデータについての理解を深めることです。まず、ラベルやデータの大枠を知るために、いくつかの具体的な例を調べることから始めましょう。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot one molecule</span>
+<span class="n">mol</span> <span class="o">=</span> <span class="n">rdkit</span><span class="o">.</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromInchi</span><span class="p">(</span><span class="n">soldata</span><span class="o">.</span><span class="n">InChI</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">mol</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><?xml version='1.0' encoding='iso-8859-1'?>
+<svg version='1.1' baseProfile='full'
+              xmlns='http://www.w3.org/2000/svg'
+                      xmlns:rdkit='http://www.rdkit.org/xml'
+                      xmlns:xlink='http://www.w3.org/1999/xlink'
+                  xml:space='preserve'
+width='450px' height='150px' viewBox='0 0 450 150'>
+<!-- END OF HEADER -->
+<rect style='opacity:1.0;fill:#FFFFFF;stroke:none' width='450.0' height='150.0' x='0.0' y='0.0'> </rect>
+<path class='bond-0 atom-0 atom-4' d='M 429.5,79.9 L 408.2,92.6' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-1 atom-1 atom-21' d='M 30.0,106.7 L 39.7,89.4' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-2 atom-2 atom-21' d='M 54.3,63.4 L 44.6,80.7' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-3 atom-3 atom-21' d='M 20.5,72.9 L 38.7,83.1' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-4 atom-4 atom-5' d='M 408.2,92.6 L 386.5,80.5' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-5 atom-5 atom-6' d='M 386.5,80.5 L 365.1,93.2' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-6 atom-6 atom-7' d='M 365.1,93.2 L 343.5,81.1' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-7 atom-7 atom-8' d='M 343.5,81.1 L 322.1,93.8' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-8 atom-8 atom-9' d='M 322.1,93.8 L 300.4,81.6' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-9 atom-9 atom-10' d='M 300.4,81.6 L 279.1,94.3' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-10 atom-10 atom-11' d='M 279.1,94.3 L 257.4,82.2' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-11 atom-11 atom-12' d='M 257.4,82.2 L 236.0,94.9' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-12 atom-12 atom-13' d='M 236.0,94.9 L 214.3,82.8' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-13 atom-13 atom-14' d='M 214.3,82.8 L 193.0,95.5' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-14 atom-14 atom-15' d='M 193.0,95.5 L 171.3,83.3' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-15 atom-15 atom-16' d='M 171.3,83.3 L 149.9,96.0' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-16 atom-16 atom-17' d='M 149.9,96.0 L 128.2,83.9' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-17 atom-17 atom-18' d='M 128.2,83.9 L 106.9,96.6' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-18 atom-18 atom-19' d='M 106.9,96.6 L 85.2,84.5' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-19 atom-19 atom-20' d='M 85.2,84.5 L 63.8,97.2' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='bond-20 atom-20 atom-21' d='M 63.8,97.2 L 45.6,87.0' style='fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.0px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1' />
+<path class='atom-21' d='M 40.6 81.5
+L 42.9 85.3
+Q 43.1 85.6, 43.5 86.3
+Q 43.9 87.0, 43.9 87.0
+L 43.9 81.5
+L 44.8 81.5
+L 44.8 88.6
+L 43.8 88.6
+L 41.4 84.5
+Q 41.1 84.0, 40.8 83.5
+Q 40.5 82.9, 40.4 82.7
+L 40.4 88.6
+L 39.5 88.6
+L 39.5 81.5
+L 40.6 81.5
+' fill='#000000'/>
+<path class='atom-21' d='M 45.6 82.8
+L 46.9 82.8
+L 46.9 81.5
+L 47.4 81.5
+L 47.4 82.8
+L 48.7 82.8
+L 48.7 83.3
+L 47.4 83.3
+L 47.4 84.6
+L 46.9 84.6
+L 46.9 83.3
+L 45.6 83.3
+L 45.6 82.8
+' fill='#000000'/>
+<path class='atom-22' d='M 205.2 46.6
+Q 205.9 46.8, 206.2 47.2
+Q 206.6 47.6, 206.6 48.2
+Q 206.6 49.2, 206.0 49.8
+Q 205.3 50.3, 204.2 50.3
+L 201.8 50.3
+L 201.8 43.3
+L 203.9 43.3
+Q 205.1 43.3, 205.7 43.8
+Q 206.3 44.2, 206.3 45.1
+Q 206.3 46.2, 205.2 46.6
+M 202.7 44.1
+L 202.7 46.3
+L 203.9 46.3
+Q 204.6 46.3, 204.9 46.0
+Q 205.3 45.7, 205.3 45.1
+Q 205.3 44.1, 203.9 44.1
+L 202.7 44.1
+M 204.2 49.5
+Q 204.9 49.5, 205.2 49.2
+Q 205.6 48.9, 205.6 48.2
+Q 205.6 47.7, 205.2 47.4
+Q 204.8 47.1, 204.0 47.1
+L 202.7 47.1
+L 202.7 49.5
+L 204.2 49.5
+' fill='#000000'/>
+<path class='atom-22' d='M 207.8 45.2
+L 207.9 45.9
+Q 208.4 45.1, 209.3 45.1
+Q 209.6 45.1, 210.0 45.2
+L 209.8 46.0
+Q 209.4 45.9, 209.2 45.9
+Q 208.7 45.9, 208.5 46.1
+Q 208.2 46.3, 208.0 46.7
+L 208.0 50.3
+L 207.0 50.3
+L 207.0 45.2
+L 207.8 45.2
+' fill='#000000'/>
+<path class='atom-22' d='M 210.1 45.4
+L 212.5 45.4
+L 212.5 45.9
+L 210.1 45.9
+L 210.1 45.4
+' fill='#000000'/>
+</svg>
+</div></div>
+</div>
+<p>これはデータセットのうち、最初の分子を<a class="reference external" href="https://rdkit.org/">rdkit</a>を使ってレンダリングしたものです。</p>
+<p>それでは、溶解度データの<strong>範囲</strong>とそれを構成する分子についてなんとなく理解するために、極値を見てみましょう。まず、溶解度の確率分布の形と極値を知るために、(<a class="reference external" href="https://seaborn.pydata.org/generated/seaborn.distplot.html#seaborn.distplot" title="(in seaborn v0.12.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seaborn.distplot</span></code></a> を使って)溶解度のヒストグラムを作成します。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">soldata</span><span class="o">.</span><span class="n">Solubility</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_10_0.png" src="../_images/introduction_10_0.png" />
+</div>
+</div>
+<p>上図では、溶解度のヒストグラムとカーネル密度推定値を重ね合わせています。このヒストグラムから、溶解度は約-13から2.5まで変化し、正規分布していないことがわかります。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get 3 lowest and 3 highest solubilities</span>
+<span class="n">soldata_sorted</span> <span class="o">=</span> <span class="n">soldata</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Solubility&quot;</span><span class="p">)</span>
+<span class="n">extremes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">soldata_sorted</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">soldata_sorted</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]])</span>
+
+<span class="c1"># We need to have a list of strings for legends</span>
+<span class="n">legend_text</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">ID</span><span class="si">}</span><span class="s2">: solubility = </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">Solubility</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">extremes</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+<span class="p">]</span>
+
+<span class="c1"># now plot them on a grid</span>
+<span class="n">extreme_mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">rdkit</span><span class="o">.</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromInchi</span><span class="p">(</span><span class="n">inchi</span><span class="p">)</span> <span class="k">for</span> <span class="n">inchi</span> <span class="ow">in</span> <span class="n">extremes</span><span class="o">.</span><span class="n">InChI</span><span class="p">]</span>
+<span class="n">rdkit</span><span class="o">.</span><span class="n">Chem</span><span class="o">.</span><span class="n">Draw</span><span class="o">.</span><span class="n">MolsToGridImage</span><span class="p">(</span>
+    <span class="n">extreme_mols</span><span class="p">,</span> <span class="n">molsPerRow</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">subImgSize</span><span class="o">=</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">),</span> <span class="n">legends</span><span class="o">=</span><span class="n">legend_text</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_12_0.svg" src="../_images/introduction_12_0.svg" /></div>
+</div>
+<p>極端な分子の例では、高塩素化合物が最も溶解度が低く、イオン性化合物が溶解度が高いことがわかります。A-2918は<strong>外れ値</strong>、つまり間違いなのでしょうか？また、NH<span class="math notranslate nohighlight">\(_3\)</span> は本当にこれらの有機化合物に匹敵するのでしょうか？このような疑問は、モデリングを行う<em>前に</em>検討すべきことです。</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">外れ値</p>
+<p>外れ値とは、正規のデータ分布から外れた極端な値のことです。間違いであったり、異なる分布であったりします。（例えば、有機分子ではなく金属であるなど）外れ値はモデル学習に強い影響を与える可能性があります。</p>
+</aside>
+</section>
+<section id="id12">
+<h3><span class="section-number">2.3.3. </span>特徴量の相関<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>次に、特徴量と溶解度(ラベル)の相関を調べてみましょう。 <code class="docutils literal notranslate"><span class="pre">SD</span></code> (標準偏差)、<code class="docutils literal notranslate"><span class="pre">Ocurrences</span></code> (その分子が構成するデータベースで何回出現したか)、<code class="docutils literal notranslate"><span class="pre">Group</span></code> (データの出所) など、特徴量や溶解度とは関係のないカラムがいくつかあることに注意してください。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features_start_at</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">soldata</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;MolWt&quot;</span><span class="p">)</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="n">soldata</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">features_start_at</span><span class="p">:]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">axs</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>  <span class="c1"># so we don&#39;t have to slice by row and column</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">feature_names</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+        <span class="n">soldata</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">soldata</span><span class="o">.</span><span class="n">Solubility</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>  <span class="c1"># add some color</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Solubility&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="c1"># hide empty subplots</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">axs</span><span class="p">)):</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">delaxes</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_15_0.png" src="../_images/introduction_15_0.png" />
+</div>
+</div>
+<p>分子量や水素結合の数は、少なくともこのプロットからは、ほとんど相関がないように見えるのは興味深いことです。MolLogPは溶解性に関連する計算から導出された記述子で、よい相関を持っています。また、これらの特徴量のいくつかは、<strong>分散</strong>が低く、特徴の値が多くのデータに対してほとんど変化しないか、全く変化しないことがわかります（例えば、「NumHDonors」など）。</p>
+</section>
+<section id="id13">
+<h3><span class="section-number">2.3.4. </span>線形モデル<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>まず、最も単純なアプローチの1つである線形モデルから始めましょう。これは教師あり学習の最初の例で、これから説明する特徴量の選択が難しいため、ほとんど使われることはありません。</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">Autodiff</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Automatic_differentiation">Autodiff</a> は2つの変数に関する分析的な勾配を計算することができるツールです。</p>
+</aside>
+<p>この線形モデルは以下の方程式で定義されます。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-92197dd6-f574-4ac4-b0de-2b0ac2193524">
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-92197dd6-f574-4ac4-b0de-2b0ac2193524" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    y = \vec{w} \cdot \vec{x} + b
+\end{equation}\]</div>
+<p>この式は1つのデータ点に対して定義されます。1つの特徴ベクトル <span class="math notranslate nohighlight">\(\vec{x}\)</span> の形状は、(17個の特徴があるため)今回の場合17です。<span class="math notranslate nohighlight">\(\vec{w}\)</span> は長さ17の調整可能なパラメータのベクトルで、 <span class="math notranslate nohighlight">\(b\)</span> は調整可能なスカラーです(<strong>バイアス</strong> と呼ばれます)。</p>
+<p>このモデルは、<a class="reference external" href="https://jax.readthedocs.io/en/latest/notebooks/quickstart.html"><code class="docutils literal notranslate"><span class="pre">jax</span></code></a>というライブラリを用いて実装します。このライブラリは、autodiffによって解析的勾配を簡単に計算できることを除けば、numpyに非常によく似ています。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">linear_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+
+
+<span class="c1"># test it out</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">])</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">4.3</span>
+
+<span class="n">linear_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:absl:No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray(5.5, dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<aside class="margin sidebar">
+<p class="sidebar-title">損失</p>
+<p>損失とは、モデルの予測値 <span class="math notranslate nohighlight">\(\hat{y}\)</span> とラベル <span class="math notranslate nohighlight">\(y\)</span> を受け取り、モデルがどれだけ適合しているかを表す関数から出力されるスカラーです。今回の目標は、この損失を最小化することです。</p>
+</aside>
+<p>ここで重要な問題が出てきます。 <em>調整可能なパラメータ <span class="math notranslate nohighlight">\(\vec{w}\)</span> と <span class="math notranslate nohighlight">\(b\)</span> はどのように見つけるのでしょうか？</em> 線形回帰の古典的な方法では、 <span class="math notranslate nohighlight">\(\vec{w} = (X^TX)^{-1}X^{T}\vec{y}\)</span> という擬似逆行列を使って調整パラメータを直接計算します。詳しくは <a class="reference external" href="https://nbviewer.jupyter.org/github/whitead/numerical_stats/blob/master/unit_12/lectures/lecture_1.ipynb#Extending-Least-Squares-to-Multiple-Dimensions-in-Domain---OLS-ND">こちら</a>に詳しく書いてあります。 しかし、今回は、深層学習で行うことを考慮した<strong>反復的</strong>なアプローチを使用します。これは線形回帰の正しい計算方法ではありませんが、深層学習ではよく見る方法なので、反復的な計算方法に慣れるのに便利でしょう。</p>
+<p>調整可能なパラメータを繰り返し見つけるために、<strong>損失関数</strong>を選び、<strong>勾配</strong>を用いて最小化することにします。これらの量を定義し、いくつかの初期値wとbを用いて損失を計算していきます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># convert data into features, labels</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">soldata</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">feature_names</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">soldata</span><span class="o">.</span><span class="n">Solubility</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">feature_dim</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># initialize our paramaters</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">feature_dim</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="c1"># define loss</span>
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">labels</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="c1"># test it out</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray(3265882.2, dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>溶解度が-13から2であることを考えると、この損失はひどいものです。しかし、この結果はあくまで初期パラメータから予測しただけなので、この場合においては正しいのです。</p>
+</section>
+<section id="id14">
+<h3><span class="section-number">2.3.5. </span>勾配降下法<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>ここで、調整可能なパラメータに対して損失がどのように変化するかという情報を使って、損失を減らしていきます。
+今回用いる損失関数を以下のように定義します。:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-927fd410-444b-45bc-8d23-bf8c17b6b5f0">
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-927fd410-444b-45bc-8d23-bf8c17b6b5f0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    L = \frac{1}{N}\sum_i^N \left[y_i - f(\vec{x}_i, \vec{w}, b)\right]^2
+\end{equation}\]</div>
+<p>この損失関数は<strong>平均2乗誤差</strong>と呼ばれ、しばしばMSEと略されます。調整可能なパラメータに対する損失の勾配を計算することができます。</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">jax.grad</p>
+<p><a class="reference external" href="https://jax.readthedocs.io/en/latest/jax.html#jax.grad">jax.grad</a>はPython関数の解析的導関数を計算します。
+これは2つの引数を取ります。関数と、どの引数に対して微分を行うかについてです。
+例えば、<code class="docutils literal notranslate"><span class="pre">f(x,</span> <span class="pre">y,</span> <span class="pre">z)</span></code>について考えると、<code class="docutils literal notranslate"><span class="pre">jax.grad(f,(1,2))</span></code> は <span class="math notranslate nohighlight">\(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\)</span> を与えます。 <span class="math notranslate nohighlight">\(x\)</span> はテンソルでも良いことに注意してください。</p>
+</aside>
+<div class="amsmath math notranslate nohighlight" id="equation-65ad1ed8-b104-4325-a9b0-99582962016e">
+<span class="eqno">(2.3)<a class="headerlink" href="#equation-65ad1ed8-b104-4325-a9b0-99582962016e" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    \frac{\partial L}{\partial w_i}, \frac{\partial L}{\partial b}
+\end{equation}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(w_i\)</span> は重みベクトル <span class="math notranslate nohighlight">\(i\)</span> 番目の要素である <span class="math notranslate nohighlight">\(\vec{w}\)</span> です。負の勾配の方向に微小量の変化を生むことで、損失を減らすことができます。:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8e5ef0ed-0d58-4330-a956-0c8f006321ee">
+<span class="eqno">(2.4)<a class="headerlink" href="#equation-8e5ef0ed-0d58-4330-a956-0c8f006321ee" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    (w_i, b') = \left(w_i - \eta \frac{\partial L}{\partial w_i}, b - \eta\frac{\partial L}{\partial b}\right)
+\end{equation}\]</div>
+<p>ここで、 <span class="math notranslate nohighlight">\(\eta\)</span> は<strong>学習率</strong>であり、調整可能であるが、学習しないパラメータ（<strong>ハイパーパラメータ</strong>と呼ばれます）です。この例では <span class="math notranslate nohighlight">\(1\times10^{-6}\)</span> と設定しています。一般的には10の累乗で表され、最大でも0.1程度になるように設定されます。それ以上の値は安定性に問題があることが知られています。それでは、<strong>gradient descent</strong>と呼ばれるこの手順を実装してみます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute gradients</span>
+<span class="k">def</span> <span class="nf">loss_wrapper</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+
+<span class="n">loss_grad</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">loss_wrapper</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># test it out</span>
+<span class="n">loss_grad</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DeviceArray([1.1313606e+06, 7.3055479e+03, 2.8128903e+05, 7.4776180e+04,
+              1.5807716e+04, 4.1010732e+03, 2.2745816e+04, 1.7236283e+04,
+              3.9615741e+05, 5.2891074e+03, 1.0585280e+03, 1.8357089e+03,
+              7.1248174e+03, 2.7012794e+05, 4.6752903e+05, 5.4541211e+03,
+              2.5596618e+06], dtype=float32),
+ DeviceArray(2671.3784, dtype=float32, weak_type=True))
+</pre></div>
+</div>
+</div>
+</div>
+<p>勾配の計算を行ったので、それを数ステップかけて最小化します。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss_progress</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">loss_grad</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">loss_progress</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_wrapper</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_progress</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Step&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Full Dataset Training Curve&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_24_0.png" src="../_images/introduction_24_0.png" />
+</div>
+</div>
+</section>
+<section id="id15">
+<h3><span class="section-number">2.3.6. </span>学習曲線<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>上の図は <strong>学習曲線</strong> と呼ばれるものです。これは損失が減少しているかどうかを示しており、モデルが学習を行っていることを表しています。学習曲線は <strong>Learning Curve</strong> とも呼ばれます。X軸はサンプル数、データセットの総反復回数（エポックと呼ばれる）、モデルの学習に使用されたデータ量の他の指標が用いられます。</p>
+</section>
+<section id="id16">
+<h3><span class="section-number">2.3.7. </span>バッチ処理<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<aside class="margin sidebar">
+<p class="sidebar-title">バッチ</p>
+<p>バッチはデータのサイズに応じたデータの部分集合のことです。バッチサイズは通常2の累乗で定義されます。（例：4、16、128）。
+ランダムなバッチを用いることで、勾配降下法は確率的勾配降下法になります。</p>
+</aside>
+<p>勾配降下法によって学習が良い感じに進んでいることがわかります。しかし、ちょっとした変更で学習のスピードアップを図ることができます。機械学習で実際に行われている学習方法である <strong>バッチ処理</strong> を使ってみましょう。ちょっとした変更点とは、すべてのデータを一度に使うのではなく、その部分集合の小さな<strong>バッチ</strong>データだけを取るということです。バッチ処理には2つの利点があります。1つはパラメータの更新を計算する時間を短縮できること、もう1つは学習過程をランダムにできることです。このランダム性により、学習の進行を止める可能性のあるる局所的な極小値から逃れることができます。このバッチ処理の追加により、この勾配降下法アルゴリズムは<strong>確率的</strong>となり、<strong>確率的勾配降下法</strong>（SGD）と呼ばれる手法になります。SGDとそのバリエーションは、深層学習における最も一般的な学習方法です。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize our paramaters</span>
+<span class="c1"># to be fair to previous method</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">feature_dim</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="n">loss_progress</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>  <span class="c1"># number of data points</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="c1"># compute how much data fits nicely into a batch</span>
+<span class="c1"># and drop extra data</span>
+<span class="n">new_N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">//</span> <span class="n">batch_size</span> <span class="o">*</span> <span class="n">batch_size</span>
+
+<span class="c1"># the -1 means that numpy will compute</span>
+<span class="c1"># what that dimension should be</span>
+<span class="n">batched_features</span> <span class="o">=</span> <span class="n">features</span><span class="p">[:</span><span class="n">new_N</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">feature_dim</span><span class="p">))</span>
+<span class="n">batched_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[:</span><span class="n">new_N</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">))</span>
+<span class="c1"># to make it random, we&#39;ll iterate over the batches randomly</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">new_N</span> <span class="o">//</span> <span class="n">batch_size</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+    <span class="c1"># choose a random set of</span>
+    <span class="c1"># indices to slice our data</span>
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">loss_grad</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="p">(</span><span class="n">batched_features</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">batched_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="n">w</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># we still compute loss on whole dataset, but not every step</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">loss_progress</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_wrapper</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">loss_progress</span><span class="p">))</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="n">loss_progress</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Step&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Batched Loss Curve&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_27_0.png" src="../_images/introduction_27_0.png" />
+</div>
+</div>
+<p>ここで注目すべき点は、以下の3つです。</p>
+<ol class="simple">
+<li><p>バッチ処理を行わない場合に比べ、損失が小さくなっています。</p></li>
+<li><p>データセットを10回で反復するのをやめ、1回だけ反復しているにも関わらず、ステップ数が増えています。</p></li>
+<li><p>損失は常に減少するわけではありません。</p></li>
+</ol>
+<p>損失が小さくなる理由は、各データポイントを1回しか見ていないにもかかわらず、より多くのステップを踏むことができるからです。バッチ処理を行うと、バッチごとに勾配降下法の更新を行うため、データセットに対して1回の反復でより多くの更新を行うことができます。具体的には <span class="math notranslate nohighlight">\(B\)</span> をバッチサイズとすると、元の勾配降下法では1回しか更新できない所、バッチ処理を行った場合は <span class="math notranslate nohighlight">\(N / B\)</span> 回の更新を行うことができます。損失が常に減少しない理由は、評価するたびに異なるデータセットであるためです。データセットからランダムに選定したバッチでは、ある分子が他の分子より予測が難しかったり、1つのバッチに基づいてパラメータを更新しただけなので、各ステップが正しく損失を最小化できているとは限らなかったりします。しかし、バッチがランダムに選定されていると仮定すれば、常に（平均的に）損失の減少量の期待値を向上させることができます。(つまり、損失の期待値を最小化できます)</p>
+</section>
+<section id="id17">
+<h3><span class="section-number">2.3.8. </span>特徴量の標準化<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>損失関数の減少がある一定の値で止まっています。勾配を調べると、非常に大きいものもあれば、非常に小さいものもあることがわかります。ここで重要になってくるのは、それぞれの特徴は大きさが違うことです。例えば、学習で反映されるべきそれぞれの重要さとは無関係に、分子量は比較的大きな数字であり、分子の中の環の数は比較的小さな数字になります。これは学習に影響を与えており、それぞれは同じ学習率、 <span class="math notranslate nohighlight">\(\eta\)</span> を使わなければならないですが、その学習率が適切なものもあれば、小さすぎるものもあるという問題が発生しています。もし、 <span class="math notranslate nohighlight">\(\eta\)</span> を大きくすると、特徴量の勾配からウケる影響が大きくなるため、学習の速度が爆発的に増加してしまいます。そこで、統計の教科書に載っている標準化の式を用いて、全ての素性の大きさを同じにするのが標準的な解決策として取られています。</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1a03f0b1-9590-4e92-a3f5-5fa03101df4a">
+<span class="eqno">(2.5)<a class="headerlink" href="#equation-1a03f0b1-9590-4e92-a3f5-5fa03101df4a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    x_{ij} = \frac{x_{ij} - \bar{x_j}}{\sigma_{x_j}}
+\end{equation}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(\bar{x_j}\)</span> は列の平均、<span class="math notranslate nohighlight">\(\sigma_{x_j}\)</span> は列の標準偏差です。訓練データをテストデータで汚染しないように、つまり、訓練するときにテストデータの平均や標準偏差などの情報を使うことがないように、平均と標準偏差の計算には訓練データだけを使うようにします。テストデータは、未知のデータに対するモデルの性能を近似的に示すためのものであり、通常のタスクでは未知のデータがどのような特徴量を持つものであるかは分からないので、標準化のために学習時に使用することはできません。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fstd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fmean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">std_features</span> <span class="o">=</span> <span class="p">(</span><span class="n">features</span> <span class="o">-</span> <span class="n">fmean</span><span class="p">)</span> <span class="o">/</span> <span class="n">fstd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize our paramaters</span>
+<span class="c1"># since we&#39;re changing the features</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">feature_dim</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+
+<span class="n">loss_progress</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>  <span class="c1"># number of data points</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">std_features</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="c1"># compute how much data fits nicely into a batch</span>
+<span class="c1"># and drop extra data</span>
+<span class="n">new_N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">//</span> <span class="n">batch_size</span> <span class="o">*</span> <span class="n">batch_size</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># the -1 means that numpy will compute</span>
+<span class="c1"># what that dimension should be</span>
+<span class="n">batched_features</span> <span class="o">=</span> <span class="n">std_features</span><span class="p">[:</span><span class="n">new_N</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">feature_dim</span><span class="p">))</span>
+<span class="n">batched_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[:</span><span class="n">new_N</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">))</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">new_N</span> <span class="o">//</span> <span class="n">batch_size</span><span class="p">)</span>
+
+<span class="c1"># iterate through the dataset 3 times</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="c1"># to make it random, we&#39;ll iterate over the batches randomly</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+        <span class="c1"># choose a random set of</span>
+        <span class="c1"># indices to slice our data</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">loss_grad</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="p">(</span><span class="n">batched_features</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">batched_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">w</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">b</span> <span class="o">-=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># we still compute loss on whole dataset, but not every step</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">loss_progress</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_wrapper</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">loss_progress</span><span class="p">))</span> <span class="o">*</span> <span class="mi">50</span><span class="p">,</span> <span class="n">loss_progress</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Step&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_31_0.png" src="../_images/introduction_31_0.png" />
+</div>
+</div>
+<p>学習が不安定にならないまま、学習率を0.01まで上げることができました。これはすべての特徴が同じオーダーになったことにより可能となっています。また、これらのモデルの改良により、更なる学習を続けることも可能になります。</p>
+</section>
+<section id="id18">
+<h3><span class="section-number">2.3.9. </span>モデル性能の分析<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>これは重要な事柄なので、後で詳しく調べますが，教師あり学習で通常最初に調べるのは<strong>パリティプロット</strong>で，予測値とラベル予測値を用いた図を作ります．このプロットの良いところは、特徴量の次元に関係なく機能することです。モデルが完全に機能している場合、すべてのデータは <span class="math notranslate nohighlight">\(y = \hat{y}\)</span> 上にプロットされます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">std_features</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Measured Solubility $y$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Predicted Solubility $\hat</span><span class="si">{y}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">13.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">13.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_34_0.png" src="../_images/introduction_34_0.png" />
+</div>
+</div>
+<p>最終的なモデルの評価は損失の値で行うことができますが、通常、他の指標も使用されます。回帰分析では、損失に加えて<strong>相関係数</strong>が計算されることが多いです。相関係数は次のように計算されます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># slice correlation between predict/labels</span>
+<span class="c1"># from correlation matrix</span>
+<span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6475304402750959
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="pasted-inline"><code class="output text_plain docutils literal notranslate"><span class="pre">0.65</span></code></span>は相関係数として悪くはないですが、素晴らしいとは言えません。</p>
+</section>
+</section>
+<section id="id19">
+<h2><span class="section-number">2.4. </span>教師なし学習<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<p>教師なし学習では、<em>ラベルがない状態で</em> <span class="math notranslate nohighlight">\(\hat{y}\)</span>を予測することが目標です。これは不可能なことのように思えますが、どのように成功を判断するのでしょうか。
+一般に、教師なし学習は3つのカテゴリに分けられます。</p>
+<p><strong>クラスタリング</strong></p>
+<p>     このカテゴリでは、 <span class="math notranslate nohighlight">\(\{y_i\}\)</span> をクラス変数と仮定し、特徴をクラスに分割することを試みます。クラスタリングでは、クラスの定義（クラスタと呼ばれます）と各特徴量がどのクラスタに割り当てられるべきかを同時に学習することになります。</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">クラス</p>
+<p>機械学習において、クラスとは <code class="docutils literal notranslate"><span class="pre">dog</span></code> や <code class="docutils literal notranslate"><span class="pre">cat</span></code> のようなラベルの一種です。形式的にはラベルの集合（例えば、全ての動物）があり、各特徴ベクトルは1つのクラスまたはクラスの確率分布を持っています。</p>
+</aside>
+<p><strong>シグナルのデノイジング</strong></p>
+<p>     このタスクでは、<span class="math notranslate nohighlight">\(x\)</span> はノイズとシグナル（<span class="math notranslate nohighlight">\(y\)</span>）の2つの成分からできていると仮定し、シグナルの<span class="math notranslate nohighlight">\(y\)</span>を<span class="math notranslate nohighlight">\(x\)</span>から抽出し、ノイズを除去することを目標とします。後述する<strong>表現学習</strong>と高い関連性を持ちます。</p>
+<p><strong>生成的モデル</strong></p>
+<p>     生成的モデルは、 <span class="math notranslate nohighlight">\(P(\vec{x})\)</span> を学習して、<span class="math notranslate nohighlight">\(\vec{x}\)</span> の新しい値をサンプリングする方法です。これは、<span class="math notranslate nohighlight">\(y\)</span>を確率とし、それを推定しようとすることに似ています。これらについては、後で詳しく説明します。</p>
+<section id="id20">
+<h3><span class="section-number">2.4.1. </span>クラスタリング<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>クラスタリングは歴史的に最もよく知られた機械学習手法の1つであり，今でも良く用いられています。クラスタリングは何もないところにクラスラベルを与えるので、データ中のパターンを見つけ、データから新しい洞察を得るのに役立ちます。そして、化学（そしてほとんどの分野）であまり人気がなくなった理由でもありますが、クラスタリングには正解も不正解もありません。クラスタリングは、二人の人間が独立して行うと、しばしば異なる答えに到達します。とはいえ、クラスタリングは知っておくべきツールであり、良い探索戦略にもなり得ます。</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">クラスターラベル</p>
+<p>クラスタリングには多くの種類があり、中には<span class="math notranslate nohighlight">\(y_i\)</span>が一体何なのかをぼやかしているものもあります。例えば、クラスタリング手法によっては、<span class="math notranslate nohighlight">\(y_i\)</span>が割り当てを含まない場合や、<span class="math notranslate nohighlight">\(y_i\)</span>が1つのクラスではなく、クラスのツリーである場合があります。</p>
+</aside>
+<p>ここでは、古典的なクラスタリング手法であるk-meansについて見ていきます。Wikipediaにこの古典的なアルゴリズムに関する<a class="reference external" href="https://en.wikipedia.org/wiki/K-means_clustering">すばらしい記事</a>があるので、その内容について繰り返すのはやめておきます。クラスタリングの結果を実際に見えるようにするために、特徴量を2次元に投影することから始めます。これは表現学習で詳細に説明されるので、これらのステップについての理解を心配する必要はありません。(訳注: 本当か？)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get down to 2 dimensions for easy visuals</span>
+<span class="n">embedding</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">manifold</span><span class="o">.</span><span class="n">Isomap</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># only fit to every 25th point to make it fast</span>
+<span class="n">embedding</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">std_features</span><span class="p">[::</span><span class="mi">25</span><span class="p">,</span> <span class="p">:])</span>
+<span class="n">reduced_features</span> <span class="o">=</span> <span class="n">embedding</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">std_features</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>極端に離れている外れ値もあるので（それはそれで面白いのですが）、データの真ん中99パーセンタイルについて注目していきます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xlow</span><span class="p">,</span> <span class="n">xhi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">reduced_features</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.995</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">reduced_features</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">reduced_features</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">c</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+    <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlow</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xhi</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">xlow</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xhi</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;Solubility&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_43_0.png" src="../_images/introduction_43_0.png" />
+</div>
+</div>
+<aside class="margin sidebar">
+<p class="sidebar-title">次元削減</p>
+<p>特徴ベクトルの<span class="math notranslate nohighlight">\(\vec{x}\)</span>を低次元空間に縮退させる操作のことを言います。典型的な例はPCAで、これは線形演算子です。しかし、多くの場合、<a class="reference external" href="https://scikitlearn.org/stable/modules/generated/sklearn.manifold.TSNE.html">t-SNE</a>のような非線形な方法が好まれます。</p>
+</aside>
+<p>次元削減により、特徴量ははわずか2次元となりました。溶解度のクラスによって色を付けることで、いくつかの構造を見ることができます。このような次元削減を行った結果のプロットでは、軸は任意であるため、ラベルを付けないことに注意してください。</p>
+<p>続けて、クラスタリングを行います。クラスタリングの主な課題は、クラスタをいくつにするか決めることです。いろいろな方法がありますが、基本的には直感に頼ることになります。つまり、化学者として、データ以外の何らかのドメイン知識を使って、クラスタ数を直感的に決める必要があります。非科学的に聞こえますか？だからクラスタリングは難しいんです。</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cluster - using whole features</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">std_features</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>とても簡単な手順ですね。では、データを割り当てられたクラスで色付けして可視化してみます。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">point_colors</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">reduced_features</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">reduced_features</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">c</span><span class="o">=</span><span class="n">point_colors</span><span class="p">,</span>
+    <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># make legend</span>
+<span class="n">legend_elements</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">patches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span>
+        <span class="n">facecolor</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Class </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_elements</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlow</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xhi</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">xlow</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xhi</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_47_0.png" src="../_images/introduction_47_0.png" />
+</div>
+</div>
+</section>
+<section id="id21">
+<h3><span class="section-number">2.4.2. </span>クラスター数の選択<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>どうやってクラスターの数を正しく決められたかを判断するのでしょうか？答えは直感です。<strong>エルボープロット</strong>と呼ばれる、学習曲線のように使うことのできるツールがあります。k-meansのクラスタは、クラスタ中心からの平均二乗距離を計算することで損失関数として使うことができます。しかし、クラスタ数を学習可能なパラメータとして扱うと、クラスタ数とデータ点数が等しい(つまり、1つのクラスタに1つのデータが入る)ときに最もフィットすることがわかります。これでは意味がありません。しかし、この損失関数の傾きがほぼ一定になる点が存在し、クラスタを追加することで新しい見識を追加していないと判定することができます。損失をプロットして何が起こるか見てみましょう。時間を節約するために、データセットのうち一部のサンプルを使用していることに気を付けてください。バッチ処理と同じような考え方です。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make an elbow plot</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">cn</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cn</span><span class="p">:</span>
+    <span class="n">kmeans</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># use every 50th point</span>
+    <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">std_features</span><span class="p">[::</span><span class="mi">50</span><span class="p">])</span>
+    <span class="c1"># we get score -&gt; opposite of loss</span>
+    <span class="c1"># so take -</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">kmeans</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">std_features</span><span class="p">[::</span><span class="mi">50</span><span class="p">]))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Cluster Number&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Elbow Plot&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_49_0.png" src="../_images/introduction_49_0.png" />
+</div>
+</div>
+<p>変わり目はどこでしょうか？よくよく見てみると、たぶん、6? 3? 4? 7? 今回は4を選びましょう。響きがいいし、データに基づくともっともらしいからです。
+最後の作業は、クラスタが実際に何であるかを知ることです。最も中心にあるデータポイント（つまり、クラスタの中心に最も近いデータ）を抽出し、それらをクラスタの代表とみなします。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cluster - using whole features</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">std_features</span><span class="p">)</span>
+
+<span class="n">cluster_center_idx</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">:</span>
+    <span class="c1"># find point closest</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">std_features</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">cluster_center_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="n">cluster_centers</span> <span class="o">=</span> <span class="n">soldata</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">cluster_center_idx</span><span class="p">,</span> <span class="p">:]</span>
+
+<span class="n">legend_text</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Class </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+
+<span class="c1"># now plot them on a grid</span>
+<span class="n">cluster_mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">rdkit</span><span class="o">.</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromInchi</span><span class="p">(</span><span class="n">inchi</span><span class="p">)</span> <span class="k">for</span> <span class="n">inchi</span> <span class="ow">in</span> <span class="n">cluster_centers</span><span class="o">.</span><span class="n">InChI</span><span class="p">]</span>
+<span class="n">rdkit</span><span class="o">.</span><span class="n">Chem</span><span class="o">.</span><span class="n">Draw</span><span class="o">.</span><span class="n">MolsToGridImage</span><span class="p">(</span>
+    <span class="n">cluster_mols</span><span class="p">,</span> <span class="n">molsPerRow</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">subImgSize</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span> <span class="n">legends</span><span class="o">=</span><span class="n">legend_text</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/introduction_51_0.svg" src="../_images/introduction_51_0.svg" /></div>
+</div>
+<p>では、これらのクラスは一体何なのでしょうか？不明です。意図的に溶解度を明らかにしなかった（教師なし学習）ので、必ずしも溶解度と関係があるわけではありません。これらのクラスは、むしろデータセットにどのような特徴が選ばれたかの結果です。クラス1はすべて負電荷であるとか、クラス0は脂肪族であるといった仮説を立てて、検討することができます。しかし、<strong>ベスト</strong>なクラスタリングを選ぶことはできませんし、教師なし学習は洞察やパターンを見つけることが重要で、精度の高いモデルを作ることが重要なのではありません。</p>
+<p>エルボープロット法は、クラスタ番号を選択するための多くのアプローチの1つです <span id="id22">[<a class="reference internal" href="#id52" title="Duc Truong Pham, Stefan S Dimov, and Chi D Nguyen. Selection of k in k-means clustering. Proceedings of the Institution of Mechanical Engineers, Part C: Journal of Mechanical Engineering Science, 219(1):103–119, 2005.">PDN05</a>]</span>. 私は、直感を利用していることが明確なので、この方法を好んでいます。より洗練された方法は、クラスタリングに正解も不正解もないという事実をある種隠蔽しています。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>このプロセスでは、溶解度を予測する関数は得られません。予測されたクラスで溶解度の予測に関する見識を得られるかもしれませんが、それはクラスタリングの目的ではありません。</p>
+</div>
+</section>
+</section>
+<section id="id23">
+<h2><span class="section-number">2.5. </span>まとめ<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>教師あり機械学習とは、入力の特徴量 <span class="math notranslate nohighlight">\(\vec{x}\)</span> からラベル <span class="math notranslate nohighlight">\(y\)</span> を予測するモデルを構築することです。</p></li>
+<li><p>データはラベル付きでもラベルなしでも適用可能です。</p></li>
+<li><p>確率的勾配降下法を用いて、損失を最小化することでモデルを学習できます。</p></li>
+<li><p>教師なし学習とは、データのパターンを発見するモデルを作ることです。</p></li>
+<li><p>クラスタリングは教師なし学習の1つであり、モデルがデータ点をクラスタに分けます。</p></li>
+</ul>
+</section>
+<section id="id24">
+<h2><span class="section-number">2.6. </span>練習問題<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h2>
+<section id="id25">
+<h3><span class="section-number">2.6.1. </span>データ処理<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code>の <code class="docutils literal notranslate"><span class="pre">np.amin</span></code>, <code class="docutils literal notranslate"><span class="pre">np.std</span></code> などを使って（<code class="docutils literal notranslate"><span class="pre">pandas</span></code> ではありません！）、すべてのデータ点についての各特徴の平均、最小、最大、標準偏差を計算してください。</p></li>
+<li><p>rdkit を使って、分子量の大きい2つの分子を描いてください。また、その構造の変な点を挙げてください。</p></li>
+</ol>
+</section>
+<section id="id26">
+<h3><span class="section-number">2.6.2. </span>線形モデル<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(y = \vec{w_1} \cdot \sin\left(\vec{x}\right) + \vec{w_2} \cdot \vec{x} + b\)</span> のような非線形モデルが線形モデルで表現できることを証明してください。</p></li>
+<li><p>線形モデル方程式をアインシュタインの縮約記法でバッチ式に書き出しなさい。<strong>バッチ形式</strong>とは、バッチを示すインデックスを明示的に持つことである。例えば、ラベルは<span class="math notranslate nohighlight">\(y_{bi}\)</span>となり、<span class="math notranslate nohighlight">\(b\)</span>はデータのバッチを、<span class="math notranslate nohighlight">\(i\)</span>は個々のデータ点を示す。</p></li>
+</ol>
+</section>
+<section id="id27">
+<h3><span class="section-number">2.6.3. </span>損失関数の最小化<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>今回のnotebookでは、特徴量は標準化したが、ラベルは標準化しませんでした。ラベルを標準化することは、学習率の選択に影響を与えるか？説明してください。</p></li>
+<li><p>平均二乗誤差ではなく、平均絶対誤差の損失を実装してください。その勾配を <code class="docutils literal notranslate"><span class="pre">jax</span></code> を使って計算してください。</p></li>
+<li><p>標準化された特徴量を用いて、バッチサイズが学習にどのような影響を与えるかを示してください。バッチサイズは1、8、32、256、1024を使用してください。各実行の間に重みを初期化しなければならないことに注意してください。そして、各バッチサイズでのlog-lossを同じプロット上にプロットし、その結果を説明してください。</p></li>
+</ol>
+</section>
+<section id="id28">
+<h3><span class="section-number">2.6.4. </span>クラスタリング<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>クラスタリングは教師なし学習の一種であり、ラベルを予測すると述べました。クラスタリングで予測されるラベルとは、具体的にどのようなものでしょうか。いくつかのデータポイントについて、予測されるラベルがどのようなものか書き出してみてください。</p></li>
+<li><p>クラスタリングでは、特徴量からラベルを予測します。ラベルがあっても、それを特徴量と見なしてクラスタリングすることができます。このように、ラベルを特徴量として扱い、クラスを表す新しいラベルを予測しようとするクラスタリングが良くない理由を2つ述べてください。</p></li>
+<li><p>Isomapプロット（縮小次元プロット）上で、点がどのグループに属するか（G1、G2など）で色分けしてください。これとクラスタリングの間に何か関係があるでしょうか。</p></li>
+</ol>
+</section>
+</section>
+<section id="cited-references">
+<h2><span class="section-number">2.7. </span>Cited References<a class="headerlink" href="#cited-references" title="Permalink to this headline">¶</a></h2>
+<div class="docutils container" id="id29">
+<dl class="citation">
+<dt class="label" id="id33"><span class="brackets"><a class="fn-backref" href="#id2">Alp20</a></span></dt>
+<dd><p>Ethem Alpaydin. <em>Introduction to machine learning</em>. MIT press, 2020.</p>
+</dd>
+<dt class="label" id="id39"><span class="brackets"><a class="fn-backref" href="#id3">FZJS21</a></span></dt>
+<dd><p>Victor Fung, Jiaxin Zhang, Eric Juarez, and Bobby G. Sumpter. Benchmarking graph neural networks for materials chemistry. <em>npj Computational Materials</em>, June 2021. URL: <a class="reference external" href="https://doi.org/10.1038/s41524-021-00554-0">https://doi.org/10.1038/s41524-021-00554-0</a>, <a class="reference external" href="https://doi.org/10.1038/s41524-021-00554-0">doi:10.1038/s41524-021-00554-0</a>.</p>
+</dd>
+<dt class="label" id="id34"><span class="brackets"><a class="fn-backref" href="#id3">Bal19</a></span></dt>
+<dd><p>Prasanna V Balachandran. Machine learning guided design of functional materials with targeted properties. <em>Computational Materials Science</em>, 164:82–90, 2019.</p>
+</dd>
+<dt class="label" id="id40"><span class="brackets"><a class="fn-backref" href="#id4">GomezBAG20</a></span></dt>
+<dd><p>Rafael Gómez-Bombarelli and Alán Aspuru-Guzik. Machine learning and big-data in computational chemistry. <em>Handbook of Materials Modeling: Methods: Theory and Modeling</em>, pages 1939–1962, 2020.</p>
+</dd>
+<dt class="label" id="id42"><span class="brackets"><a class="fn-backref" href="#id5">NDJ+18</a></span></dt>
+<dd><p>Aditya Nandy, Chenru Duan, Jon Paul Janet, Stefan Gugler, and Heather J Kulik. Strategies and software for machine learning accelerated discovery in transition metal chemistry. <em>Industrial &amp; Engineering Chemistry Research</em>, 57(42):13973–13986, 2018.</p>
+</dd>
+<dt class="label" id="id137"><span class="brackets"><a class="fn-backref" href="#id6">Wei88</a></span></dt>
+<dd><p>David Weininger. Smiles, a chemical language and information system. 1. introduction to methodology and encoding rules. <em>Journal of chemical information and computer sciences</em>, 28(1):31–36, 1988.</p>
+</dd>
+<dt class="label" id="id45"><span class="brackets"><a class="fn-backref" href="#id9">SKE19</a></span></dt>
+<dd><p>Murat Cihan Sorkun, Abhishek Khetan, and Süleyman Er. AqSolDB, a curated reference set of aqueous solubility and 2D descriptors for a diverse set of compounds. <em>Sci. Data</em>, 6(1):143, 2019. <a class="reference external" href="https://doi.org/10.1038/s41597-019-0151-1">doi:10.1038/s41597-019-0151-1</a>.</p>
+</dd>
+<dt class="label" id="id52"><span class="brackets"><a class="fn-backref" href="#id22">PDN05</a></span></dt>
+<dd><p>Duc Truong Pham, Stefan S Dimov, and Chi D Nguyen. Selection of k in k-means clustering. <em>Proceedings of the Institution of Mechanical Engineers, Part C: Journal of Mechanical Engineering Science</em>, 219(1):103–119, 2005.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./ml"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../math/tensors-and-shapes.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">1. </span>Tensors and Shapes</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="regression.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Regression &amp; Model Assessment</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Andrew D. White<br/>
+    
+        &copy; Copyright 2022.<br/>
+      <div class="extra_footer">
+        <a href="http://thewhitelab.org">thewhitelab.org</a> <div id="wh-modal"> <button class="wh-venti-button" aria-label="close modal" id="wh-modal-close">✕</button> <img id="wh-modal-img"> </div>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
